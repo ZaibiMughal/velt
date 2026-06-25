@@ -1,9 +1,11 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 /node_modules
 /.pnp
-.pnp.js
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/versions
 
 # testing
 /coverage
@@ -24,9 +26,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# env files
 .env*.local
-.env
 
 # vercel
 .vercel
@@ -34,3 +35,20 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# superpowers brainstorming
+.superpowers/
+
+# design explorations - never ships to production
+/preview/
+
+# playwright session artifacts
+/.playwright-mcp/
+
+# screenshot files from dev/review sessions (but not case study assets)
+*.png
+!public/case-studies/**/*.png
+!public/case-studies/**/*.jpeg
+!public/case-studies/**/*.jpg
+
+Guideline/
