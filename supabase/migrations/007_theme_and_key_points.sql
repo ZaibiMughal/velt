@@ -52,7 +52,7 @@ insert into case_studies (
   'https://apps.apple.com/au/app/ridespotr/id6755753643',
   'https://play.google.com/store/apps/details?id=com.ridespotr.mobile&hl=en&pli=1',
   '/case-studies/ridespotr/cover.jpeg',
-  array['/case-studies/ridespotr/screen-1.jpeg', '/case-studies/ridespotr/screen-2.jpeg']
+  array['/case-studies/ridespotr/screen-1.jpeg', '/case-studies/ridespotr/screen-2.jpeg', '/case-studies/ridespotr/screen-3.jpeg', '/case-studies/ridespotr/screen-4.jpeg']
 ),
 
 -- ── Mobile 2: Wagerr ─────────────────────────────────────────────
@@ -85,7 +85,7 @@ insert into case_studies (
   'https://apps.apple.com/us/app/wagerr-app/id6776876907',
   null,
   '/case-studies/wagerr/cover.jpeg',
-  array['/case-studies/wagerr/screen-1.jpeg', '/case-studies/wagerr/screen-2.jpeg', '/case-studies/wagerr/screen-3.jpeg']
+  array['/case-studies/wagerr/screen-1.jpeg', '/case-studies/wagerr/screen-2.jpeg', '/case-studies/wagerr/screen-3.jpeg', '/case-studies/wagerr/screen-4.jpeg']
 ),
 
 -- ── Mobile 3: NutritionUP ────────────────────────────────────────
@@ -119,7 +119,7 @@ insert into case_studies (
   null,
   null,
   '/case-studies/nutritionup/cover.png',
-  array['/case-studies/nutritionup/screen-1.png', '/case-studies/nutritionup/screen-2.png', '/case-studies/nutritionup/screen-3.png']
+  array['/case-studies/nutritionup/screen-1.png', '/case-studies/nutritionup/screen-2.png', '/case-studies/nutritionup/screen-3.png', '/case-studies/nutritionup/screen-4.png']
 ),
 
 -- ── Mobile 4: PIPA ───────────────────────────────────────────────

@@ -1,47 +1,44 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import type { CaseStudy } from '@/data/work/index';
-import { getAllCaseStudies } from '@/lib/data';
+import { getAllCaseStudies, getSignedImageUrl } from '@/lib/data';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import Badge from '@/components/ui/Badge';
 
 export const metadata: Metadata = {
   title: { absolute: 'Work | Velt' },
   description: 'Case studies from Velt. Real products shipped for real founders.',
 };
 
-const MOBILE_CATEGORIES = ['Mobile App'];
-
-function isMobile(study: CaseStudy) {
-  return MOBILE_CATEGORIES.includes(study.category);
-}
-
 function ArrowRightIcon() {
   return (
-    <svg
-      width="14"
-      height="14"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <line x1="5" y1="12" x2="19" y2="12" />
-      <polyline points="12 5 19 12 12 19" />
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
     </svg>
   );
+}
+
+function rgba(hex: string, alpha: number): string {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
 }
 
 type Filter = 'all' | 'mobile' | 'web';
 
 const FILTERS: { label: string; value: Filter }[] = [
   { label: 'All Projects', value: 'all' },
-  { label: 'Mobile Apps',  value: 'mobile' },
-  { label: 'Web & SaaS',   value: 'web' },
+  { label: 'Mobile Apps', value: 'mobile' },
+  { label: 'Web & SaaS', value: 'web' },
+];
+
+const STATS = [
+  { value: '7', label: 'Projects Shipped' },
+  { value: '4', label: 'Mobile Apps' },
+  { value: '3', label: 'Web Platforms' },
+  { value: '1M+', label: 'Monthly Visitors' },
 ];
 
 export default async function WorkPage({
@@ -58,122 +55,270 @@ export default async function WorkPage({
   const allStudies = await getAllCaseStudies();
 
   const studies =
-    filter === 'mobile' ? allStudies.filter(isMobile)
-    : filter === 'web'  ? allStudies.filter((s) => !isMobile(s))
+    filter === 'mobile' ? allStudies.filter((s) => s.category === 'Mobile App')
+    : filter === 'web'  ? allStudies.filter((s) => s.category !== 'Mobile App')
     : allStudies;
+
+  const coverUrls = await Promise.all(
+    studies.map((s: CaseStudy) => getSignedImageUrl(s.cover_image))
+  );
 
   return (
     <>
       <Navbar />
 
-      <main className="min-h-screen" style={{ background: '#09090b', color: '#fff' }}>
-        <div className="max-w-7xl mx-auto px-6 pt-32 pb-24">
+      {/* Per-card hover via CSS custom properties + color-mix() */}
+      <style>{`
+        .work-card {
+          transition: border-color 0.3s ease, box-shadow 0.35s ease;
+          cursor: none;
+        }
+        .work-card:hover {
+          border-color: color-mix(in srgb, var(--t) 38%, transparent) !important;
+          box-shadow: 0 24px 60px color-mix(in srgb, var(--t) 10%, transparent);
+        }
+        .work-card-img img {
+          transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .work-card:hover .work-card-img img {
+          transform: scale(1.06);
+        }
+        .work-card-arrow {
+          transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .work-card:hover .work-card-arrow {
+          color: var(--t);
+          transform: translateX(3px);
+        }
+      `}</style>
 
-          {/* Header */}
-          <div className="flex flex-col items-center text-center gap-4 mb-10">
-            <Badge>Work</Badge>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+      <main style={{ background: '#09090b', color: '#fff', minHeight: '100vh' }}>
+
+        {/* ── HERO ─────────────────────────────────────────────────── */}
+        <div style={{ position: 'relative', overflow: 'hidden', paddingTop: 128, paddingBottom: 56 }}>
+          <div style={{
+            position: 'absolute', inset: 0, pointerEvents: 'none',
+            background: 'radial-gradient(ellipse 70% 50% at 50% -10%, rgba(99,102,241,0.14) 0%, transparent 65%)',
+          }} />
+          <div style={{
+            position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.025,
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
+          }} />
+
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', position: 'relative', textAlign: 'center' }}>
+            <p style={{
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.18em',
+              textTransform: 'uppercase', color: '#6366f1', marginBottom: 24,
+            }}>
+              Selected Work
+            </p>
+            <h1 style={{
+              fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 800,
+              letterSpacing: '-0.04em', lineHeight: 0.95, color: '#fff',
+              margin: '0 0 22px',
+            }}>
               Products we&apos;ve shipped
             </h1>
-            <p className="text-white/50 max-w-lg">
-              Each project is a story of a problem solved and a business launched.
+            <p style={{
+              fontSize: 18, color: 'rgba(255,255,255,0.42)',
+              maxWidth: 480, margin: '0 auto 52px', lineHeight: 1.65,
+            }}>
+              Real products for real founders — each one a problem solved, a business launched, and a codebase fully owned.
             </p>
-          </div>
 
-          {/* Filter tabs */}
-          <div className="flex items-center justify-center gap-2 mb-12" role="tablist" aria-label="Filter projects">
-            {FILTERS.map((f) => {
-              const active = f.value === filter;
-              return (
-                <Link
-                  key={f.value}
-                  href={f.value === 'all' ? '/work' : `/work?filter=${f.value}`}
-                  role="tab"
-                  aria-selected={active}
-                  className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 cursor-none"
-                  style={
-                    active
-                      ? { background: '#6366f1', color: '#fff' }
-                      : { background: 'rgba(255,255,255,0.05)', color: 'rgba(255,255,255,0.45)', border: '1px solid rgba(255,255,255,0.08)' }
-                  }
-                >
-                  {f.label}
-                </Link>
-              );
-            })}
-          </div>
-
-          {/* Grid */}
-          {studies.length === 0 ? (
-            <p className="text-center text-white/30 py-24">No projects found.</p>
-          ) : (
-            <div className="grid md:grid-cols-3 gap-6">
-              {studies.map((study) => (
-                <article
-                  key={study.slug}
-                  className="group relative rounded-2xl p-6 border border-white/[0.07] flex flex-col gap-4 transition-colors duration-200 hover:border-white/[0.15]"
-                  style={{ background: '#111113' }}
-                >
-                  {/* Full-card overlay link */}
-                  <Link
-                    href={`/work/${study.slug}`}
-                    className="absolute inset-0 rounded-2xl cursor-none"
-                    aria-label={`View case study: ${study.title}`}
-                  />
-
-                  {/* Category */}
-                  <span
-                    className="relative text-xs font-medium px-2.5 py-1 rounded-full border border-white/[0.08] text-white/50 self-start"
-                    style={{ background: 'rgba(99,102,241,0.08)' }}
-                  >
-                    {study.category}
-                  </span>
-
-                  {/* Title */}
-                  <h2 className="relative text-lg font-semibold text-white">{study.title}</h2>
-
-                  {/* Challenge */}
-                  <p className="relative text-sm text-white/50 leading-relaxed flex-1 line-clamp-3">
-                    {study.challenge}
+            {/* Stats strip */}
+            <div style={{
+              display: 'inline-flex', gap: 0,
+              background: 'rgba(255,255,255,0.02)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              borderRadius: 16, overflow: 'hidden',
+            }}>
+              {STATS.map(({ value, label }, i) => (
+                <div key={label} style={{
+                  padding: '16px 32px', textAlign: 'center',
+                  borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                }}>
+                  <p style={{ fontSize: 22, fontWeight: 700, color: '#fff', margin: 0, letterSpacing: '-0.02em' }}>
+                    {value}
                   </p>
-
-                  {/* Outcome metric */}
-                  <div className="relative text-base font-semibold" style={{ color: '#6366f1' }}>
-                    {study.outcome.metric}
-                  </div>
-
-                  {/* Tech stack */}
-                  <div className="relative flex flex-wrap gap-1.5">
-                    {study.tech.slice(0, 4).map((t) => (
-                      <span
-                        key={t}
-                        className="text-xs px-2.5 py-1 rounded-full border border-white/[0.06] text-white/40"
-                        style={{ background: 'rgba(255,255,255,0.03)' }}
-                      >
-                        {t}
-                      </span>
-                    ))}
-                    {study.tech.length > 4 && (
-                      <span className="text-xs px-2.5 py-1 text-white/25">
-                        +{study.tech.length - 4}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* CTA indicator */}
-                  <div
-                    aria-hidden="true"
-                    className="relative flex items-center gap-1.5 text-sm text-white/30 group-hover:text-white/60 transition-colors duration-200 mt-1"
-                  >
-                    <span>View Case Study</span>
-                    <ArrowRightIcon />
-                  </div>
-                </article>
+                  <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.32)', margin: '4px 0 0', whiteSpace: 'nowrap' }}>
+                    {label}
+                  </p>
+                </div>
               ))}
             </div>
-          )}
-
+          </div>
         </div>
+
+        {/* ── FILTERS ──────────────────────────────────────────────── */}
+        <div style={{
+          maxWidth: 1100, margin: '0 auto', padding: '0 48px 48px',
+          display: 'flex', justifyContent: 'center', gap: 8,
+        }}>
+          {FILTERS.map((f) => {
+            const active = f.value === filter;
+            return (
+              <Link
+                key={f.value}
+                href={f.value === 'all' ? '/work' : `/work?filter=${f.value}`}
+                style={{
+                  padding: '8px 22px', borderRadius: 999,
+                  fontSize: 13, fontWeight: 500, textDecoration: 'none',
+                  background: active ? '#6366f1' : 'rgba(255,255,255,0.04)',
+                  color: active ? '#fff' : 'rgba(255,255,255,0.45)',
+                  border: active ? '1px solid transparent' : '1px solid rgba(255,255,255,0.08)',
+                }}
+              >
+                {f.label}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* ── GRID ─────────────────────────────────────────────────── */}
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px 120px' }}>
+          {studies.length === 0 ? (
+            <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', padding: '80px 0' }}>
+              No projects found.
+            </p>
+          ) : (
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: 20,
+            }}>
+              {studies.map((study: CaseStudy, i: number) => {
+                const coverUrl = coverUrls[i];
+                const t = study.theme_color;
+
+                return (
+                  <article
+                    key={study.slug}
+                    className="work-card"
+                    style={{
+                      '--t': t,
+                      position: 'relative', borderRadius: 20, overflow: 'hidden',
+                      background: '#0d0d10',
+                      border: '1px solid rgba(255,255,255,0.06)',
+                      display: 'flex', flexDirection: 'column',
+                    } as React.CSSProperties}
+                  >
+                    {/* Full-card link overlay */}
+                    <Link
+                      href={`/work/${study.slug}`}
+                      style={{ position: 'absolute', inset: 0, zIndex: 5 }}
+                      aria-label={`View case study: ${study.title}`}
+                    />
+
+                    {/* ── Image / Gradient area ── */}
+                    <div
+                      className="work-card-img"
+                      style={{ position: 'relative', height: 220, overflow: 'hidden', flexShrink: 0 }}
+                    >
+                      {coverUrl ? (
+                        <img
+                          src={coverUrl}
+                          alt={study.title}
+                          style={{
+                            width: '100%', height: '100%',
+                            objectFit: 'cover', objectPosition: 'top',
+                            display: 'block',
+                          }}
+                        />
+                      ) : (
+                        /* No-image: branded gradient placeholder */
+                        <div style={{
+                          width: '100%', height: '100%', position: 'relative', overflow: 'hidden',
+                          background: `radial-gradient(ellipse at 25% 45%, ${rgba(t, 0.28)} 0%, transparent 60%), #0d0d10`,
+                        }}>
+                          {/* Geometric accent */}
+                          <div style={{
+                            position: 'absolute', top: 32, left: 32,
+                            width: 72, height: 72, borderRadius: 18,
+                            background: rgba(t, 0.1), border: `1px solid ${rgba(t, 0.22)}`,
+                          }} />
+                          <div style={{
+                            position: 'absolute', top: 52, left: 52,
+                            width: 72, height: 72, borderRadius: 18,
+                            background: rgba(t, 0.06), border: `1px solid ${rgba(t, 0.14)}`,
+                          }} />
+                          {/* Category as big faded text */}
+                          <div style={{
+                            position: 'absolute', bottom: 20, right: 20,
+                            fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
+                            textTransform: 'uppercase', color: rgba(t, 0.3),
+                          }}>
+                            {study.category}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Gradient fade into card background */}
+                      <div style={{
+                        position: 'absolute', bottom: 0, left: 0, right: 0, height: 90,
+                        background: 'linear-gradient(to bottom, transparent, #0d0d10)',
+                        pointerEvents: 'none',
+                      }} />
+                    </div>
+
+                    {/* ── Content ── */}
+                    <div style={{
+                      padding: '18px 22px 22px',
+                      flex: 1, display: 'flex', flexDirection: 'column', gap: 10,
+                    }}>
+                      {/* Category pill */}
+                      <span style={{
+                        display: 'inline-block', alignSelf: 'flex-start',
+                        padding: '3px 10px', borderRadius: 999,
+                        fontSize: 10, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase',
+                        background: rgba(t, 0.1), border: `1px solid ${rgba(t, 0.28)}`, color: t,
+                      }}>
+                        {study.category}
+                      </span>
+
+                      {/* Title */}
+                      <h2 style={{
+                        fontSize: 18, fontWeight: 700, color: '#fff',
+                        margin: 0, letterSpacing: '-0.02em', lineHeight: 1.2,
+                      }}>
+                        {study.title}
+                      </h2>
+
+                      {/* Tagline */}
+                      <p style={{
+                        fontSize: 13, color: 'rgba(255,255,255,0.42)',
+                        margin: 0, lineHeight: 1.65, flex: 1,
+                        display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+                      } as React.CSSProperties}>
+                        {study.tagline}
+                      </p>
+
+                      {/* Divider */}
+                      <div style={{ height: 1, background: 'rgba(255,255,255,0.05)', margin: '2px 0' }} />
+
+                      {/* Bottom: outcome metric + arrow */}
+                      <div style={{
+                        display: 'flex', alignItems: 'center',
+                        justifyContent: 'space-between', gap: 8,
+                      }}>
+                        <span style={{
+                          fontSize: 13, fontWeight: 600,
+                          color: t, lineHeight: 1.3,
+                        }}>
+                          {study.outcome.metric}
+                        </span>
+                        <span className="work-card-arrow" style={{ color: 'rgba(255,255,255,0.25)', flexShrink: 0, display: 'flex' }}>
+                          <ArrowRightIcon />
+                        </span>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
       </main>
 
       <Footer />
