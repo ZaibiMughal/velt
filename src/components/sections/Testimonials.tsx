@@ -296,12 +296,6 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
 
   const items = testimonials.length > 0 ? testimonials : FALLBACK_TESTIMONIALS;
 
-  // Split into two rows; if odd number, first row gets the extra
-  const mid = Math.ceil(items.length / 2);
-  const row1 = items.slice(0, mid);
-  const row2 = items.slice(mid);
-  const row2Items = row2.length > 0 ? row2 : [...row1].reverse();
-
   function handlePlay(url: string, name: string) {
     setActiveVideo(url);
     setActiveVideoName(name);
@@ -363,21 +357,12 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           </p>
         </div>
 
-        {/* Marquee rows */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20, position: 'relative', zIndex: 1 }}>
+        {/* Marquee row */}
+        <div style={{ position: 'relative', zIndex: 1 }}>
           <MarqueeRow
-            items={row1}
+            items={items}
             direction="left"
-            duration={45}
-            onPlay={(url) => {
-              const t = items.find((t) => t.video_url === url);
-              handlePlay(url, t?.client_name ?? '');
-            }}
-          />
-          <MarqueeRow
-            items={row2Items}
-            direction="right"
-            duration={38}
+            duration={50}
             onPlay={(url) => {
               const t = items.find((t) => t.video_url === url);
               handlePlay(url, t?.client_name ?? '');
