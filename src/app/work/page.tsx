@@ -208,6 +208,8 @@ export default async function WorkPage({
                 const coverUrl = coverUrls[i];
                 const t = study.theme_color;
 
+                const isMobile = study.category === 'Mobile App';
+
                 return (
                   <article
                     key={study.slug}
@@ -227,28 +229,74 @@ export default async function WorkPage({
                       aria-label={`View case study: ${study.title}`}
                     />
 
-                    {/* ── Image / Gradient area ── */}
+                    {/* ── Image area ── */}
                     <div
                       className="work-card-img"
-                      style={{ position: 'relative', height: 220, overflow: 'hidden', flexShrink: 0 }}
+                      style={{
+                        position: 'relative',
+                        height: isMobile ? 272 : 210,
+                        overflow: 'hidden',
+                        flexShrink: 0,
+                        background: isMobile
+                          ? `radial-gradient(ellipse 160% 120% at 50% 100%, ${rgba(t, 0.28)} 0%, #111114 55%, #0d0d10 75%)`
+                          : '#111114',
+                      }}
                     >
                       {coverUrl ? (
-                        <img
-                          src={coverUrl}
-                          alt={study.title}
-                          style={{
-                            width: '100%', height: '100%',
-                            objectFit: 'cover', objectPosition: 'top',
-                            display: 'block',
-                          }}
-                        />
+                        isMobile ? (
+                          /* Mobile: centered portrait screenshot floating on gradient */
+                          <img
+                            src={coverUrl}
+                            alt={study.title}
+                            style={{
+                              position: 'absolute',
+                              bottom: 0,
+                              left: '50%',
+                              transform: 'translateX(-50%)',
+                              height: '92%',
+                              width: 'auto',
+                              maxWidth: '58%',
+                              objectFit: 'contain',
+                              objectPosition: 'bottom center',
+                              borderRadius: '14px 14px 0 0',
+                              boxShadow: `0 -4px 40px ${rgba(t, 0.18)}, 0 0 0 1px ${rgba(t, 0.15)}`,
+                              display: 'block',
+                            }}
+                          />
+                        ) : (
+                          /* Web/SaaS: darkened screenshot with theme color tint */
+                          <>
+                            <img
+                              src={coverUrl}
+                              alt={study.title}
+                              style={{
+                                width: '100%', height: '100%',
+                                objectFit: 'cover', objectPosition: 'top center',
+                                display: 'block',
+                                filter: 'brightness(0.55) saturate(0.85)',
+                              }}
+                            />
+                            {/* Theme color wash — ties screenshot into card accent */}
+                            <div style={{
+                              position: 'absolute', inset: 0,
+                              background: rgba(t, 0.18),
+                              mixBlendMode: 'normal',
+                              pointerEvents: 'none',
+                            }} />
+                            {/* Top fade */}
+                            <div style={{
+                              position: 'absolute', top: 0, left: 0, right: 0, height: 56,
+                              background: 'linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)',
+                              pointerEvents: 'none',
+                            }} />
+                          </>
+                        )
                       ) : (
                         /* No-image: branded gradient placeholder */
                         <div style={{
                           width: '100%', height: '100%', position: 'relative', overflow: 'hidden',
                           background: `radial-gradient(ellipse at 25% 45%, ${rgba(t, 0.28)} 0%, transparent 60%), #0d0d10`,
                         }}>
-                          {/* Geometric accent */}
                           <div style={{
                             position: 'absolute', top: 32, left: 32,
                             width: 72, height: 72, borderRadius: 18,
@@ -259,7 +307,6 @@ export default async function WorkPage({
                             width: 72, height: 72, borderRadius: 18,
                             background: rgba(t, 0.06), border: `1px solid ${rgba(t, 0.14)}`,
                           }} />
-                          {/* Category as big faded text */}
                           <div style={{
                             position: 'absolute', bottom: 20, right: 20,
                             fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
@@ -270,9 +317,10 @@ export default async function WorkPage({
                         </div>
                       )}
 
-                      {/* Gradient fade into card background */}
+                      {/* Bottom gradient fade into card body */}
                       <div style={{
-                        position: 'absolute', bottom: 0, left: 0, right: 0, height: 90,
+                        position: 'absolute', bottom: 0, left: 0, right: 0,
+                        height: isMobile ? 32 : 80,
                         background: 'linear-gradient(to bottom, transparent, #0d0d10)',
                         pointerEvents: 'none',
                       }} />
