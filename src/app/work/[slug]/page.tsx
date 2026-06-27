@@ -6,6 +6,8 @@ import { getAllCaseStudies, getCaseStudy, getCaseStudySlugs, getSignedImageUrls,
 import type { Testimonial } from '@/lib/data';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import DeepDive from '@/components/sections/DeepDive';
+import { DEEP_DIVES } from '@/data/work/deep-dives';
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const slugs = await getCaseStudySlugs();
@@ -754,6 +756,13 @@ export default async function CaseStudyPage({
 
         {/* ── CLIENT TESTIMONIAL ───────────────────────────────────── */}
         {testimonial && <CaseStudyTestimonial testimonial={testimonial} t={t} />}
+
+        {/* ── DEEP DIVE ─────────────────────────────────────────────── */}
+        {DEEP_DIVES[slug] && (
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px 80px' }}>
+            <DeepDive deepDive={DEEP_DIVES[slug]} themeColor={t} />
+          </div>
+        )}
 
         {/* ── PREV / NEXT ───────────────────────────────────────────── */}
         <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)` }}>
