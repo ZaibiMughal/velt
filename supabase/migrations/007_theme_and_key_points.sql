@@ -27,7 +27,7 @@ insert into case_studies (
   1, 'ridespotr', 'RideSpotr', 'Mobile App',
   array['Flutter', 'Dart', 'Supabase', 'OpenAI', 'Mapbox', 'Stream.io', 'Firebase', 'Plate Recognizer'],
   'A gamified car-spotting community with AI plate recognition, rarity scoring, and a global marketplace — millions of spots and counting.',
-  '#FE1E00',
+  '#701b1b',
   'The client wanted to turn the casual hobby of spotting rare and exotic cars into a competitive, social experience enjoyed by enthusiasts worldwide. The platform needed AI-powered vehicle identification from photos, a rarity engine that awarded XP per spot, real-time social feeds, an interactive city map, in-app group chat, a car marketplace, and event management — all in a single mobile app that had to feel fast and premium at a global scale.',
   array[
     'AI vehicle identification from a single photo using OpenAI',
