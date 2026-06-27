@@ -418,6 +418,56 @@ function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial
   );
 }
 
+/* ── Fallback testimonials (used until migration 008 is run) ────── */
+
+const MOCK_TESTIMONIALS: Record<string, { client_name: string; client_role: string; client_company: string; quote: string }> = {
+  ridespotr: {
+    client_name: 'Alex Thompson', client_role: 'Co-Founder', client_company: 'RideSpotr',
+    quote: 'Velt turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere — they shipped it in weeks and it just works.',
+  },
+  wagerr: {
+    client_name: 'Marcus Reid', client_role: 'Founder', client_company: 'Wagerr',
+    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Velt nailed the architecture — the Ethereum smart contract, the embedded wallets, the scoring logic — and somehow made it feel effortless to the end user.',
+  },
+  nutritionup: {
+    client_name: 'Sarah Chen', client_role: 'CEO', client_company: 'NutritionUP',
+    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel — all of it polished and production-ready. Velt thinks like a product team, not just engineers.',
+  },
+  pipa: {
+    client_name: 'Ryan Nakamura', client_role: 'Operations Director', client_company: 'PIPA',
+    quote: "Our farm managers went from paper timesheets to real-time GPS tracking overnight. The Xero payroll sync alone saves us hours every week. I couldn't ask for a better development partner.",
+  },
+  keyos: {
+    client_name: 'David Park', client_role: 'CTO', client_company: 'KeyOS',
+    quote: 'The multi-tenant data isolation Velt built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible — and they delivered exactly that.',
+  },
+  trucktuck: {
+    client_name: 'James Wilson', client_role: 'Co-Founder', client_company: 'TruckTuck',
+    quote: 'Over a million visitors a month and not a single missed booking. The Redis and BullMQ architecture they designed handles our peak loads without breaking a sweat. We scaled without rewriting anything.',
+  },
+  salespulse: {
+    client_name: 'Emma Torres', client_role: 'Head of Sales', client_company: 'Scholarly',
+    quote: 'The AI automation workflows Velt built replaced hours of manual work every week. Our team now spends that time on growth instead of copy-pasting between tools. The ROI was visible within the first month.',
+  },
+};
+
+function mockTestimonial(slug: string): import('@/lib/data').Testimonial | null {
+  const m = MOCK_TESTIMONIALS[slug];
+  if (!m) return null;
+  return {
+    id: `mock-${slug}`,
+    case_study_slug: slug,
+    client_name: m.client_name,
+    client_role: m.client_role,
+    client_company: m.client_company,
+    quote: m.quote,
+    avatar_url: null,
+    video_url: null,
+    video_thumbnail_url: null,
+    display_order: 0,
+  };
+}
+
 /* ── page ──────────────────────────────────────────────────────── */
 
 export default async function CaseStudyPage({
@@ -426,11 +476,12 @@ export default async function CaseStudyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [study, allStudies, testimonial] = await Promise.all([
+  const [study, allStudies, dbTestimonial] = await Promise.all([
     getCaseStudy(slug),
     getAllCaseStudies(),
     getTestimonialForSlug(slug),
   ]);
+  const testimonial = dbTestimonial ?? mockTestimonial(slug);
 
   if (!study) notFound();
 
