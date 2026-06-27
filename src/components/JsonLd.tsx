@@ -41,7 +41,7 @@ const serviceSchema = {
     'Full Stack Development',
   ],
   description:
-    'Fixed-price software development for founders and businesses. Mobile apps (iOS + Android), web platforms, SaaS ecosystems, and admin dashboards — delivered in weeks with full source code ownership.',
+    'Fixed-price software development for founders and businesses. Mobile apps (iOS + Android), web platforms, SaaS ecosystems, and admin dashboards, delivered in weeks with full source code ownership.',
   areaServed: 'Worldwide',
   priceRange: '$5,000 – $50,000+',
   hasOfferCatalog: {

@@ -439,15 +439,15 @@ function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial
 const MOCK_TESTIMONIALS: Record<string, { client_name: string; client_role: string; client_company: string; quote: string }> = {
   ridespotr: {
     client_name: 'Alex Thompson', client_role: 'Co-Founder', client_company: 'RideSpotr',
-    quote: 'Velt turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere — they shipped it in weeks and it just works.',
+    quote: 'Velt turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
   },
   wagerr: {
     client_name: 'Marcus Reid', client_role: 'Founder', client_company: 'Wagerr',
-    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Velt nailed the architecture — the Ethereum smart contract, the embedded wallets, the scoring logic — and somehow made it feel effortless to the end user.',
+    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Velt nailed the architecture: the Ethereum smart contract, the embedded wallets, the scoring logic, and somehow made it feel effortless to the end user.',
   },
   nutritionup: {
     client_name: 'Sarah Chen', client_role: 'CEO', client_company: 'NutritionUP',
-    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel — all of it polished and production-ready. Velt thinks like a product team, not just engineers.',
+    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel, all of it polished and production-ready. Velt thinks like a product team, not just engineers.',
   },
   pipa: {
     client_name: 'Ryan Nakamura', client_role: 'Operations Director', client_company: 'PIPA',
@@ -455,7 +455,7 @@ const MOCK_TESTIMONIALS: Record<string, { client_name: string; client_role: stri
   },
   keyos: {
     client_name: 'David Park', client_role: 'CTO', client_company: 'KeyOS',
-    quote: 'The multi-tenant data isolation Velt built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible — and they delivered exactly that.',
+    quote: 'The multi-tenant data isolation Velt built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible, and they delivered exactly that.',
   },
   trucktuck: {
     client_name: 'James Wilson', client_role: 'Co-Founder', client_company: 'TruckTuck',

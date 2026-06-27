@@ -353,7 +353,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
             fontSize: 16, color: 'rgba(255,255,255,0.42)',
             maxWidth: 440, margin: '0 auto', lineHeight: 1.65,
           }}>
-            From first call to final handover — here&apos;s what working with Velt is actually like.
+            From first call to final handover - here&apos;s what working with Velt is actually like.
           </p>
         </div>
 
