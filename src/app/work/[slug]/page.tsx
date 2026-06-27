@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { CaseStudy } from '@/data/work/index';
-import { getAllCaseStudies, getCaseStudy, getCaseStudySlugs, getSignedImageUrls } from '@/lib/data';
+import { getAllCaseStudies, getCaseStudy, getCaseStudySlugs, getSignedImageUrls, getTestimonialForSlug } from '@/lib/data';
+import type { Testimonial } from '@/lib/data';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
@@ -300,6 +301,123 @@ function ShowcaseBrowser({
   );
 }
 
+/* ── Case Study Testimonial ────────────────────────────────────── */
+
+function AvatarBlock({ name, url }: { name: string; url: string | null }) {
+  const palette = [
+    ['#6366f1', '#818cf8'], ['#8b5cf6', '#a78bfa'], ['#ec4899', '#f472b6'],
+    ['#14b8a6', '#2dd4bf'], ['#f59e0b', '#fbbf24'], ['#3b82f6', '#60a5fa'],
+  ];
+  const [c1, c2] = palette[name.charCodeAt(0) % palette.length];
+  const initials = name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
+
+  if (url) {
+    return <img src={url} alt={name} style={{ width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />;
+  }
+  return (
+    <div style={{
+      width: 52, height: 52, borderRadius: '50%', flexShrink: 0,
+      background: `linear-gradient(135deg, ${c1}, ${c2})`,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: 16, fontWeight: 700, color: '#fff',
+    }}>
+      {initials}
+    </div>
+  );
+}
+
+function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial; t: string }) {
+  return (
+    <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)` }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 48px' }}>
+
+        <p style={{
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
+          textTransform: 'uppercase', color: t, marginBottom: 48,
+        }}>
+          Client Voice
+        </p>
+
+        <div style={{
+          display: 'grid', gridTemplateColumns: '1fr auto', gap: 64, alignItems: 'start',
+          maxWidth: 860,
+        }}>
+          {/* Quote */}
+          <div>
+            {/* Large decorative quote mark */}
+            <div style={{
+              fontSize: 96, lineHeight: 0.7, color: t, opacity: 0.22,
+              fontFamily: 'Georgia, serif', marginBottom: 24, userSelect: 'none',
+            }}>
+              &ldquo;
+            </div>
+
+            <blockquote style={{
+              fontSize: 'clamp(1.1rem, 2vw, 1.4rem)', fontWeight: 500,
+              color: 'rgba(255,255,255,0.82)', lineHeight: 1.7,
+              margin: '0 0 36px', borderLeft: `3px solid ${rgba(t, 0.35)}`, paddingLeft: 28,
+              fontStyle: 'italic',
+            }}>
+              {tm.quote}
+            </blockquote>
+
+            {/* Identity */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, paddingLeft: 28 }}>
+              <AvatarBlock name={tm.client_name} url={tm.avatar_url} />
+              <div>
+                <p style={{ fontSize: 15, fontWeight: 700, color: '#fff', margin: 0 }}>
+                  {tm.client_name}
+                </p>
+                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)', margin: '3px 0 0' }}>
+                  {[tm.client_role, tm.client_company].filter(Boolean).join(' · ')}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Accent glow orb */}
+          <div style={{
+            width: 120, height: 120, borderRadius: '50%', flexShrink: 0,
+            background: `radial-gradient(circle, ${rgba(t, 0.18)} 0%, transparent 70%)`,
+            border: `1px solid ${rgba(t, 0.15)}`,
+            alignSelf: 'center',
+          }} />
+        </div>
+
+        {/* Inline video */}
+        {tm.video_url && (
+          <div style={{ marginTop: 48, maxWidth: 680 }}>
+            <div style={{
+              borderRadius: 16, overflow: 'hidden',
+              border: `1px solid ${rgba(t, 0.25)}`,
+              boxShadow: `0 24px 64px rgba(0,0,0,0.5), 0 0 60px ${rgba(t, 0.07)}`,
+              background: '#000',
+            }}>
+              {/* Minimal chrome */}
+              <div style={{
+                padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 6,
+                background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.05)',
+              }}>
+                {['#ff5f57', '#ffbd2e', '#28c840'].map((c) => (
+                  <div key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c, opacity: 0.6 }} />
+                ))}
+                <span style={{ marginLeft: 8, fontSize: 10, color: 'rgba(255,255,255,0.2)' }}>
+                  {tm.client_name} — testimonial
+                </span>
+              </div>
+              <video
+                src={tm.video_url}
+                controls
+                style={{ width: '100%', display: 'block' }}
+              />
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ── page ──────────────────────────────────────────────────────── */
 
 export default async function CaseStudyPage({
@@ -308,9 +426,10 @@ export default async function CaseStudyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [study, allStudies] = await Promise.all([
+  const [study, allStudies, testimonial] = await Promise.all([
     getCaseStudy(slug),
     getAllCaseStudies(),
+    getTestimonialForSlug(slug),
   ]);
 
   if (!study) notFound();
@@ -565,6 +684,9 @@ export default async function CaseStudyPage({
             </div>
           </div>
         </div>
+
+        {/* ── CLIENT TESTIMONIAL ───────────────────────────────────── */}
+        {testimonial && <CaseStudyTestimonial testimonial={testimonial} t={t} />}
 
         {/* ── PREV / NEXT ───────────────────────────────────────────── */}
         <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)` }}>

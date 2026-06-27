@@ -2,14 +2,28 @@ import { supabase } from './supabase';
 import type { Database } from './supabase';
 import type { CaseStudy } from '@/data/work/index';
 
-type CaseStudyRow = Database['public']['Tables']['case_studies']['Row'];
-type PartnerRow = Database['public']['Tables']['partners']['Row'];
+type CaseStudyRow   = Database['public']['Tables']['case_studies']['Row'];
+type PartnerRow     = Database['public']['Tables']['partners']['Row'];
+type TestimonialRow = Database['public']['Tables']['testimonials']['Row'];
 
 export interface Partner {
   id: string;
   name: string;
   logo_url: string | null;
   website_url: string | null;
+  display_order: number;
+}
+
+export interface Testimonial {
+  id: string;
+  case_study_slug: string | null;
+  client_name: string;
+  client_role: string | null;
+  client_company: string | null;
+  quote: string;
+  avatar_url: string | null;
+  video_url: string | null;
+  video_thumbnail_url: string | null;
   display_order: number;
 }
 
@@ -34,6 +48,31 @@ function rowToCaseStudy(row: CaseStudyRow): CaseStudy {
     play_store_url: row.play_store_url,
     cover_image: row.cover_image,
     images: row.images,
+  };
+}
+
+function rowToPartner(row: PartnerRow): Partner {
+  return {
+    id: row.id,
+    name: row.name,
+    logo_url: row.logo_url,
+    website_url: row.website_url,
+    display_order: row.display_order,
+  };
+}
+
+function rowToTestimonial(row: TestimonialRow): Testimonial {
+  return {
+    id: row.id,
+    case_study_slug: row.case_study_slug,
+    client_name: row.client_name,
+    client_role: row.client_role,
+    client_company: row.client_company,
+    quote: row.quote,
+    avatar_url: row.avatar_url,
+    video_url: row.video_url,
+    video_thumbnail_url: row.video_thumbnail_url,
+    display_order: row.display_order,
   };
 }
 
@@ -64,16 +103,6 @@ export async function getSignedImageUrls(
   if (paths.length === 0) return [];
   const results = await Promise.all(paths.map(getSignedImageUrl));
   return results.filter((url): url is string => url !== null);
-}
-
-function rowToPartner(row: PartnerRow): Partner {
-  return {
-    id: row.id,
-    name: row.name,
-    logo_url: row.logo_url,
-    website_url: row.website_url,
-    display_order: row.display_order,
-  };
 }
 
 export async function getAllCaseStudies(): Promise<CaseStudy[]> {
@@ -115,4 +144,25 @@ export async function getAllPartners(): Promise<Partner[]> {
     .order('display_order', { ascending: true });
   if (error || !data) return [];
   return data.map(rowToPartner);
+}
+
+export async function getAllTestimonials(): Promise<Testimonial[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from('testimonials')
+    .select('*')
+    .order('display_order', { ascending: true });
+  if (error || !data) return [];
+  return data.map(rowToTestimonial);
+}
+
+export async function getTestimonialForSlug(slug: string): Promise<Testimonial | null> {
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from('testimonials')
+    .select('*')
+    .eq('case_study_slug', slug)
+    .single();
+  if (error || !data) return null;
+  return rowToTestimonial(data);
 }

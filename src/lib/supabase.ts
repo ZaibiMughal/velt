@@ -97,6 +97,44 @@ export interface Database {
           description?: string;
         };
       };
+      testimonials: {
+        Relationships: [];
+        Row: {
+          id: string;
+          created_at: string;
+          case_study_slug: string | null;
+          client_name: string;
+          client_role: string | null;
+          client_company: string | null;
+          quote: string;
+          avatar_url: string | null;
+          video_url: string | null;
+          video_thumbnail_url: string | null;
+          display_order: number;
+        };
+        Insert: {
+          case_study_slug?: string | null;
+          client_name: string;
+          client_role?: string | null;
+          client_company?: string | null;
+          quote: string;
+          avatar_url?: string | null;
+          video_url?: string | null;
+          video_thumbnail_url?: string | null;
+          display_order?: number;
+        };
+        Update: {
+          case_study_slug?: string | null;
+          client_name?: string;
+          client_role?: string | null;
+          client_company?: string | null;
+          quote?: string;
+          avatar_url?: string | null;
+          video_url?: string | null;
+          video_thumbnail_url?: string | null;
+          display_order?: number;
+        };
+      };
       partners: {
         Relationships: [];
         Row: {

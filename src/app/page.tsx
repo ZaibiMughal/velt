@@ -10,7 +10,8 @@ import Partners from '@/components/sections/Partners';
 import FAQ from '@/components/sections/FAQ';
 import PaymentStructure from '@/components/sections/PaymentStructure';
 import Contact from '@/components/sections/Contact';
-import { getAllCaseStudies, getAllPartners } from '@/lib/data';
+import Testimonials from '@/components/sections/Testimonials';
+import { getAllCaseStudies, getAllPartners, getAllTestimonials } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: { absolute: 'Velt | Build Your Product Without a Full Team' },
@@ -21,9 +22,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const [caseStudies, partners] = await Promise.all([
+  const [caseStudies, partners, testimonials] = await Promise.all([
     getAllCaseStudies(),
     getAllPartners(),
+    getAllTestimonials(),
   ]);
 
   return (
@@ -35,6 +37,7 @@ export default async function Home() {
         <HowWeWork />
         <WhyVelt />
         <Portfolio caseStudies={caseStudies} />
+        <Testimonials testimonials={testimonials} />
         <Partners partners={partners} />
         <FAQ />
         <PaymentStructure />
