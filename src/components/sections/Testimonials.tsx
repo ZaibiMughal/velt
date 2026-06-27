@@ -3,6 +3,53 @@
 import { useRef, useState } from 'react';
 import type { Testimonial } from '@/lib/data';
 
+/* ── Fallback data (shown when DB table doesn't exist yet) ──────── */
+
+const FALLBACK_TESTIMONIALS: Testimonial[] = [
+  {
+    id: 'f1', case_study_slug: 'ridespotr', display_order: 1,
+    client_name: 'Alex Thompson', client_role: 'Co-Founder', client_company: 'RideSpotr',
+    quote: 'Velt turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere — they shipped it in weeks and it just works.',
+    avatar_url: null, video_url: null, video_thumbnail_url: null,
+  },
+  {
+    id: 'f2', case_study_slug: 'wagerr', display_order: 2,
+    client_name: 'Marcus Reid', client_role: 'Founder', client_company: 'Wagerr',
+    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Velt nailed the architecture — the Ethereum smart contract, the embedded wallets, the scoring logic — and somehow made it feel effortless to the end user.',
+    avatar_url: null, video_url: null, video_thumbnail_url: null,
+  },
+  {
+    id: 'f3', case_study_slug: 'nutritionup', display_order: 3,
+    client_name: 'Sarah Chen', client_role: 'CEO', client_company: 'NutritionUP',
+    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel — all of it polished and production-ready. Velt thinks like a product team, not just engineers.',
+    avatar_url: null, video_url: null, video_thumbnail_url: null,
+  },
+  {
+    id: 'f4', case_study_slug: 'pipa', display_order: 4,
+    client_name: 'Ryan Nakamura', client_role: 'Operations Director', client_company: 'PIPA',
+    quote: 'Our farm managers went from paper timesheets to real-time GPS tracking overnight. The Xero payroll sync alone saves us hours every week. I couldn\'t ask for a better development partner.',
+    avatar_url: null, video_url: null, video_thumbnail_url: null,
+  },
+  {
+    id: 'f5', case_study_slug: 'keyos', display_order: 5,
+    client_name: 'David Park', client_role: 'CTO', client_company: 'KeyOS',
+    quote: 'The multi-tenant data isolation Velt built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible — and they delivered exactly that.',
+    avatar_url: null, video_url: null, video_thumbnail_url: null,
+  },
+  {
+    id: 'f6', case_study_slug: 'trucktuck', display_order: 6,
+    client_name: 'James Wilson', client_role: 'Co-Founder', client_company: 'TruckTuck',
+    quote: 'Over a million visitors a month and not a single missed booking. The Redis and BullMQ architecture they designed handles our peak loads without breaking a sweat. We scaled without rewriting anything.',
+    avatar_url: null, video_url: null, video_thumbnail_url: null,
+  },
+  {
+    id: 'f7', case_study_slug: 'salespulse', display_order: 7,
+    client_name: 'Emma Torres', client_role: 'Head of Sales', client_company: 'Scholarly',
+    quote: 'The AI automation workflows Velt built replaced hours of manual work every week. Our team now spends that time on growth instead of copy-pasting between tools. The ROI was visible within the first month.',
+    avatar_url: null, video_url: null, video_thumbnail_url: null,
+  },
+];
+
 /* ── helpers ────────────────────────────────────────────────────── */
 
 function initials(name: string) {
@@ -247,13 +294,12 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeVideoName, setActiveVideoName] = useState('');
 
-  if (testimonials.length === 0) return null;
+  const items = testimonials.length > 0 ? testimonials : FALLBACK_TESTIMONIALS;
 
   // Split into two rows; if odd number, first row gets the extra
-  const mid = Math.ceil(testimonials.length / 2);
-  const row1 = testimonials.slice(0, mid);
-  const row2 = testimonials.slice(mid);
-  // If only one row worth, duplicate it for row 2
+  const mid = Math.ceil(items.length / 2);
+  const row1 = items.slice(0, mid);
+  const row2 = items.slice(mid);
   const row2Items = row2.length > 0 ? row2 : [...row1].reverse();
 
   function handlePlay(url: string, name: string) {
@@ -324,7 +370,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
             direction="left"
             duration={45}
             onPlay={(url) => {
-              const t = testimonials.find((t) => t.video_url === url);
+              const t = items.find((t) => t.video_url === url);
               handlePlay(url, t?.client_name ?? '');
             }}
           />
@@ -333,7 +379,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
             direction="right"
             duration={38}
             onPlay={(url) => {
-              const t = testimonials.find((t) => t.video_url === url);
+              const t = items.find((t) => t.video_url === url);
               handlePlay(url, t?.client_name ?? '');
             }}
           />
