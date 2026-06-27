@@ -16,7 +16,7 @@ import { getAllCaseStudies, getAllPartners, getAllTestimonials } from '@/lib/dat
 export const metadata: Metadata = {
   title: { absolute: 'Velt | Ship Your Product Without Building a Full Team' },
   description:
-    'Fixed-price software development for founders and enterprises. Flutter mobile apps, React Native, Next.js web platforms, and SaaS ecosystems — shipped in weeks, not months. 30+ products delivered across 3 continents.',
+    'Fixed-price software development for founders and enterprises. Flutter mobile apps, React Native, Next.js web platforms, and SaaS ecosystems - shipped in weeks, not months. 30+ products delivered across 3 continents.',
   keywords: [
     'hire Flutter developer', 'hire React Native developer', 'hire Next.js developer',
     'custom mobile app development', 'MVP development agency', 'SaaS platform development',

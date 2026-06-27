@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Portfolio | 30+ Projects Shipped — Velt Studio',
-    description: 'Flutter mobile apps, Next.js platforms, SaaS ecosystems — shipped for founders and enterprise clients worldwide.',
+    description: 'Flutter mobile apps, Next.js platforms, SaaS ecosystems - shipped for founders and enterprise clients worldwide.',
     url: 'https://veltstudio.com/work',
   },
 };
@@ -46,8 +46,8 @@ const FILTERS: { label: string; value: Filter }[] = [
 
 const STATS = [
   { value: '30+', label: 'Projects Shipped' },
-  { value: '5+', label: 'Years Building' },
-  { value: '3', label: 'Continents' },
+  { value: '8+', label: 'Years Experience' },
+  { value: '10+', label: 'Countries' },
   { value: '1M+', label: 'Monthly Users' },
 ];
 
@@ -134,7 +134,7 @@ export default async function WorkPage({
               maxWidth: 520, margin: '0 auto 16px', lineHeight: 1.65,
             }}>
               Built for founders, scaleups, and multinational enterprises across three continents.
-              Mobile apps, web platforms, SaaS ecosystems — fully owned by you on day one.
+              Mobile apps, web platforms, SaaS ecosystems - fully owned by you on day one.
             </p>
             <p style={{
               fontSize: 13, color: 'rgba(255,255,255,0.22)',

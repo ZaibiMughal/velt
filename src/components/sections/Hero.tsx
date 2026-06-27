@@ -297,8 +297,8 @@ export default function Hero() {
             marginBottom: '1.75rem',
           }}
         >
-          We build mobile apps, web apps, and SaaS platforms at a fixed price.
-          One team, full ownership, no surprises.
+          Trusted by founders and businesses across the US, Australia, Europe, and the Middle East.
+          Fixed price, full source code, shipped in weeks.
         </motion.p>
 
         <motion.div {...fadeUp(0.3)} style={{ marginBottom: '1.75rem' }}>

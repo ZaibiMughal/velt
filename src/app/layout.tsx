@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: 'Velt Studio',
     title: 'Velt | Software Development Studio — 30+ Products Shipped',
     description:
-      'Flutter mobile apps, Next.js platforms, and SaaS ecosystems — built for founders and enterprise clients at a fixed price. 30+ products shipped across 3 continents.',
+      'Flutter mobile apps, Next.js platforms, and SaaS ecosystems - built for founders and enterprise clients at a fixed price. 30+ products shipped across 3 continents.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Velt Studio — Software Development' }],
   },
   twitter: {
