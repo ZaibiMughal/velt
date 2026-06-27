@@ -19,8 +19,24 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const study = await getCaseStudy(slug);
-  if (!study) return { title: 'Not Found | Velt' };
-  return { title: { absolute: `${study.title} | Velt` } };
+  if (!study) return { title: 'Not Found | Velt Studio' };
+
+  const techPreview = study.tech.slice(0, 4).join(', ');
+  const description = `${study.tagline} Built with ${techPreview}. ${study.outcome.metric}.`;
+
+  return {
+    title: { absolute: `${study.title} — ${study.category} Case Study | Velt Studio` },
+    description,
+    keywords: [
+      study.title, study.category, ...study.tech,
+      'case study', 'software development', 'Velt Studio',
+    ],
+    openGraph: {
+      title: `${study.title} — ${study.category} Case Study`,
+      description,
+      url: `https://veltstudio.com/work/${slug}`,
+    },
+  };
 }
 
 /* ── icons ─────────────────────────────────────────────────────── */

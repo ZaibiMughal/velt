@@ -14,10 +14,21 @@ import Testimonials from '@/components/sections/Testimonials';
 import { getAllCaseStudies, getAllPartners, getAllTestimonials } from '@/lib/data';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Velt | Build Your Product Without a Full Team' },
-  description: 'Fixed-price software development for founders and businesses. Mobile Apps, Web Apps, SaaS Platforms from $5,000. Delivered in 2–6 weeks.',
-  alternates: {
-    canonical: 'https://veltstudio.com',
+  title: { absolute: 'Velt | Ship Your Product Without Building a Full Team' },
+  description:
+    'Fixed-price software development for founders and enterprises. Flutter mobile apps, React Native, Next.js web platforms, and SaaS ecosystems — shipped in weeks, not months. 30+ products delivered across 3 continents.',
+  keywords: [
+    'hire Flutter developer', 'hire React Native developer', 'hire Next.js developer',
+    'custom mobile app development', 'MVP development agency', 'SaaS platform development',
+    'fixed price app development', 'software development for startups',
+    'outsource software development', 'product development studio',
+  ],
+  alternates: { canonical: 'https://veltstudio.com' },
+  openGraph: {
+    title: 'Velt | Ship Your Product Without Building a Full Team',
+    description:
+      'Flutter, React Native, Next.js, SaaS — shipped at a fixed price. 30+ products built for founders and enterprise clients worldwide.',
+    url: 'https://veltstudio.com',
   },
 };
 

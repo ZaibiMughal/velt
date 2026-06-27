@@ -6,8 +6,18 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Work | Velt' },
-  description: 'Case studies from Velt. Real products shipped for real founders.',
+  title: { absolute: 'Portfolio | 30+ Projects — Velt Studio' },
+  description: 'Explore selected work from Velt — Flutter mobile apps, React Native, Next.js web platforms, and full SaaS ecosystems shipped for startups and multinational enterprises across 3 continents.',
+  keywords: [
+    'software development portfolio', 'Flutter app developer', 'React Native developer',
+    'Next.js developer', 'mobile app case studies', 'SaaS development portfolio',
+    'software studio work', 'full stack developer portfolio',
+  ],
+  openGraph: {
+    title: 'Portfolio | 30+ Projects Shipped — Velt Studio',
+    description: 'Flutter mobile apps, Next.js platforms, SaaS ecosystems — shipped for founders and enterprise clients worldwide.',
+    url: 'https://veltstudio.com/work',
+  },
 };
 
 function ArrowRightIcon() {
@@ -35,10 +45,10 @@ const FILTERS: { label: string; value: Filter }[] = [
 ];
 
 const STATS = [
-  { value: '7', label: 'Projects Shipped' },
-  { value: '4', label: 'Mobile Apps' },
-  { value: '3', label: 'Web Platforms' },
-  { value: '1M+', label: 'Monthly Visitors' },
+  { value: '30+', label: 'Projects Shipped' },
+  { value: '5+', label: 'Years Building' },
+  { value: '3', label: 'Continents' },
+  { value: '1M+', label: 'Monthly Users' },
 ];
 
 export default async function WorkPage({
@@ -117,13 +127,20 @@ export default async function WorkPage({
               letterSpacing: '-0.04em', lineHeight: 0.95, color: '#fff',
               margin: '0 0 22px',
             }}>
-              Products we&apos;ve shipped
+              30+ products shipped
             </h1>
             <p style={{
               fontSize: 18, color: 'rgba(255,255,255,0.42)',
-              maxWidth: 480, margin: '0 auto 52px', lineHeight: 1.65,
+              maxWidth: 520, margin: '0 auto 16px', lineHeight: 1.65,
             }}>
-              Real products for real founders — each one a problem solved, a business launched, and a codebase fully owned.
+              Built for founders, scaleups, and multinational enterprises across three continents.
+              Mobile apps, web platforms, SaaS ecosystems — fully owned by you on day one.
+            </p>
+            <p style={{
+              fontSize: 13, color: 'rgba(255,255,255,0.22)',
+              margin: '0 auto 52px', letterSpacing: '0.02em',
+            }}>
+              Showing most recent featured work
             </p>
 
             {/* Stats strip */}
