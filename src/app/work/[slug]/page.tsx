@@ -94,48 +94,50 @@ function ShowcaseCascade({ urls, t, title }: { urls: string[]; t: string; title:
   const coverShadow  = `0 32px 80px rgba(0,0,0,0.8), 0 0 0 1.5px ${rgba(t, 0.45)}, 0 0 80px ${rgba(t, 0.18)}`;
 
   return (
-    <div style={{ position: 'relative', height: 500, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
-      {/* floor glow */}
-      <div style={{
-        position: 'absolute', bottom: -20, left: '50%', transform: 'translateX(-50%)',
-        width: 560, height: 100, pointerEvents: 'none',
-        background: `radial-gradient(ellipse at center, ${rgba(t, 0.22)} 0%, transparent 70%)`,
-      }} />
+    <div className="cs-cascade" style={{ position: 'relative', height: 500 }}>
+      <div className="cs-cascade-inner" style={{ position: 'absolute', inset: 0, display: 'flex', justifyContent: 'center', alignItems: 'flex-end' }}>
+        {/* floor glow */}
+        <div style={{
+          position: 'absolute', bottom: -20, left: '50%', transform: 'translateX(-50%)',
+          width: 560, height: 100, pointerEvents: 'none',
+          background: `radial-gradient(ellipse at center, ${rgba(t, 0.22)} 0%, transparent 70%)`,
+        }} />
 
-      {/* left screen — behind, tilted */}
-      {left && (
+        {/* left screen — behind, tilted */}
+        {left && (
+          <div style={{
+            position: 'absolute', bottom: 0,
+            transform: 'translateX(-170px) rotate(-7deg) scale(0.82)',
+            transformOrigin: 'bottom center',
+            zIndex: 1, width: 200,
+          }}>
+            <img src={left} alt={`${title} screen`}
+              style={{ width: '100%', display: 'block', borderRadius: 28, boxShadow: screenShadow }} />
+          </div>
+        )}
+
+        {/* right screen — behind, tilted */}
+        {right && (
+          <div style={{
+            position: 'absolute', bottom: 0,
+            transform: 'translateX(170px) rotate(7deg) scale(0.82)',
+            transformOrigin: 'bottom center',
+            zIndex: 1, width: 200,
+          }}>
+            <img src={right} alt={`${title} screen`}
+              style={{ width: '100%', display: 'block', borderRadius: 28, boxShadow: screenShadow }} />
+          </div>
+        )}
+
+        {/* center — cover, front and prominent */}
         <div style={{
           position: 'absolute', bottom: 0,
-          transform: 'translateX(-170px) rotate(-7deg) scale(0.82)',
-          transformOrigin: 'bottom center',
-          zIndex: 1, width: 200,
+          transform: 'translateX(-50%) translateX(0)',
+          left: '50%', zIndex: 3, width: 230,
         }}>
-          <img src={left} alt={`${title} screen`}
-            style={{ width: '100%', display: 'block', borderRadius: 28, boxShadow: screenShadow }} />
+          <img src={cover} alt={title}
+            style={{ width: '100%', display: 'block', borderRadius: 32, boxShadow: coverShadow }} />
         </div>
-      )}
-
-      {/* right screen — behind, tilted */}
-      {right && (
-        <div style={{
-          position: 'absolute', bottom: 0,
-          transform: 'translateX(170px) rotate(7deg) scale(0.82)',
-          transformOrigin: 'bottom center',
-          zIndex: 1, width: 200,
-        }}>
-          <img src={right} alt={`${title} screen`}
-            style={{ width: '100%', display: 'block', borderRadius: 28, boxShadow: screenShadow }} />
-        </div>
-      )}
-
-      {/* center — cover, front and prominent */}
-      <div style={{
-        position: 'absolute', bottom: 0,
-        transform: 'translateX(-50%) translateX(0)',
-        left: '50%', zIndex: 3, width: 230,
-      }}>
-        <img src={cover} alt={title}
-          style={{ width: '100%', display: 'block', borderRadius: 32, boxShadow: coverShadow }} />
       </div>
     </div>
   );
@@ -148,7 +150,7 @@ function ShowcaseCascade({ urls, t, title }: { urls: string[]; t: string; title:
  */
 function ShowcaseRow({ urls, t, title }: { urls: string[]; t: string; title: string }) {
   return (
-    <div style={{ display: 'flex', gap: 20, justifyContent: 'center', alignItems: 'flex-end', position: 'relative' }}>
+    <div className="cs-row" style={{ display: 'flex', gap: 20, justifyContent: 'center', alignItems: 'flex-end', position: 'relative' }}>
       {/* floor glow */}
       <div style={{
         position: 'absolute', bottom: -20, left: '50%', transform: 'translateX(-50%)',
@@ -191,7 +193,7 @@ function ShowcaseEcosystem({
   mobileUrls: string[]; webUrls: string[]; t: string; title: string; liveUrl?: string | null;
 }) {
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.8fr', gap: 32, alignItems: 'start' }}>
+    <div className="cs-eco">
 
       {/* ── mobile pair ── */}
       <div>
@@ -347,7 +349,7 @@ function AvatarBlock({ name, url }: { name: string; url: string | null }) {
 function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial; t: string }) {
   return (
     <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)` }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 48px' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px clamp(20px, 5vw, 48px)' }}>
 
         <p style={{
           fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
@@ -356,10 +358,7 @@ function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial
           Client Voice
         </p>
 
-        <div style={{
-          display: 'grid', gridTemplateColumns: '1fr auto', gap: 64, alignItems: 'start',
-          maxWidth: 860,
-        }}>
+        <div className="cs-testimonial-grid">
           {/* Quote */}
           <div>
             {/* Large decorative quote mark */}
@@ -526,6 +525,51 @@ export default async function CaseStudyPage({
     <>
       <Navbar />
 
+      <style>{`
+        .cs-two-col {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 60px 80px;
+        }
+        .cs-outcomes {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap: 16px;
+          margin-bottom: 60px;
+        }
+        .cs-testimonial-grid {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          gap: 64px;
+          align-items: start;
+          max-width: 860px;
+        }
+        .cs-eco {
+          display: grid;
+          grid-template-columns: 1fr 1.8fr;
+          gap: 32px;
+          align-items: start;
+        }
+        @media (max-width: 860px) {
+          .cs-two-col { grid-template-columns: 1fr; gap: 48px; }
+          .cs-outcomes { grid-template-columns: repeat(2, 1fr); }
+          .cs-eco { grid-template-columns: 1fr; }
+          .cs-testimonial-grid { grid-template-columns: 1fr; gap: 32px; }
+        }
+        @media (max-width: 760px) {
+          .cs-row {
+            justify-content: flex-start !important;
+            overflow-x: auto;
+            padding-bottom: 24px;
+            -webkit-overflow-scrolling: touch;
+          }
+        }
+        @media (max-width: 640px) {
+          .cs-cascade { height: 330px !important; }
+          .cs-cascade-inner { transform: scale(0.6); transform-origin: bottom center; }
+        }
+      `}</style>
+
       <main style={{ background: '#09090b', color: '#fff', minHeight: '100vh' }}>
 
         {/* ── HERO ─────────────────────────────────────────────────── */}
@@ -539,7 +583,7 @@ export default async function CaseStudyPage({
             backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
           }} />
 
-          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', position: 'relative' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px)', position: 'relative' }}>
             <Link href="/work" style={{
               display: 'inline-flex', alignItems: 'center', gap: 8,
               fontSize: 13, color: 'rgba(255,255,255,0.35)', textDecoration: 'none', marginBottom: 40,
@@ -623,7 +667,7 @@ export default async function CaseStudyPage({
         {/* ── SCREENSHOTS ──────────────────────────────────────────── */}
         {coverUrl && (
           <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)`, overflow: 'hidden' }}>
-            <div style={{ maxWidth: 1100, margin: '0 auto', padding: '72px 48px' }}>
+            <div style={{ maxWidth: 1100, margin: '0 auto', padding: '72px clamp(20px, 5vw, 48px)' }}>
               <p style={{
                 fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
                 textTransform: 'uppercase', color: t, marginBottom: 48,
@@ -666,9 +710,8 @@ export default async function CaseStudyPage({
 
         {/* ── BRIEF + WHAT WE SHIPPED ──────────────────────────────── */}
         <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)` }}>
-          <div style={{
-            maxWidth: 1100, margin: '0 auto', padding: '80px 48px',
-            display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px 80px',
+          <div className="cs-two-col" style={{
+            maxWidth: 1100, margin: '0 auto', padding: '80px clamp(20px, 5vw, 48px)',
           }}>
             <div>
               <p style={{
@@ -713,7 +756,7 @@ export default async function CaseStudyPage({
 
         {/* ── DELIVERED ────────────────────────────────────────────── */}
         <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)` }}>
-          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 48px' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px clamp(20px, 5vw, 48px)' }}>
             <p style={{
               fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
               textTransform: 'uppercase', color: t, marginBottom: 40,
@@ -721,7 +764,7 @@ export default async function CaseStudyPage({
               Delivered
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 16, marginBottom: 60 }}>
+            <div className="cs-outcomes">
               {study.outcomes.map((o) => (
                 <div key={o.label} style={{
                   padding: '28px 24px', borderRadius: 16,
@@ -759,15 +802,68 @@ export default async function CaseStudyPage({
 
         {/* ── DEEP DIVE ─────────────────────────────────────────────── */}
         {DEEP_DIVES[slug] && (
-          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px 80px' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px) 80px' }}>
             <DeepDive deepDive={DEEP_DIVES[slug]} themeColor={t} />
           </div>
         )}
 
+        {/* ── CTA BAND ──────────────────────────────────────────────── */}
+        <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)` }}>
+          <div style={{
+            maxWidth: 1100, margin: '0 auto',
+            padding: '88px clamp(20px, 5vw, 48px)',
+            textAlign: 'center', position: 'relative', overflow: 'hidden',
+          }}>
+            <div style={{
+              position: 'absolute', inset: 0, pointerEvents: 'none',
+              background: `radial-gradient(ellipse 60% 80% at 50% 100%, ${rgba(t, 0.1)} 0%, transparent 70%)`,
+            }} />
+            <p style={{
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
+              textTransform: 'uppercase', color: t, marginBottom: 20, position: 'relative',
+            }}>
+              Your Turn
+            </p>
+            <h2 style={{
+              fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 800,
+              letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff',
+              margin: '0 0 16px', position: 'relative',
+            }}>
+              Want something like this built?
+            </h2>
+            <p style={{
+              fontSize: 16, color: 'rgba(255,255,255,0.45)', maxWidth: 480,
+              margin: '0 auto 36px', lineHeight: 1.65, position: 'relative',
+            }}>
+              Fixed price, full source code, shipped in weeks. Tell us what you need and get a scoped plan within 24 hours.
+            </p>
+            <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap', position: 'relative' }}>
+              <Link href="/#contact" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
+                background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
+                color: '#fff', fontSize: 15, fontWeight: 600,
+                boxShadow: '0 4px 24px rgba(99,102,241,0.4)',
+              }}>
+                Book a Strategy Call
+              </Link>
+              <Link href="/#packages" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
+                border: '1px solid rgba(255,255,255,0.12)',
+                color: 'rgba(255,255,255,0.6)', fontSize: 15, fontWeight: 500,
+                background: 'rgba(255,255,255,0.03)',
+              }}>
+                See Pricing
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* ── PREV / NEXT ───────────────────────────────────────────── */}
         <div style={{ borderTop: `1px solid rgba(255,255,255,0.06)` }}>
           <nav aria-label="Case study navigation" style={{
-            maxWidth: 1100, margin: '0 auto', padding: '48px 48px',
+            maxWidth: 1100, margin: '0 auto', padding: '48px clamp(20px, 5vw, 48px)',
             display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 16,
           }}>
             {prevStudy ? (

@@ -26,8 +26,12 @@ export default function GlobalBackground() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // Respect reduced-motion preference: render nothing animated
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
     let animId: number;
     let scrollY = 0;
+    let running = true;
 
     const resize = () => {
       canvas.width = window.innerWidth;
@@ -142,11 +146,24 @@ export default function GlobalBackground() {
 
     animId = requestAnimationFrame(draw);
 
+    // Pause the loop entirely while the tab is hidden
+    const onVisibility = () => {
+      if (document.hidden) {
+        running = false;
+        cancelAnimationFrame(animId);
+      } else if (!running) {
+        running = true;
+        animId = requestAnimationFrame(draw);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
+
     return () => {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
       window.removeEventListener('resize', seed);
       window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('visibilitychange', onVisibility);
     };
   }, []);
 

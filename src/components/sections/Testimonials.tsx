@@ -9,19 +9,19 @@ const FALLBACK_TESTIMONIALS: Testimonial[] = [
   {
     id: 'f1', case_study_slug: 'ridespotr', display_order: 1,
     client_name: 'Alex Thompson', client_role: 'Co-Founder', client_company: 'RideSpotr',
-    quote: 'Velt turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere — they shipped it in weeks and it just works.',
+    quote: 'Velt turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
   {
     id: 'f2', case_study_slug: 'wagerr', display_order: 2,
     client_name: 'Marcus Reid', client_role: 'Founder', client_company: 'Wagerr',
-    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Velt nailed the architecture — the Ethereum smart contract, the embedded wallets, the scoring logic — and somehow made it feel effortless to the end user.',
+    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Velt nailed the architecture: the Ethereum smart contract, the embedded wallets, the scoring logic, and somehow made it feel effortless to the end user.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
   {
     id: 'f3', case_study_slug: 'nutritionup', display_order: 3,
     client_name: 'Sarah Chen', client_role: 'CEO', client_company: 'NutritionUP',
-    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel — all of it polished and production-ready. Velt thinks like a product team, not just engineers.',
+    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel, all of it polished and production-ready. Velt thinks like a product team, not just engineers.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
   {
@@ -33,7 +33,7 @@ const FALLBACK_TESTIMONIALS: Testimonial[] = [
   {
     id: 'f5', case_study_slug: 'keyos', display_order: 5,
     client_name: 'David Park', client_role: 'CTO', client_company: 'KeyOS',
-    quote: 'The multi-tenant data isolation Velt built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible — and they delivered exactly that.',
+    quote: 'The multi-tenant data isolation Velt built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible, and they delivered exactly that.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
   {
@@ -368,6 +368,16 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
               handlePlay(url, t?.client_name ?? '');
             }}
           />
+        </div>
+
+        {/* Contextual CTA */}
+        <div style={{ textAlign: 'center', marginTop: 48, position: 'relative', zIndex: 1 }}>
+          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)', margin: 0 }}>
+            Want results like these?{' '}
+            <a href="#contact" style={{ color: '#818cf8', fontWeight: 500, textDecoration: 'none' }}>
+              Start your project →
+            </a>
+          </p>
         </div>
       </section>
 

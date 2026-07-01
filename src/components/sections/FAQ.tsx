@@ -19,6 +19,19 @@ export default function FAQ() {
         <AnimatedSection delay={0.1} className="max-w-2xl mx-auto">
           <Accordion items={faqs} />
         </AnimatedSection>
+
+        {/* Contextual CTA */}
+        <AnimatedSection delay={0.15} className="max-w-2xl mx-auto mt-10 text-center">
+          <p className="text-sm text-white/40">
+            Still have a question?{' '}
+            <a
+              href="#contact"
+              className="font-medium text-indigo-400 transition-colors hover:text-indigo-300"
+            >
+              Ask us directly →
+            </a>
+          </p>
+        </AnimatedSection>
       </div>
     </section>
   );

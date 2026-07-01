@@ -100,6 +100,21 @@ export default async function WorkPage({
           color: var(--t);
           transform: translateX(3px);
         }
+        .work-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 20px;
+        }
+        @media (max-width: 900px) {
+          .work-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 600px) {
+          .work-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 640px) {
+          .work-stats { display: grid !important; grid-template-columns: 1fr 1fr; }
+          .work-stats > div { border-left: none !important; }
+        }
       `}</style>
 
       <main style={{ background: '#09090b', color: '#fff', minHeight: '100vh' }}>
@@ -115,7 +130,7 @@ export default async function WorkPage({
             backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
           }} />
 
-          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px', position: 'relative', textAlign: 'center' }}>
+          <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px)', position: 'relative', textAlign: 'center' }}>
             <p style={{
               fontSize: 10, fontWeight: 700, letterSpacing: '0.18em',
               textTransform: 'uppercase', color: '#6366f1', marginBottom: 24,
@@ -144,7 +159,7 @@ export default async function WorkPage({
             </p>
 
             {/* Stats strip */}
-            <div style={{
+            <div className="work-stats" style={{
               display: 'inline-flex', gap: 0,
               background: 'rgba(255,255,255,0.02)',
               border: '1px solid rgba(255,255,255,0.06)',
@@ -169,7 +184,7 @@ export default async function WorkPage({
 
         {/* ── FILTERS ──────────────────────────────────────────────── */}
         <div style={{
-          maxWidth: 1100, margin: '0 auto', padding: '0 48px 48px',
+          maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px) 48px',
           display: 'flex', justifyContent: 'center', gap: 8,
         }}>
           {FILTERS.map((f) => {
@@ -193,17 +208,13 @@ export default async function WorkPage({
         </div>
 
         {/* ── GRID ─────────────────────────────────────────────────── */}
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 48px 120px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px) 120px' }}>
           {studies.length === 0 ? (
             <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', padding: '80px 0' }}>
               No projects found.
             </p>
           ) : (
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-              gap: 20,
-            }}>
+            <div className="work-grid">
               {studies.map((study: CaseStudy, i: number) => {
                 const coverUrl = coverUrls[i];
                 const t = study.theme_color;
@@ -382,6 +393,43 @@ export default async function WorkPage({
               })}
             </div>
           )}
+        </div>
+
+        {/* ── CTA BAND ─────────────────────────────────────────────── */}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{
+            maxWidth: 1100, margin: '0 auto',
+            padding: '88px clamp(20px, 5vw, 48px)',
+            textAlign: 'center', position: 'relative', overflow: 'hidden',
+          }}>
+            <div style={{
+              position: 'absolute', inset: 0, pointerEvents: 'none',
+              background: 'radial-gradient(ellipse 60% 80% at 50% 100%, rgba(99,102,241,0.1) 0%, transparent 70%)',
+            }} />
+            <h2 style={{
+              fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 800,
+              letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff',
+              margin: '0 0 16px', position: 'relative',
+            }}>
+              Your product could be next.
+            </h2>
+            <p style={{
+              fontSize: 16, color: 'rgba(255,255,255,0.45)', maxWidth: 480,
+              margin: '0 auto 36px', lineHeight: 1.65, position: 'relative',
+            }}>
+              Fixed price, full source code, shipped in weeks. Tell us what you need and get a scoped plan within 24 hours.
+            </p>
+            <Link href="/#contact" style={{
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+              padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
+              background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
+              color: '#fff', fontSize: 15, fontWeight: 600,
+              boxShadow: '0 4px 24px rgba(99,102,241,0.4)',
+              position: 'relative',
+            }}>
+              Book a Strategy Call
+            </Link>
+          </div>
         </div>
 
       </main>

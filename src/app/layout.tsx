@@ -5,6 +5,8 @@ import CustomCursor from "@/components/ui/CustomCursor";
 import PageTransition from "@/components/ui/PageTransition";
 import GlobalBackground from "@/components/ui/GlobalBackground";
 import JsonLd from "@/components/JsonLd";
+import MobileStickyCTA from "@/components/ui/MobileStickyCTA";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -75,6 +77,8 @@ export default function RootLayout({
         <GlobalBackground />
         <CustomCursor />
         <PageTransition>{children}</PageTransition>
+        <MobileStickyCTA />
+        <Analytics />
       </body>
     </html>
   );

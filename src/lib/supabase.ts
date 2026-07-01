@@ -68,6 +68,47 @@ export interface Database {
           images?: string[];
         };
       };
+      brief_submissions: {
+        Relationships: [];
+        Row: {
+          id: string;
+          created_at: string;
+          name: string;
+          email: string;
+          project_types: string[];
+          stage: string;
+          description: string;
+          features: string[];
+          budget: string;
+          timeline: string;
+          success: string;
+          file_paths: string[];
+        };
+        Insert: {
+          name: string;
+          email: string;
+          project_types: string[];
+          stage: string;
+          description: string;
+          features: string[];
+          budget: string;
+          timeline: string;
+          success: string;
+          file_paths: string[];
+        };
+        Update: {
+          name?: string;
+          email?: string;
+          project_types?: string[];
+          stage?: string;
+          description?: string;
+          features?: string[];
+          budget?: string;
+          timeline?: string;
+          success?: string;
+          file_paths?: string[];
+        };
+      };
       contact_submissions: {
         Relationships: [];
         Row: {

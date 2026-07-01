@@ -6,7 +6,7 @@ import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import CheckIcon from '@/components/ui/CheckIcon';
-import { packages } from '@/data/packages';
+import { packages, SLOTS_AVAILABLE } from '@/data/packages';
 
 const EXPAND = 'cubic-bezier(0.16,1,0.3,1)';
 
@@ -32,7 +32,7 @@ export default function Packages() {
               className="w-2 h-2 rounded-full bg-emerald-400 shrink-0"
               style={{ boxShadow: '0 0 6px rgba(52,211,153,0.8)', animation: 'pulse 2s infinite' }}
             />
-            <span className="text-sm text-white/55">2 project slots available this month</span>
+            <span className="text-sm text-white/55">{SLOTS_AVAILABLE} project slots available this month</span>
           </div>
         </AnimatedSection>
 

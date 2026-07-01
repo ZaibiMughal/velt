@@ -86,6 +86,19 @@ export default function PaymentStructure() {
             ))}
           </div>
         </AnimatedSection>
+
+        {/* Contextual CTA */}
+        <AnimatedSection delay={0.35} className="mt-10 text-center">
+          <p className="text-sm text-white/40">
+            Ready to start?{' '}
+            <a
+              href="#contact"
+              className="font-medium text-indigo-400 transition-colors hover:text-indigo-300"
+            >
+              Claim your build slot →
+            </a>
+          </p>
+        </AnimatedSection>
       </div>
     </section>
   );

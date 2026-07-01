@@ -565,19 +565,82 @@ export default function GuidedBrief() {
   const [dir,  setDir]  = useState(1);
   const [data, setData] = useState<BriefData>(INITIAL);
   const [done, setDone] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const ready = canAdvance(step, data);
+  const ready = canAdvance(step, data) && !submitting;
   const pct   = Math.round((step / TOTAL) * 100);
 
   const close = useCallback(() => {
+    if (submitting) return;
     setOpen(false);
-    setTimeout(() => { setStep(1); setData(INITIAL); setDone(false); setDir(1); }, 380);
-  }, []);
+    setTimeout(() => { setStep(1); setData(INITIAL); setDone(false); setDir(1); setSubmitError(null); }, 380);
+  }, [submitting]);
+
+  async function uploadFile(file: File): Promise<string | null> {
+    try {
+      const res = await fetch('/api/brief/upload-url', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileName: file.name, fileType: file.type || 'application/octet-stream', fileSize: file.size }),
+      });
+      if (!res.ok) return null;
+      const { path, signedUrl } = await res.json();
+      const put = await fetch(signedUrl, {
+        method: 'PUT',
+        headers: { 'Content-Type': file.type || 'application/octet-stream' },
+        body: file,
+      });
+      return put.ok ? path : null;
+    } catch {
+      return null;
+    }
+  }
+
+  async function submit() {
+    setSubmitting(true);
+    setSubmitError(null);
+    try {
+      const filePaths: string[] = [];
+      for (const file of data.files) {
+        const path = await uploadFile(file);
+        if (path) filePaths.push(path);
+      }
+
+      const res = await fetch('/api/brief', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          projectTypes: data.projectTypes,
+          stage: data.stage,
+          description: data.description,
+          features: data.features,
+          budget: data.budget,
+          timeline: data.timeline,
+          success: data.success,
+          filePaths,
+        }),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        throw new Error(body?.message ?? 'Something went wrong.');
+      }
+
+      setDone(true);
+    } catch (err) {
+      setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   function next() {
     if (!ready) return;
     if (step < TOTAL) { setDir(1); setStep(s => s + 1); }
-    else setDone(true);
+    else void submit();
   }
 
   function back() {
@@ -749,6 +812,12 @@ export default function GuidedBrief() {
                 }}>Back</button>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  {submitError && (
+                    <span style={{ display: 'flex', alignItems: 'flex-start', gap: 7, maxWidth: 320 }}>
+                      <WarnIcon />
+                      <span style={{ fontSize: 12, color: '#f87171', lineHeight: 1.4 }}>{submitError}</span>
+                    </span>
+                  )}
                   {step === 4 && (
                     <button type="button" onClick={() => { setDir(1); setStep(s => s + 1); }} style={{
                       background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
@@ -775,7 +844,7 @@ export default function GuidedBrief() {
                     transition: 'all 0.2s ease',
                     boxShadow: ready ? '0 4px 20px rgba(99,102,241,0.45)' : 'none',
                   }}>
-                    {step === TOTAL ? 'Submit Brief' : 'Next'}
+                    {submitting ? 'Submitting…' : step === TOTAL ? 'Submit Brief' : 'Next'}
                   </button>
                 </div>
               </div>

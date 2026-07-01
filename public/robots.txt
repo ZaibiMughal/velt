@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://veltstudio.com
+
+# Sitemaps
+Sitemap: https://veltstudio.com/sitemap.xml

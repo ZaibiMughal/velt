@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Velt | Ship Your Product Without Building a Full Team',
     description:
-      'Flutter, React Native, Next.js, SaaS — shipped at a fixed price. 30+ products built for founders and enterprise clients worldwide.',
+      'Flutter, React Native, Next.js, SaaS, shipped at a fixed price. 30+ products built for founders and enterprise clients worldwide.',
     url: 'https://veltstudio.com',
   },
 };
@@ -44,12 +44,12 @@ export default async function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Packages />
-        <HowWeWork />
-        <WhyVelt />
         <Portfolio caseStudies={caseStudies} />
         <Testimonials testimonials={testimonials} />
         <Partners partners={partners} />
+        <HowWeWork />
+        <WhyVelt />
+        <Packages />
         <FAQ />
         <PaymentStructure />
         <Contact />

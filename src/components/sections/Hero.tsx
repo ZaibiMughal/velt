@@ -245,19 +245,36 @@ function NeuralNet() {
 
 /* ─── Hero ────────────────────────────────────────────────────────────────── */
 
+const STATS = [
+  { value: '30+', label: 'Projects Shipped' },
+  { value: '8+', label: 'Years Experience' },
+  { value: '10+', label: 'Countries' },
+  { value: '1M+', label: 'Monthly Users' },
+] as const;
+
 export default function Hero() {
   return (
     <section
-      className="relative flex min-h-screen w-full items-center overflow-hidden"
+      className="relative flex min-h-screen w-full flex-col items-center overflow-hidden lg:flex-row"
       style={{ background: '#060608' }}
     >
+      <style>{`
+        .hero-nn-wrap { width: 560px; height: 560px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        @media (max-width: 640px) {
+          .hero-nn-wrap { width: 330px; height: 330px; }
+          .hero-nn { transform: scale(0.59); }
+        }
+        @media (min-width: 641px) and (max-width: 1023px) {
+          .hero-nn-wrap { width: 460px; height: 460px; }
+          .hero-nn { transform: scale(0.82); }
+        }
+      `}</style>
       <LineGrid />
       <Aurora />
 
       {/* Left text column */}
       <div
-        className="relative z-10 flex flex-col justify-center"
-        style={{ width: '50%', padding: '80px 48px 80px 80px' }}
+        className="relative z-10 flex w-full flex-col justify-center px-6 pt-32 sm:px-12 lg:w-1/2 lg:py-20 lg:pl-20 lg:pr-12"
       >
         <motion.div {...fadeUp(0)} style={{ marginBottom: 28 }}>
           <Badge dot>Product Development Studio</Badge>
@@ -322,7 +339,7 @@ export default function Hero() {
 
         <motion.div
           {...fadeUp(0.4)}
-          style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: '1.5rem' }}
+          style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}
         >
           <Button size="lg" variant="primary" onClick={() => scrollTo('#contact')}>
             Claim Your Build Slot
@@ -332,17 +349,38 @@ export default function Hero() {
           </Button>
         </motion.div>
 
+        {/* Stats strip */}
+        <motion.div
+          {...fadeUp(0.5)}
+          className="grid grid-cols-2 gap-x-8 gap-y-4 sm:flex sm:flex-wrap sm:items-center sm:gap-x-10"
+        >
+          {STATS.map(({ value, label }) => (
+            <div key={label}>
+              <p style={{ fontSize: 22, fontWeight: 700, color: '#fff', margin: 0, letterSpacing: '-0.02em' }}>
+                {value}
+              </p>
+              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.32)', margin: '2px 0 0', whiteSpace: 'nowrap' }}>
+                {label}
+              </p>
+            </div>
+          ))}
+        </motion.div>
+
       </div>
 
       {/* Right: neural network with floating badges */}
-      <div className="relative z-10 flex flex-1 items-center justify-center" style={{ paddingRight: 24 }}>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.88 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1.2, delay: 0.3, ease: EASE }}
-        >
-          <NeuralNet />
-        </motion.div>
+      <div className="relative z-10 flex w-full flex-1 items-center justify-center pb-16 pt-6 lg:w-auto lg:pb-0 lg:pt-0 lg:pr-6">
+        <div className="hero-nn-wrap">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.88 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.2, delay: 0.3, ease: EASE }}
+          >
+            <div className="hero-nn">
+              <NeuralNet />
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
