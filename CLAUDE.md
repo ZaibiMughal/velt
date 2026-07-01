@@ -46,13 +46,15 @@ The Supabase client is created server-side only using the service role key. Ther
 ```
 src/
   app/
-    layout.tsx              Global layout — Geist font, metadata, CustomCursor, PageTransition, GlobalBackground, JsonLd
+    layout.tsx              Global layout — Geist font, metadata, CustomCursor, PageTransition, GlobalBackground, JsonLd, MobileStickyCTA, Vercel Analytics
     page.tsx                Homepage (imports all section components)
     work/
       page.tsx              /work listing page — 3-column grid, filter by mobile/web
       [slug]/page.tsx       Case study detail page
     api/
       contact/route.ts      POST handler — validates with zod, sends email via Resend
+      brief/route.ts        Guided brief submission — email via Resend + brief_submissions table
+      brief/upload-url/route.ts  Returns signed upload URLs for brief file attachments (brief-uploads bucket)
 
   components/
     layout/
@@ -75,7 +77,8 @@ src/
     ui/
       CustomCursor.tsx
       PageTransition.tsx
-      GlobalBackground.tsx
+      GlobalBackground.tsx  Starfield canvas — pauses when tab hidden, respects prefers-reduced-motion
+      MobileStickyCTA.tsx   Mobile-only bottom CTA bar, appears after 600px scroll, hides near contact form
     JsonLd.tsx              Structured data (Organization, Service, WebSite, FAQPage schemas)
 
   data/
@@ -183,12 +186,13 @@ The `DeepDive` component is `'use client'` and uses `useState` for open/close. I
 
 ## Migrations
 
-Migration files in `supabase/migrations/` are numbered 001–009. They must be run manually in the Supabase SQL editor for project `epiqtwwszkrmmzyzhxzm`.
+Migration files in `supabase/migrations/` are numbered 001–010. They must be run manually in the Supabase SQL editor for project `epiqtwwszkrmmzyzhxzm`.
 
 **Status as of project setup:**
 - 001–007: Run (core tables, seed data, theme colors, key points)
 - 008: May not be run — creates `testimonials` table and seeds placeholder quotes
 - 009: **Do NOT run the image UPDATE statements** — images were already uploaded to Supabase Storage and DB paths were updated directly via script. **Only the em dash fix statements** from 009 still need to be applied if content looks wrong.
+- 010: **Table creation still needs to be run** — creates `brief_submissions`. The `brief-uploads` storage bucket part was already created live via the service key. Until the table exists, brief submissions still arrive by email but are not persisted to the DB.
 
 To apply only the em dash fixes from 009, run just the `UPDATE case_studies SET ...` and `UPDATE testimonials SET ...` blocks (not the `/case-studies/...` path updates at the top).
 
