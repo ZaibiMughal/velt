@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import Button from '@/components/ui/Button';
+import { CAL_URL } from '@/lib/site';
 
 const NAV_LINKS = [
   { label: 'Work', href: '#work' },
@@ -150,10 +151,10 @@ export default function Navbar() {
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => handleNavClick('#contact')}
+                onClick={() => window.open(CAL_URL, '_blank', 'noopener')}
                 className="hidden md:inline-flex"
               >
-                Book Slot
+                Book a Call
               </Button>
               <button
                 className="md:hidden text-white cursor-none"
@@ -205,8 +206,12 @@ export default function Navbar() {
               exit={{ opacity: 0, y: 12 }}
               transition={{ delay: NAV_LINKS.length * 0.07, duration: 0.25 }}
             >
-              <Button variant="primary" size="lg" onClick={() => handleNavClick('#contact')}>
-                Book Slot
+              <Button
+                variant="primary"
+                size="lg"
+                onClick={() => { setMobileOpen(false); window.open(CAL_URL, '_blank', 'noopener'); }}
+              >
+                Book a Call
               </Button>
             </motion.div>
           </motion.div>

@@ -10,6 +10,7 @@ import AnimatedSection from '@/components/ui/AnimatedSection';
 import Button from '@/components/ui/Button';
 import GuidedBrief from '@/components/sections/GuidedBrief';
 import { cn } from '@/lib/utils';
+import { CAL_URL } from '@/lib/site';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -222,8 +223,24 @@ export default function Contact() {
             {"Let's build your next product"}
           </h2>
           <p className="text-white/50 max-w-lg">
-            Tell us about your project. {"We'll"} review it and get back within 24 hours.
+            Tell us about your project. A real engineer reads every message and replies within 24 hours.
           </p>
+
+          {/* Direct booking option */}
+          <a
+            href={CAL_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 inline-flex items-center gap-2.5 rounded-full px-6 py-3 text-sm font-semibold text-white transition-shadow hover:shadow-[0_4px_28px_rgba(99,102,241,0.5)]"
+            style={{ background: 'linear-gradient(135deg, #6366f1, #7c3aed)', boxShadow: '0 4px 20px rgba(99,102,241,0.35)' }}
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+            </span>
+            Book a free 15-minute call
+          </a>
+          <p className="text-xs text-white/25">Pick a time that suits you. No commitment, no sales pitch.</p>
         </AnimatedSection>
 
         {/* Form card */}

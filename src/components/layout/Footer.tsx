@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { CAL_URL } from '@/lib/site';
 
 function Logo() {
   return (
@@ -64,13 +65,15 @@ export default function Footer({ className }: FooterProps) {
             <p className="text-sm text-white/40 leading-relaxed">
               Tell us what you need. A real engineer replies within 24 hours.
             </p>
-            <Link
-              href="/#contact"
+            <a
+              href={CAL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white transition-shadow hover:shadow-[0_4px_24px_rgba(99,102,241,0.45)]"
               style={{ background: 'linear-gradient(135deg, #6366f1, #7c3aed)' }}
             >
-              Book a Strategy Call
-            </Link>
+              Book a Free 15-Min Call
+            </a>
             <a
               href="mailto:zohaibumar6@gmail.com"
               className="text-sm text-white/40 transition-colors hover:text-white"

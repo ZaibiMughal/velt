@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { CAL_URL } from '@/lib/site';
 
 /**
  * Slim bottom CTA bar, mobile only. Appears after the visitor scrolls past
@@ -37,12 +38,7 @@ export default function MobileStickyCTA() {
   }, [pathname]);
 
   function onClick() {
-    const el = document.querySelector('#contact');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      window.location.href = '/#contact';
-    }
+    window.open(CAL_URL, '_blank', 'noopener');
   }
 
   const show = scrolled && !contactInView;
