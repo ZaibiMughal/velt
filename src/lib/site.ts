@@ -14,4 +14,4 @@ export const CAL_URL = 'https://cal.com/zohaib-umar-mjkzgh/15min';
 export const BOOKING_ENABLED = false;
 
 /** Primary CTA label shown across the site — adapts automatically to BOOKING_ENABLED. */
-export const PRIMARY_CTA_LABEL = BOOKING_ENABLED ? 'Book a Call' : 'Claim Your Spot';
+export const PRIMARY_CTA_LABEL = BOOKING_ENABLED ? 'Book a Call' : 'Request a Proposal';
