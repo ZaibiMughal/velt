@@ -74,7 +74,7 @@ export default function HowWeWork() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   return (
-    <section ref={sectionRef} id="services" className="py-24 md:py-32">
+    <section ref={sectionRef} id="services" className="py-24 md:py-32 overflow-x-clip">
       <div className="max-w-4xl mx-auto px-6">
         <AnimatedSection className="flex flex-col items-center text-center gap-5 mb-16">
           <Badge>Process</Badge>

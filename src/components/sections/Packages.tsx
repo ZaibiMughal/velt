@@ -18,7 +18,7 @@ export default function Packages() {
   }
 
   return (
-    <section id="packages" className="py-24 md:py-32">
+    <section id="packages" className="py-24 md:py-32 overflow-x-clip">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}

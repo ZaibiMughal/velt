@@ -23,15 +23,28 @@ function ArrowIcon() {
   );
 }
 
-interface CardProps {
-  project: CaseStudy;
-  gradientIndex: number;
-  height?: string;
+function rgba(hex: string, alpha: number): string {
+  const h = hex.replace('#', '');
+  const r = parseInt(h.slice(0, 2), 16);
+  const g = parseInt(h.slice(2, 4), 16);
+  const b = parseInt(h.slice(4, 6), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
 }
 
-function ProjectCard({ project, gradientIndex, height = '260px' }: CardProps) {
+interface CardProps {
+  project: CaseStudy;
+  coverUrl: string | null;
+  gradientIndex: number;
+  height?: string;
+  /** Compact cards anchor the phone screenshot right so bottom-left text stays clear */
+  compact?: boolean;
+}
+
+function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', compact = false }: CardProps) {
   const [hovered, setHovered] = useState(false);
-  const hasImage = Boolean(project.cover_image?.startsWith('http'));
+  const hasImage = Boolean(coverUrl);
+  const isMobileApp = project.category === 'Mobile App';
+  const t = project.theme_color || '#6366f1';
 
   return (
     <Link
@@ -45,22 +58,58 @@ function ProjectCard({ project, gradientIndex, height = '260px' }: CardProps) {
       <div
         className="absolute inset-0"
         style={{
-          background: hasImage ? '#09090b' : GRADIENTS[gradientIndex % GRADIENTS.length],
+          background: !hasImage
+            ? GRADIENTS[gradientIndex % GRADIENTS.length]
+            : isMobileApp
+              ? `radial-gradient(ellipse 150% 110% at 50% 100%, ${rgba(t, 0.3)} 0%, #111114 55%, #0d0d10 80%)`
+              : '#09090b',
           transform: hovered ? 'scale(1.04)' : 'scale(1)',
           transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1)',
         }}
       >
-        {hasImage && (
+        {hasImage && isMobileApp && (
+          /* Portrait screenshot floating on themed gradient, anchored to bottom */
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={project.cover_image!}
+            src={coverUrl!}
             alt={project.title}
-            className="w-full h-full object-cover"
             style={{
-              opacity: hovered ? 0.85 : 0.75,
-              transition: 'opacity 0.4s ease',
+              position: 'absolute',
+              bottom: 0,
+              ...(compact
+                ? { right: '7%', left: 'auto' }
+                : { left: '50%', transform: 'translateX(-50%)' }),
+              height: '86%',
+              width: 'auto',
+              maxWidth: compact ? '42%' : '62%',
+              objectFit: 'contain',
+              objectPosition: 'bottom center',
+              borderRadius: '14px 14px 0 0',
+              boxShadow: `0 -4px 40px ${rgba(t, 0.2)}, 0 0 0 1px ${rgba(t, 0.18)}`,
+              display: 'block',
             }}
           />
+        )}
+        {hasImage && !isMobileApp && (
+          /* Web/SaaS screenshot, dimmed with theme wash to sit in the dark card */
+          <>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={coverUrl!}
+              alt={project.title}
+              className="w-full h-full object-cover"
+              style={{
+                objectPosition: 'top center',
+                filter: 'brightness(0.6) saturate(0.85)',
+                opacity: hovered ? 1 : 0.9,
+                transition: 'opacity 0.4s ease',
+              }}
+            />
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{ background: rgba(t, 0.15) }}
+            />
+          </>
         )}
       </div>
 
@@ -68,7 +117,9 @@ function ProjectCard({ project, gradientIndex, height = '260px' }: CardProps) {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'linear-gradient(to top, rgba(9,9,11,0.96) 0%, rgba(9,9,11,0.5) 38%, rgba(9,9,11,0.08) 70%, transparent 100%)',
+          background: isMobileApp
+            ? 'linear-gradient(to top, rgba(9,9,11,0.92) 0%, rgba(9,9,11,0.35) 26%, transparent 48%)'
+            : 'linear-gradient(to top, rgba(9,9,11,0.96) 0%, rgba(9,9,11,0.5) 38%, rgba(9,9,11,0.08) 70%, transparent 100%)',
         }}
       />
 
@@ -157,9 +208,10 @@ function PlaceholderCard({ index, height = '260px' }: { index: number; height?: 
 
 interface PortfolioProps {
   caseStudies: CaseStudy[];
+  coverUrls?: (string | null)[];
 }
 
-export default function Portfolio({ caseStudies }: PortfolioProps) {
+export default function Portfolio({ caseStudies, coverUrls = [] }: PortfolioProps) {
   const isEmpty = caseStudies.length === 0;
   const shown = caseStudies.slice(0, 3);
 
@@ -189,22 +241,22 @@ export default function Portfolio({ caseStudies }: PortfolioProps) {
               </div>
             </div>
           ) : shown.length === 1 ? (
-            <ProjectCard project={shown[0]} gradientIndex={0} height="480px" />
+            <ProjectCard project={shown[0]} coverUrl={coverUrls[0] ?? null} gradientIndex={0} height="480px" />
           ) : shown.length === 2 ? (
             <div className="grid md:grid-cols-2 gap-4">
               {shown.map((p, i) => (
-                <ProjectCard key={p.slug} project={p} gradientIndex={i} height="420px" />
+                <ProjectCard key={p.slug} project={p} coverUrl={coverUrls[i] ?? null} gradientIndex={i} height="420px" />
               ))}
             </div>
           ) : (
             /* 3-card bento: large left, two stacked right */
             <div className="grid md:grid-cols-5 gap-4">
               <div className="md:col-span-3">
-                <ProjectCard project={shown[0]} gradientIndex={0} height="520px" />
+                <ProjectCard project={shown[0]} coverUrl={coverUrls[0] ?? null} gradientIndex={0} height="520px" />
               </div>
               <div className="md:col-span-2 flex flex-col gap-4">
-                <ProjectCard project={shown[1]} gradientIndex={1} height="250px" />
-                <ProjectCard project={shown[2]} gradientIndex={2} height="250px" />
+                <ProjectCard project={shown[1]} coverUrl={coverUrls[1] ?? null} gradientIndex={1} height="250px" compact />
+                <ProjectCard project={shown[2]} coverUrl={coverUrls[2] ?? null} gradientIndex={2} height="250px" compact />
               </div>
             </div>
           )}
