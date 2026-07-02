@@ -36,15 +36,112 @@ interface CardProps {
   coverUrl: string | null;
   gradientIndex: number;
   height?: string;
-  /** Compact cards anchor the phone screenshot right so bottom-left text stays clear */
-  compact?: boolean;
+  /**
+   * 'compact' anchors the phone screenshot right so bottom-left text stays clear (small stacked cards).
+   * 'feature' is the large hero card — mobile apps get a split content/image layout so a portrait
+   * screenshot doesn't float in a mostly-empty box.
+   */
+  variant?: 'default' | 'compact' | 'feature';
 }
 
-function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', compact = false }: CardProps) {
+function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', variant = 'default' }: CardProps) {
   const [hovered, setHovered] = useState(false);
   const hasImage = Boolean(coverUrl);
   const isMobileApp = project.category === 'Mobile App';
   const t = project.theme_color || '#6366f1';
+  const compact = variant === 'compact';
+
+  /* Featured mobile app: split layout — content panel + phone anchored in its own image panel.
+     Avoids a small centered phone floating in a mostly-empty wide card. */
+  if (variant === 'feature' && isMobileApp) {
+    return (
+      <Link
+        href={`/work/${project.slug}`}
+        className="relative flex flex-col overflow-hidden rounded-2xl md:flex-row"
+        style={{ height, cursor: 'none', background: '#0d0d10' }}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {/* Content panel */}
+        <div className="relative z-10 flex shrink-0 flex-col justify-between p-7 md:w-[44%] md:p-8">
+          <div>
+            <span
+              className="mb-5 inline-block rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-widest"
+              style={{ background: rgba(t, 0.12), border: `1px solid ${rgba(t, 0.3)}`, color: t }}
+            >
+              {project.category}
+            </span>
+            {project.tagline && (
+              <p className="mb-5 max-w-[280px] text-sm leading-relaxed text-white/45">
+                {project.tagline}
+              </p>
+            )}
+          </div>
+          <div>
+            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest" style={{ color: '#818cf8' }}>
+              {project.outcome.metric}
+            </p>
+            <div className="flex items-center gap-3">
+              <h3 className="text-2xl font-bold leading-snug text-white">{project.title}</h3>
+              <motion.div
+                animate={{ x: hovered ? 4 : 0 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                className="shrink-0"
+              >
+                <div
+                  className="flex h-8 w-8 items-center justify-center rounded-full text-white"
+                  style={{ background: rgba(t, 0.85) }}
+                >
+                  <ArrowIcon />
+                </div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+
+        {/* Image panel */}
+        <div
+          className="relative min-h-[240px] flex-1 md:min-h-0"
+          style={{
+            background: `radial-gradient(ellipse 140% 120% at 60% 100%, ${rgba(t, 0.32)} 0%, #111114 55%, #0d0d10 80%)`,
+          }}
+        >
+          {hasImage && (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={coverUrl!}
+              alt={project.title}
+              style={{
+                position: 'absolute',
+                bottom: 0,
+                left: '50%',
+                transform: `translateX(-50%) scale(${hovered ? 1.03 : 1})`,
+                height: '94%',
+                width: 'auto',
+                maxWidth: '78%',
+                objectFit: 'contain',
+                objectPosition: 'bottom center',
+                borderRadius: '14px 14px 0 0',
+                boxShadow: `0 -4px 40px ${rgba(t, 0.22)}, 0 0 0 1px ${rgba(t, 0.2)}`,
+                transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
+              }}
+            />
+          )}
+        </div>
+
+        {/* Border ring */}
+        <div
+          className="pointer-events-none absolute inset-0 rounded-2xl"
+          style={{
+            boxShadow: hovered
+              ? '0 0 0 1px rgba(99,102,241,0.55), inset 0 0 0 1px rgba(99,102,241,0.12)'
+              : '0 0 0 1px rgba(255,255,255,0.07)',
+            transition: 'box-shadow 0.35s ease',
+          }}
+        />
+      </Link>
+    );
+  }
 
   return (
     <Link
@@ -241,22 +338,22 @@ export default function Portfolio({ caseStudies, coverUrls = [] }: PortfolioProp
               </div>
             </div>
           ) : shown.length === 1 ? (
-            <ProjectCard project={shown[0]} coverUrl={coverUrls[0] ?? null} gradientIndex={0} height="480px" />
+            <ProjectCard project={shown[0]} coverUrl={coverUrls[0] ?? null} gradientIndex={0} height="480px" variant="feature" />
           ) : shown.length === 2 ? (
             <div className="grid md:grid-cols-2 gap-4">
               {shown.map((p, i) => (
-                <ProjectCard key={p.slug} project={p} coverUrl={coverUrls[i] ?? null} gradientIndex={i} height="420px" />
+                <ProjectCard key={p.slug} project={p} coverUrl={coverUrls[i] ?? null} gradientIndex={i} height="420px" variant="feature" />
               ))}
             </div>
           ) : (
             /* 3-card bento: large left, two stacked right */
             <div className="grid md:grid-cols-5 gap-4">
               <div className="md:col-span-3">
-                <ProjectCard project={shown[0]} coverUrl={coverUrls[0] ?? null} gradientIndex={0} height="520px" />
+                <ProjectCard project={shown[0]} coverUrl={coverUrls[0] ?? null} gradientIndex={0} height="520px" variant="feature" />
               </div>
               <div className="md:col-span-2 flex flex-col gap-4">
-                <ProjectCard project={shown[1]} coverUrl={coverUrls[1] ?? null} gradientIndex={1} height="250px" compact />
-                <ProjectCard project={shown[2]} coverUrl={coverUrls[2] ?? null} gradientIndex={2} height="250px" compact />
+                <ProjectCard project={shown[1]} coverUrl={coverUrls[1] ?? null} gradientIndex={1} height="250px" variant="compact" />
+                <ProjectCard project={shown[2]} coverUrl={coverUrls[2] ?? null} gradientIndex={2} height="250px" variant="compact" />
               </div>
             </div>
           )}
