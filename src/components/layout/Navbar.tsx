@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import { CAL_URL } from '@/lib/site';
+import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 
 const NAV_LINKS = [
   { label: 'Work', href: '#work' },
@@ -106,6 +106,15 @@ export default function Navbar() {
     }
   }
 
+  function handleBookingClick() {
+    if (BOOKING_ENABLED) {
+      setMobileOpen(false);
+      window.open(CAL_URL, '_blank', 'noopener');
+    } else {
+      handleNavClick('#contact');
+    }
+  }
+
   return (
     <>
       {/* Direct fixed positioning — left/right animate symmetrically, no flex/width math */}
@@ -151,10 +160,10 @@ export default function Navbar() {
               <Button
                 variant="primary"
                 size="sm"
-                onClick={() => window.open(CAL_URL, '_blank', 'noopener')}
+                onClick={handleBookingClick}
                 className="hidden md:inline-flex"
               >
-                Book a Call
+                {PRIMARY_CTA_LABEL}
               </Button>
               <button
                 className="md:hidden text-white cursor-none"
@@ -209,9 +218,9 @@ export default function Navbar() {
               <Button
                 variant="primary"
                 size="lg"
-                onClick={() => { setMobileOpen(false); window.open(CAL_URL, '_blank', 'noopener'); }}
+                onClick={handleBookingClick}
               >
-                Book a Call
+                {PRIMARY_CTA_LABEL}
               </Button>
             </motion.div>
           </motion.div>

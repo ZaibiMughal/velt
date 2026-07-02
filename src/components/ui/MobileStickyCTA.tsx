@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { CAL_URL } from '@/lib/site';
+import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 
 /**
  * Slim bottom CTA bar, mobile only. Appears after the visitor scrolls past
@@ -38,7 +38,15 @@ export default function MobileStickyCTA() {
   }, [pathname]);
 
   function onClick() {
-    window.open(CAL_URL, '_blank', 'noopener');
+    if (BOOKING_ENABLED) {
+      window.open(CAL_URL, '_blank', 'noopener');
+      return;
+    }
+    if (pathname === '/') {
+      document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      window.location.href = '/#contact';
+    }
   }
 
   const show = scrolled && !contactInView;
@@ -75,7 +83,7 @@ export default function MobileStickyCTA() {
           boxShadow: '0 8px 32px rgba(99,102,241,0.5), 0 2px 12px rgba(0,0,0,0.4)',
         }}
       >
-        Book a Strategy Call
+        {PRIMARY_CTA_LABEL}
       </button>
     </div>
   );

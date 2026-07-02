@@ -4,7 +4,7 @@ import type { CaseStudy } from '@/data/work/index';
 import { getAllCaseStudies, getSignedImageUrl } from '@/lib/data';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
-import { CAL_URL } from '@/lib/site';
+import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: { absolute: 'Portfolio | 30+ Projects — Velt Studio' },
@@ -420,16 +420,20 @@ export default async function WorkPage({
             }}>
               Fixed price, full source code, shipped in weeks. Tell us what you need and get a scoped plan within 24 hours.
             </p>
-            <a href={CAL_URL} target="_blank" rel="noopener noreferrer" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 8,
-              padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
-              background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
-              color: '#fff', fontSize: 15, fontWeight: 600,
-              boxShadow: '0 4px 24px rgba(99,102,241,0.4)',
-              position: 'relative',
-            }}>
-              Book a Free 15-Min Call
-            </a>
+            <Link
+              href={BOOKING_ENABLED ? CAL_URL : '/#contact'}
+              {...(BOOKING_ENABLED ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
+                background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
+                color: '#fff', fontSize: 15, fontWeight: 600,
+                boxShadow: '0 4px 24px rgba(99,102,241,0.4)',
+                position: 'relative',
+              }}
+            >
+              {PRIMARY_CTA_LABEL}
+            </Link>
           </div>
         </div>
 
