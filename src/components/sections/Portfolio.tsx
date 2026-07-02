@@ -58,7 +58,13 @@ function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', varia
       <Link
         href={`/work/${project.slug}`}
         className="relative flex flex-col overflow-hidden rounded-2xl md:flex-row"
-        style={{ height, cursor: 'none', background: '#0d0d10' }}
+        style={{
+          height,
+          cursor: 'none',
+          /* One continuous gradient across the whole card (not two separately-colored
+             sibling panels) so there's no seam where the content panel meets the image panel. */
+          background: `radial-gradient(ellipse 85% 120% at 84% 105%, ${rgba(t, 0.24)} 0%, ${rgba(t, 0.09)} 26%, #111114 46%, #0d0d10 72%)`,
+        }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
       >
@@ -99,13 +105,8 @@ function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', varia
           </div>
         </div>
 
-        {/* Image panel */}
-        <div
-          className="relative min-h-[240px] flex-1 overflow-hidden md:min-h-0"
-          style={{
-            background: `radial-gradient(ellipse 170% 140% at 62% 108%, ${rgba(t, 0.26)} 0%, ${rgba(t, 0.1)} 30%, #111114 58%, #0d0d10 100%)`,
-          }}
-        >
+        {/* Image panel — no own background; the card-wide gradient above shows through */}
+        <div className="relative min-h-[240px] flex-1 overflow-hidden md:min-h-0">
           {hasImage && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
