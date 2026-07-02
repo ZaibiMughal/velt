@@ -101,9 +101,9 @@ function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', varia
 
         {/* Image panel */}
         <div
-          className="relative min-h-[240px] flex-1 md:min-h-0"
+          className="relative min-h-[240px] flex-1 overflow-hidden md:min-h-0"
           style={{
-            background: `radial-gradient(ellipse 140% 120% at 60% 100%, ${rgba(t, 0.32)} 0%, #111114 55%, #0d0d10 80%)`,
+            background: `radial-gradient(ellipse 170% 140% at 62% 108%, ${rgba(t, 0.26)} 0%, ${rgba(t, 0.1)} 30%, #111114 58%, #0d0d10 100%)`,
           }}
         >
           {hasImage && (
@@ -122,7 +122,9 @@ function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', varia
                 objectFit: 'contain',
                 objectPosition: 'bottom center',
                 borderRadius: '14px 14px 0 0',
-                boxShadow: `0 -4px 40px ${rgba(t, 0.22)}, 0 0 0 1px ${rgba(t, 0.2)}`,
+                boxShadow: `0 -4px 40px ${rgba(t, 0.22)}`,
+                maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
                 transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
               }}
             />
@@ -158,7 +160,7 @@ function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', varia
           background: !hasImage
             ? GRADIENTS[gradientIndex % GRADIENTS.length]
             : isMobileApp
-              ? `radial-gradient(ellipse 150% 110% at 50% 100%, ${rgba(t, 0.3)} 0%, #111114 55%, #0d0d10 80%)`
+              ? `radial-gradient(ellipse 180% 140% at 50% 108%, ${rgba(t, 0.24)} 0%, ${rgba(t, 0.08)} 32%, #111114 58%, #0d0d10 100%)`
               : '#09090b',
           transform: hovered ? 'scale(1.04)' : 'scale(1)',
           transition: 'transform 0.7s cubic-bezier(0.16,1,0.3,1)',
@@ -182,7 +184,9 @@ function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', varia
               objectFit: 'contain',
               objectPosition: 'bottom center',
               borderRadius: '14px 14px 0 0',
-              boxShadow: `0 -4px 40px ${rgba(t, 0.2)}, 0 0 0 1px ${rgba(t, 0.18)}`,
+              boxShadow: `0 -4px 40px ${rgba(t, 0.2)}`,
+              maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
+              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
               display: 'block',
             }}
           />
