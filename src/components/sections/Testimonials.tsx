@@ -367,7 +367,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           <MarqueeRow
             items={items}
             direction="left"
-            duration={50}
+            duration={140}
             onPlay={(url) => {
               const t = items.find((t) => t.video_url === url);
               handlePlay(url, t?.client_name ?? '');

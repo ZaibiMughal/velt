@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import LogoMark from '@/components/ui/LogoMark';
+import Wordmark from '@/components/ui/Wordmark';
 import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 
 const NAV_LINKS = [
@@ -36,7 +37,7 @@ function Logo() {
       style={{ textDecoration: 'none' }}
     >
       <LogoMark size={26} />
-      hexspire
+      <Wordmark />
     </Link>
   );
 }
