@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { trackConversion } from '@/lib/tracking';
 
 /* ── constants ─────────────────────────────────────────────────────────── */
 
@@ -629,6 +630,7 @@ export default function GuidedBrief() {
         throw new Error(body?.message ?? 'Something went wrong.');
       }
 
+      trackConversion('brief_submit');
       setDone(true);
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : 'Something went wrong. Please try again.');

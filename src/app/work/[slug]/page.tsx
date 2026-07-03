@@ -25,7 +25,13 @@ export async function generateMetadata({
   if (!study) return { title: 'Not Found | Hexspire' };
 
   const techPreview = study.tech.slice(0, 4).join(', ');
-  const description = `${study.tagline} Built with ${techPreview}. ${study.outcome.metric}.`;
+  const full = `${study.tagline} Built with ${techPreview}. ${study.outcome.metric}.`;
+  // Google truncates meta descriptions past ~155-160 chars, so keep every
+  // case study's dynamic description (built from a variable-length tagline)
+  // inside that limit regardless of how long the tagline is.
+  const description = full.length <= 155
+    ? full
+    : `${full.slice(0, 152).replace(/\s+\S*$/, '')}...`;
 
   return {
     title: { absolute: `${study.title}: ${study.category} Case Study | Hexspire` },
@@ -34,6 +40,7 @@ export async function generateMetadata({
       study.title, study.category, ...study.tech,
       'case study', 'software development', 'Hexspire',
     ],
+    alternates: { canonical: `https://hexspire.io/work/${slug}` },
     openGraph: {
       title: `${study.title}: ${study.category} Case Study`,
       description,

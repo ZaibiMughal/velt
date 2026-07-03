@@ -11,6 +11,7 @@ import Button from '@/components/ui/Button';
 import GuidedBrief from '@/components/sections/GuidedBrief';
 import { cn } from '@/lib/utils';
 import { CAL_URL, BOOKING_ENABLED } from '@/lib/site';
+import { trackConversion } from '@/lib/tracking';
 
 const contactSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -207,6 +208,7 @@ export default function Contact() {
         body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error('Server error');
+      trackConversion('contact_submit');
       setSubmitted(true);
     } catch {
       setErrorMessage('Something went wrong. Please try again.');

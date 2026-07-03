@@ -9,7 +9,13 @@ const organizationSchema = {
   description:
     'Software development studio with 30+ products shipped for startups and multinational enterprises. Specialising in Flutter mobile apps, React Native, Next.js web platforms, and full SaaS ecosystems at a fixed price.',
   foundingDate: '2019',
-  areaServed: 'Worldwide',
+  inLanguage: 'en',
+  areaServed: [
+    { '@type': 'Country', name: 'United States' },
+    { '@type': 'Country', name: 'Australia' },
+    { '@type': 'Place', name: 'Europe' },
+    { '@type': 'Place', name: 'Middle East' },
+  ],
   knowsAbout: [
     'Flutter', 'Dart', 'React Native', 'Expo', 'Next.js', 'React', 'TypeScript',
     'Node.js', 'Supabase', 'PostgreSQL', 'Stripe', 'Firebase',
@@ -22,7 +28,6 @@ const organizationSchema = {
     contactType: 'sales',
     availableLanguage: 'English',
   },
-  sameAs: [],
 };
 
 const serviceSchema = {
@@ -41,8 +46,13 @@ const serviceSchema = {
   ],
   description:
     'Fixed-price software development for founders and businesses. Mobile apps (iOS + Android), web platforms, SaaS ecosystems, and admin dashboards, delivered in weeks with full source code ownership.',
-  areaServed: 'Worldwide',
-  priceRange: '$5,000 – $50,000+',
+  areaServed: [
+    { '@type': 'Country', name: 'United States' },
+    { '@type': 'Country', name: 'Australia' },
+    { '@type': 'Place', name: 'Europe' },
+    { '@type': 'Place', name: 'Middle East' },
+  ],
+  priceRange: '$5,000 to $50,000+',
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Software Development Packages',
@@ -78,6 +88,7 @@ const websiteSchema = {
   name: 'Hexspire',
   url: 'https://hexspire.io',
   description: 'Software development studio, Flutter, React Native, Next.js, SaaS.',
+  inLanguage: 'en',
   potentialAction: {
     '@type': 'SearchAction',
     target: { '@type': 'EntryPoint', urlTemplate: 'https://hexspire.io/work' },

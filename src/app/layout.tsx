@@ -6,6 +6,7 @@ import PageTransition from "@/components/ui/PageTransition";
 import GlobalBackground from "@/components/ui/GlobalBackground";
 import JsonLd from "@/components/JsonLd";
 import MobileStickyCTA from "@/components/ui/MobileStickyCTA";
+import AdTracking from "@/components/ui/AdTracking";
 import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
@@ -21,11 +22,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL('https://hexspire.io'),
   title: {
-    default: 'Hexspire | Software Development Studio, Mobile Apps, Web & SaaS',
+    default: 'Hexspire | Mobile, Web & SaaS Development Studio',
     template: '%s | Hexspire',
   },
   description:
-    'Hexspire is a software development studio with 30+ products shipped for startups and multinational enterprises. We build Flutter mobile apps, React Native apps, Next.js web platforms, and full SaaS ecosystems at a fixed price.',
+    'Hexspire is a software development studio for founders. Flutter mobile apps, React Native, Next.js platforms, and SaaS ecosystems at a fixed price.',
   keywords: [
     'software development studio', 'mobile app development', 'Flutter developer',
     'React Native developer', 'Next.js developer', 'SaaS development',
@@ -40,14 +41,14 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://hexspire.io',
     siteName: 'Hexspire',
-    title: 'Hexspire | Software Development Studio, 30+ Products Shipped',
+    title: 'Hexspire | Software Development Studio',
     description:
-      'Flutter mobile apps, Next.js platforms, and SaaS ecosystems - built for founders and enterprise clients at a fixed price. 30+ products shipped across 3 continents.',
+      'Flutter mobile apps, Next.js platforms, and SaaS ecosystems built for founders and enterprises at a fixed price. 30+ products shipped worldwide.',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Hexspire, Software Development' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Hexspire | Software Development Studio, 30+ Products Shipped',
+    title: 'Hexspire | Software Development Studio',
     description:
       'Flutter mobile apps, Next.js platforms, and SaaS ecosystems at a fixed price. 30+ products for founders and enterprises.',
     images: ['/og-image.png'],
@@ -79,6 +80,7 @@ export default function RootLayout({
         <PageTransition>{children}</PageTransition>
         <MobileStickyCTA />
         <Analytics />
+        <AdTracking />
       </body>
     </html>
   );

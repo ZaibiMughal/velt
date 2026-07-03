@@ -39,6 +39,18 @@ CONTACT_EMAIL=zohaibumar6@gmail.com
 
 The Supabase client is created server-side only using the service role key. There is no anon key — no client-side Supabase access.
 
+**Optional, for ad conversion tracking** (site works identically with none of these set):
+
+```
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_GOOGLE_ADS_ID=AW-XXXXXXXXXX
+NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL=XXXXXXXXXXXXXXXXXXXX
+NEXT_PUBLIC_META_PIXEL_ID=XXXXXXXXXXXXXXX
+```
+
+See `src/components/ui/AdTracking.tsx` (loads the tags) and `src/lib/tracking.ts`
+(fires the `contact_submit` / `brief_submit` conversion events) for how these are used.
+
 ---
 
 ## Project structure
