@@ -1,4 +1,4 @@
-# Velt Studio — Developer Guide
+# Hexspire — Developer Guide
 
 This file is the single source of truth for working on this codebase. Read it before making any changes.
 
@@ -6,7 +6,7 @@ This file is the single source of truth for working on this codebase. Read it be
 
 ## What this is
 
-**Velt Studio** (`veltstudio.com`) is a premium software development studio website. It is a conversion-focused site for founders and businesses with software budgets of $5K–$50K+. The primary goal is to get visitors to book a strategy call.
+**Hexspire** (`hexspire.io`) is a premium software development studio website. It is a conversion-focused site for founders and businesses with software budgets of $5K–$50K+. The primary goal is to get visitors to book a strategy call.
 
 ---
 
@@ -65,7 +65,7 @@ src/
       Trust.tsx
       Packages.tsx
       HowWeWork.tsx
-      WhyVelt.tsx
+      WhyHexspire.tsx
       Portfolio.tsx         Shows 3 featured case studies from DB
       Testimonials.tsx
       FAQ.tsx
@@ -231,7 +231,7 @@ Typography uses Geist with tight negative letter-spacing on headings (`-0.03em` 
 - Page-specific metadata in each `page.tsx` via `export const metadata` or `generateMetadata`
 - JSON-LD structured data in `src/components/JsonLd.tsx` (Organization, Service, WebSite, FAQPage)
 - Case study pages generate their own metadata from DB data
-- Target domain: `veltstudio.com`
+- Target domain: `hexspire.io`
 
 ---
 

@@ -5,7 +5,7 @@ import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 function Logo() {
   return (
     <span className="text-lg font-extrabold text-white tracking-tight">
-      velt
+      hexspire
       <span style={{ color: '#6366f1' }}>.</span>
     </span>
   );
@@ -85,7 +85,7 @@ export default function Footer({ className }: FooterProps) {
         {/* Bottom row */}
         <div className="mt-10 pt-6 border-t border-white/[0.04] text-center">
           <p className="text-xs text-white/20">
-            &copy; {new Date().getFullYear()} Velt. All rights reserved.
+            &copy; {new Date().getFullYear()} Hexspire. All rights reserved.
           </p>
         </div>
       </div>

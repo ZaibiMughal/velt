@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://veltstudio.com',
+  siteUrl: process.env.SITE_URL || 'https://hexspire.io',
   generateRobotsTxt: true,
   exclude: ['/api/*'],
 }

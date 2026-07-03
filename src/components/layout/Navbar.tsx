@@ -30,7 +30,7 @@ const PILL_TRANSITION = [
 function Logo() {
   return (
     <Link href="/" className="text-xl font-extrabold text-white tracking-tight cursor-none" style={{ textDecoration: 'none' }}>
-      velt<span style={{ color: '#6366f1' }}>.</span>
+      hexspire<span style={{ color: '#6366f1' }}>.</span>
     </Link>
   );
 }

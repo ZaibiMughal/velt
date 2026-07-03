@@ -22,22 +22,22 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const study = await getCaseStudy(slug);
-  if (!study) return { title: 'Not Found | Velt Studio' };
+  if (!study) return { title: 'Not Found | Hexspire' };
 
   const techPreview = study.tech.slice(0, 4).join(', ');
   const description = `${study.tagline} Built with ${techPreview}. ${study.outcome.metric}.`;
 
   return {
-    title: { absolute: `${study.title} — ${study.category} Case Study | Velt Studio` },
+    title: { absolute: `${study.title}: ${study.category} Case Study | Hexspire` },
     description,
     keywords: [
       study.title, study.category, ...study.tech,
-      'case study', 'software development', 'Velt Studio',
+      'case study', 'software development', 'Hexspire',
     ],
     openGraph: {
-      title: `${study.title} — ${study.category} Case Study`,
+      title: `${study.title}: ${study.category} Case Study`,
       description,
-      url: `https://veltstudio.com/work/${slug}`,
+      url: `https://hexspire.io/work/${slug}`,
     },
   };
 }
@@ -420,7 +420,7 @@ function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial
                   <div key={c} style={{ width: 8, height: 8, borderRadius: '50%', background: c, opacity: 0.6 }} />
                 ))}
                 <span style={{ marginLeft: 8, fontSize: 10, color: 'rgba(255,255,255,0.2)' }}>
-                  {tm.client_name} — testimonial
+                  {tm.client_name}'s testimonial
                 </span>
               </div>
               <video
@@ -441,15 +441,15 @@ function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial
 const MOCK_TESTIMONIALS: Record<string, { client_name: string; client_role: string; client_company: string; quote: string }> = {
   ridespotr: {
     client_name: 'Alex Thompson', client_role: 'Co-Founder', client_company: 'RideSpotr',
-    quote: 'Velt turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
+    quote: 'Hexspire turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
   },
   wagerr: {
     client_name: 'Marcus Reid', client_role: 'Founder', client_company: 'Wagerr',
-    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Velt nailed the architecture: the Ethereum smart contract, the embedded wallets, the scoring logic, and somehow made it feel effortless to the end user.',
+    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Hexspire nailed the architecture: the Ethereum smart contract, the embedded wallets, the scoring logic, and somehow made it feel effortless to the end user.',
   },
   nutritionup: {
     client_name: 'Sarah Chen', client_role: 'CEO', client_company: 'NutritionUP',
-    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel, all of it polished and production-ready. Velt thinks like a product team, not just engineers.',
+    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel, all of it polished and production-ready. Hexspire thinks like a product team, not just engineers.',
   },
   pipa: {
     client_name: 'Ryan Nakamura', client_role: 'Operations Director', client_company: 'PIPA',
@@ -457,7 +457,7 @@ const MOCK_TESTIMONIALS: Record<string, { client_name: string; client_role: stri
   },
   keyos: {
     client_name: 'David Park', client_role: 'CTO', client_company: 'KeyOS',
-    quote: 'The multi-tenant data isolation Velt built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible, and they delivered exactly that.',
+    quote: 'The multi-tenant data isolation Hexspire built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible, and they delivered exactly that.',
   },
   trucktuck: {
     client_name: 'James Wilson', client_role: 'Co-Founder', client_company: 'TruckTuck',
@@ -465,7 +465,7 @@ const MOCK_TESTIMONIALS: Record<string, { client_name: string; client_role: stri
   },
   salespulse: {
     client_name: 'Emma Torres', client_role: 'Head of Sales', client_company: 'Scholarly',
-    quote: 'The AI automation workflows Velt built replaced hours of manual work every week. Our team now spends that time on growth instead of copy-pasting between tools. The ROI was visible within the first month.',
+    quote: 'The AI automation workflows Hexspire built replaced hours of manual work every week. Our team now spends that time on growth instead of copy-pasting between tools. The ROI was visible within the first month.',
   },
 };
 

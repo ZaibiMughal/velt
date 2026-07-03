@@ -3,10 +3,9 @@ import { faqs } from '@/data/faqs';
 const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
-  name: 'Velt Studio',
-  alternateName: 'Velt',
-  url: 'https://veltstudio.com',
-  logo: 'https://veltstudio.com/og-image.png',
+  name: 'Hexspire',
+  url: 'https://hexspire.io',
+  logo: 'https://hexspire.io/og-image.png',
   description:
     'Software development studio with 30+ products shipped for startups and multinational enterprises. Specialising in Flutter mobile apps, React Native, Next.js web platforms, and full SaaS ecosystems at a fixed price.',
   foundingDate: '2019',
@@ -29,8 +28,8 @@ const organizationSchema = {
 const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
-  name: 'Velt Studio — Software Development',
-  provider: { '@type': 'Organization', name: 'Velt Studio' },
+  name: 'Hexspire, Software Development',
+  provider: { '@type': 'Organization', name: 'Hexspire' },
   serviceType: [
     'Flutter Mobile App Development',
     'React Native App Development',
@@ -76,12 +75,12 @@ const serviceSchema = {
 const websiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
-  name: 'Velt Studio',
-  url: 'https://veltstudio.com',
-  description: 'Software development studio — Flutter, React Native, Next.js, SaaS.',
+  name: 'Hexspire',
+  url: 'https://hexspire.io',
+  description: 'Software development studio, Flutter, React Native, Next.js, SaaS.',
   potentialAction: {
     '@type': 'SearchAction',
-    target: { '@type': 'EntryPoint', urlTemplate: 'https://veltstudio.com/work' },
+    target: { '@type': 'EntryPoint', urlTemplate: 'https://hexspire.io/work' },
     'query-input': 'required name=search_term_string',
   },
 };

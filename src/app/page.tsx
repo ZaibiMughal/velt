@@ -4,7 +4,7 @@ import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
 import Packages from '@/components/sections/Packages';
 import HowWeWork from '@/components/sections/HowWeWork';
-import WhyVelt from '@/components/sections/WhyVelt';
+import WhyHexspire from '@/components/sections/WhyHexspire';
 import Portfolio from '@/components/sections/Portfolio';
 import Partners from '@/components/sections/Partners';
 import FAQ from '@/components/sections/FAQ';
@@ -14,7 +14,7 @@ import Testimonials from '@/components/sections/Testimonials';
 import { getAllCaseStudies, getAllPartners, getAllTestimonials, getSignedImageUrl } from '@/lib/data';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Velt | Ship Your Product Without Building a Full Team' },
+  title: { absolute: 'Hexspire | Ship Your Product Without Building a Full Team' },
   description:
     'Fixed-price software development for founders and enterprises. Flutter mobile apps, React Native, Next.js web platforms, and SaaS ecosystems - shipped in weeks, not months. 30+ products delivered across 3 continents.',
   keywords: [
@@ -23,12 +23,12 @@ export const metadata: Metadata = {
     'fixed price app development', 'software development for startups',
     'outsource software development', 'product development studio',
   ],
-  alternates: { canonical: 'https://veltstudio.com' },
+  alternates: { canonical: 'https://hexspire.io' },
   openGraph: {
-    title: 'Velt | Ship Your Product Without Building a Full Team',
+    title: 'Hexspire | Ship Your Product Without Building a Full Team',
     description:
       'Flutter, React Native, Next.js, SaaS, shipped at a fixed price. 30+ products built for founders and enterprise clients worldwide.',
-    url: 'https://veltstudio.com',
+    url: 'https://hexspire.io',
   },
 };
 
@@ -53,7 +53,7 @@ export default async function Home() {
         <Testimonials testimonials={testimonials} />
         <Partners partners={partners} />
         <HowWeWork />
-        <WhyVelt />
+        <WhyHexspire />
         <Packages />
         <FAQ />
         <PaymentStructure />

@@ -7,17 +7,17 @@ import Footer from '@/components/layout/Footer';
 import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: { absolute: 'Portfolio | 30+ Projects — Velt Studio' },
-  description: 'Explore selected work from Velt — Flutter mobile apps, React Native, Next.js web platforms, and full SaaS ecosystems shipped for startups and multinational enterprises across 3 continents.',
+  title: { absolute: 'Portfolio | 30+ Projects, Hexspire' },
+  description: 'Explore selected work from Hexspire, Flutter mobile apps, React Native, Next.js web platforms, and full SaaS ecosystems shipped for startups and multinational enterprises across 3 continents.',
   keywords: [
     'software development portfolio', 'Flutter app developer', 'React Native developer',
     'Next.js developer', 'mobile app case studies', 'SaaS development portfolio',
     'software studio work', 'full stack developer portfolio',
   ],
   openGraph: {
-    title: 'Portfolio | 30+ Projects Shipped — Velt Studio',
+    title: 'Portfolio | 30+ Projects Shipped, Hexspire',
     description: 'Flutter mobile apps, Next.js platforms, SaaS ecosystems - shipped for founders and enterprise clients worldwide.',
-    url: 'https://veltstudio.com/work',
+    url: 'https://hexspire.io/work',
   },
 };
 

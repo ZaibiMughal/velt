@@ -19,13 +19,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://veltstudio.com'),
+  metadataBase: new URL('https://hexspire.io'),
   title: {
-    default: 'Velt | Software Development Studio — Mobile Apps, Web & SaaS',
-    template: '%s | Velt Studio',
+    default: 'Hexspire | Software Development Studio, Mobile Apps, Web & SaaS',
+    template: '%s | Hexspire',
   },
   description:
-    'Velt is a software development studio with 30+ products shipped for startups and multinational enterprises. We build Flutter mobile apps, React Native apps, Next.js web platforms, and full SaaS ecosystems at a fixed price.',
+    'Hexspire is a software development studio with 30+ products shipped for startups and multinational enterprises. We build Flutter mobile apps, React Native apps, Next.js web platforms, and full SaaS ecosystems at a fixed price.',
   keywords: [
     'software development studio', 'mobile app development', 'Flutter developer',
     'React Native developer', 'Next.js developer', 'SaaS development',
@@ -33,21 +33,21 @@ export const metadata: Metadata = {
     'full stack developer', 'product development studio', 'custom software development',
     'startup app development', 'enterprise software development',
   ],
-  authors: [{ name: 'Velt Studio' }],
-  creator: 'Velt Studio',
+  authors: [{ name: 'Hexspire' }],
+  creator: 'Hexspire',
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://veltstudio.com',
-    siteName: 'Velt Studio',
-    title: 'Velt | Software Development Studio — 30+ Products Shipped',
+    url: 'https://hexspire.io',
+    siteName: 'Hexspire',
+    title: 'Hexspire | Software Development Studio, 30+ Products Shipped',
     description:
       'Flutter mobile apps, Next.js platforms, and SaaS ecosystems - built for founders and enterprise clients at a fixed price. 30+ products shipped across 3 continents.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Velt Studio — Software Development' }],
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Hexspire, Software Development' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Velt | Software Development Studio — 30+ Products Shipped',
+    title: 'Hexspire | Software Development Studio, 30+ Products Shipped',
     description:
       'Flutter mobile apps, Next.js platforms, and SaaS ecosystems at a fixed price. 30+ products for founders and enterprises.',
     images: ['/og-image.png'],

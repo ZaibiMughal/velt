@@ -19,7 +19,7 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
   const resend = new Resend(apiKey);
 
   await resend.emails.send({
-    from: 'Velt Contact Form <onboarding@resend.dev>',
+    from: 'Hexspire Contact Form <onboarding@resend.dev>',
     to,
     replyTo: data.email,
     subject: `New project enquiry from ${data.name}${data.company ? ` (${data.company})` : ''}`,
@@ -54,7 +54,7 @@ function buildEmailHtml(data: ContactFormData): string {
           <!-- Header -->
           <tr>
             <td style="padding-bottom: 32px; text-align: center;">
-              <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #6366f1;">Velt</p>
+              <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #6366f1;">Hexspire</p>
               <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.3;">New Project Enquiry</h1>
               <p style="margin: 8px 0 0 0; font-size: 14px; color: #71717a;">Submitted via the contact form</p>
             </td>
@@ -155,7 +155,7 @@ export async function sendBriefEmail(data: BriefEmailData): Promise<void> {
   const resend = new Resend(apiKey);
 
   await resend.emails.send({
-    from: 'Velt Guided Brief <onboarding@resend.dev>',
+    from: 'Hexspire Guided Brief <onboarding@resend.dev>',
     to,
     replyTo: data.email,
     subject: `New guided brief from ${data.name} (${data.budget})`,
@@ -201,7 +201,7 @@ function buildBriefEmailHtml(data: BriefEmailData): string {
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px;">
           <tr>
             <td style="padding-bottom: 32px; text-align: center;">
-              <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #6366f1;">Velt</p>
+              <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #6366f1;">Hexspire</p>
               <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #ffffff; line-height: 1.3;">New Guided Brief</h1>
               <p style="margin: 8px 0 0 0; font-size: 14px; color: #71717a;">High-intent lead: completed the full 7-step brief</p>
             </td>

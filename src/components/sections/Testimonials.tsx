@@ -9,19 +9,19 @@ const FALLBACK_TESTIMONIALS: Testimonial[] = [
   {
     id: 'f1', case_study_slug: 'ridespotr', display_order: 1,
     client_name: 'Alex Thompson', client_role: 'Co-Founder', client_company: 'RideSpotr',
-    quote: 'Velt turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
+    quote: 'Hexspire turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
   {
     id: 'f2', case_study_slug: 'wagerr', display_order: 2,
     client_name: 'Marcus Reid', client_role: 'Founder', client_company: 'Wagerr',
-    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Velt nailed the architecture: the Ethereum smart contract, the embedded wallets, the scoring logic, and somehow made it feel effortless to the end user.',
+    quote: 'We had a complex on-chain settlement system that needed to be bulletproof. Hexspire nailed the architecture: the Ethereum smart contract, the embedded wallets, the scoring logic, and somehow made it feel effortless to the end user.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
   {
     id: 'f3', case_study_slug: 'nutritionup', display_order: 3,
     client_name: 'Sarah Chen', client_role: 'CEO', client_company: 'NutritionUP',
-    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel, all of it polished and production-ready. Velt thinks like a product team, not just engineers.',
+    quote: 'Four platforms, one team, delivered on schedule. The AI meal coaching, the corporate HR portal, the admin panel, all of it polished and production-ready. Hexspire thinks like a product team, not just engineers.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
   {
@@ -33,7 +33,7 @@ const FALLBACK_TESTIMONIALS: Testimonial[] = [
   {
     id: 'f5', case_study_slug: 'keyos', display_order: 5,
     client_name: 'David Park', client_role: 'CTO', client_company: 'KeyOS',
-    quote: 'The multi-tenant data isolation Velt built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible, and they delivered exactly that.',
+    quote: 'The multi-tenant data isolation Hexspire built is rock solid. Fifty-six migrations, zero data leaks, enterprise clients fully confident. They understand that infrastructure has to be invisible, and they delivered exactly that.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
   {
@@ -45,7 +45,7 @@ const FALLBACK_TESTIMONIALS: Testimonial[] = [
   {
     id: 'f7', case_study_slug: 'salespulse', display_order: 7,
     client_name: 'Emma Torres', client_role: 'Head of Sales', client_company: 'Scholarly',
-    quote: 'The AI automation workflows Velt built replaced hours of manual work every week. Our team now spends that time on growth instead of copy-pasting between tools. The ROI was visible within the first month.',
+    quote: 'The AI automation workflows Hexspire built replaced hours of manual work every week. Our team now spends that time on growth instead of copy-pasting between tools. The ROI was visible within the first month.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
 ];
@@ -353,7 +353,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
             fontSize: 16, color: 'rgba(255,255,255,0.42)',
             maxWidth: 440, margin: '0 auto', lineHeight: 1.65,
           }}>
-            From first call to final handover - here&apos;s what working with Velt is actually like.
+            From first call to final handover - here&apos;s what working with Hexspire is actually like.
           </p>
         </div>
 

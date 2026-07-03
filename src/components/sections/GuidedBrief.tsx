@@ -721,7 +721,7 @@ export default function GuidedBrief() {
             {/* Top bar */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '28px 48px 0', position: 'relative', zIndex: 1 }}>
               <span style={{ fontSize: 15, fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>
-                velt<span style={{ color: '#6366f1' }}>.</span>
+                hexspire<span style={{ color: '#6366f1' }}>.</span>
               </span>
               <button type="button" onClick={close} style={{
                 background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,

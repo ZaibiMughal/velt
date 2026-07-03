@@ -119,13 +119,13 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
   );
 }
 
-export default function WhyVelt() {
+export default function WhyHexspire() {
   return (
     <section className="py-24 md:py-32">
       <div className="max-w-7xl mx-auto px-6">
         {/* Section header */}
         <AnimatedSection className="flex flex-col items-center text-center gap-4 mb-16">
-          <Badge>Why Velt</Badge>
+          <Badge>Why Hexspire</Badge>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
             Built different. Delivered right.
           </h2>
