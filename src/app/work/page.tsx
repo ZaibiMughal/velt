@@ -20,6 +20,7 @@ export const metadata: Metadata = {
     title: 'Portfolio | 30+ Projects Shipped, Hexspire',
     description: 'Flutter mobile apps, Next.js platforms, SaaS ecosystems - shipped for founders and enterprise clients worldwide.',
     url: 'https://hexspire.io/work',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Hexspire, Software Development' }],
   },
 };
 

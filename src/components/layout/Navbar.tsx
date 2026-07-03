@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'framer-motion';
 import Button from '@/components/ui/Button';
+import LogoMark from '@/components/ui/LogoMark';
 import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 
 const NAV_LINKS = [
@@ -29,8 +30,13 @@ const PILL_TRANSITION = [
 
 function Logo() {
   return (
-    <Link href="/" className="text-xl font-extrabold text-white tracking-tight cursor-none" style={{ textDecoration: 'none' }}>
-      hexspire<span style={{ color: '#6366f1' }}>.</span>
+    <Link
+      href="/"
+      className="flex items-center gap-2 text-xl font-extrabold text-white tracking-tight cursor-none"
+      style={{ textDecoration: 'none' }}
+    >
+      <LogoMark size={26} />
+      hexspire
     </Link>
   );
 }

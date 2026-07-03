@@ -5,7 +5,7 @@ const organizationSchema = {
   '@type': 'Organization',
   name: 'Hexspire',
   url: 'https://hexspire.io',
-  logo: 'https://hexspire.io/og-image.png',
+  logo: 'https://hexspire.io/logo.png',
   description:
     'Software development studio with 30+ products shipped for startups and multinational enterprises. Specialising in Flutter mobile apps, React Native, Next.js web platforms, and full SaaS ecosystems at a fixed price.',
   foundingDate: '2019',

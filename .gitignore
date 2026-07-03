@@ -50,5 +50,8 @@ next-env.d.ts
 !public/case-studies/**/*.png
 !public/case-studies/**/*.jpeg
 !public/case-studies/**/*.jpg
+!public/og-image.png
+!public/logo.png
+!src/app/apple-icon.png
 
 Guideline/

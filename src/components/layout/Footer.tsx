@@ -1,12 +1,13 @@
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import LogoMark from '@/components/ui/LogoMark';
 import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 
 function Logo() {
   return (
-    <span className="text-lg font-extrabold text-white tracking-tight">
+    <span className="flex items-center gap-2 text-lg font-extrabold text-white tracking-tight">
+      <LogoMark size={22} />
       hexspire
-      <span style={{ color: '#6366f1' }}>.</span>
     </span>
   );
 }

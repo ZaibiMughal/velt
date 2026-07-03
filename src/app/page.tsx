@@ -29,6 +29,7 @@ export const metadata: Metadata = {
     description:
       'Flutter, React Native, Next.js, SaaS, shipped at a fixed price. 30+ products built for founders and enterprise clients worldwide.',
     url: 'https://hexspire.io',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Hexspire, Software Development' }],
   },
 };
 

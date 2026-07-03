@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import LogoMark from '@/components/ui/LogoMark';
 import { trackConversion } from '@/lib/tracking';
 
 /* ── constants ─────────────────────────────────────────────────────────── */
@@ -722,8 +723,9 @@ export default function GuidedBrief() {
 
             {/* Top bar */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '28px 48px 0', position: 'relative', zIndex: 1 }}>
-              <span style={{ fontSize: 15, fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>
-                hexspire<span style={{ color: '#6366f1' }}>.</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 15, fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>
+                <LogoMark size={20} />
+                hexspire
               </span>
               <button type="button" onClick={close} style={{
                 background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,

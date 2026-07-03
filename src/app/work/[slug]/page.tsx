@@ -46,6 +46,7 @@ export async function generateMetadata({
       title: `${study.title}: ${study.category} Case Study`,
       description,
       url: `https://hexspire.io/work/${slug}`,
+      images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'Hexspire, Software Development' }],
     },
   };
 }
