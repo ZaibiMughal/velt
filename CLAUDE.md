@@ -20,7 +20,7 @@ This file is the single source of truth for working on this codebase. Read it be
 | Styling | Inline styles + CSS custom properties (no Tailwind) |
 | Animation | Framer Motion |
 | Database | Supabase (PostgreSQL) |
-| Storage | Supabase Storage (`portfolio-assets` bucket) |
+| Storage | Supabase Storage (`portfolio-assets`, `brief-uploads`, `testimonial-assets` buckets) |
 | Email | Resend |
 | SEO | Next.js Metadata API + JSON-LD structured data |
 
@@ -157,6 +157,22 @@ import { readFileSync } from 'fs';
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
 await supabase.storage.from('portfolio-assets').upload('slug/cover.png', readFileSync('./public/case-studies/slug/cover.png'), { contentType: 'image/png', upsert: true });
 await supabase.from('case_studies').update({ cover_image: 'slug/cover.png', images: ['slug/screen-1.png'] }).eq('slug', 'slug');
+```
+
+### Testimonial avatars and videos
+
+The `testimonial-assets` bucket (created 2026-07-04) holds `testimonials.avatar_url`, `video_url`, and `video_thumbnail_url` files. Unlike `portfolio-assets`, this bucket is **public** — those three fields are read directly as ready-to-use URLs in `Testimonials.tsx` and the case study `AvatarBlock`, with no signed-URL step. Store the full public URL in the DB, not a bare path.
+
+Allowed types: `image/jpeg`, `image/png`, `image/webp`, `image/gif`, `video/mp4`, `video/quicktime`, `video/webm`. 50MB file size limit.
+
+To upload:
+```js
+import { createClient } from '@supabase/supabase-js';
+import { readFileSync } from 'fs';
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
+const { data } = await supabase.storage.from('testimonial-assets').upload('client-name-avatar.jpg', readFileSync('./avatar.jpg'), { contentType: 'image/jpeg', upsert: true });
+const { data: { publicUrl } } = supabase.storage.from('testimonial-assets').getPublicUrl(data.path);
+await supabase.from('testimonials').update({ avatar_url: publicUrl }).eq('id', 'testimonial-id');
 ```
 
 ---

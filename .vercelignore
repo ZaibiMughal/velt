@@ -1,0 +1,7 @@
+# Local reference/planning material - never needed in a deployment,
+# and idealize-demo.mov alone is 333MB (over Vercel's 100MB file limit).
+guideline/
+Guideline/
+
+# Playwright session artifacts
+.playwright-mcp/
