@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import type { CaseStudy } from '@/data/work/index';
 import { getAllCaseStudies, getCaseStudy, getCaseStudySlugs, getSignedImageUrls, getTestimonialForSlug } from '@/lib/data';
@@ -119,8 +120,8 @@ function ShowcaseCascade({ urls, t, title }: { urls: string[]; t: string; title:
             transformOrigin: 'bottom center',
             zIndex: 1, width: 200,
           }}>
-            <img src={left} alt={`${title} screen`}
-              style={{ width: '100%', display: 'block', borderRadius: 28, boxShadow: screenShadow }} />
+            <Image src={left} alt={`${title} screen`} width={0} height={0} sizes="200px"
+              style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 28, boxShadow: screenShadow }} />
           </div>
         )}
 
@@ -132,8 +133,8 @@ function ShowcaseCascade({ urls, t, title }: { urls: string[]; t: string; title:
             transformOrigin: 'bottom center',
             zIndex: 1, width: 200,
           }}>
-            <img src={right} alt={`${title} screen`}
-              style={{ width: '100%', display: 'block', borderRadius: 28, boxShadow: screenShadow }} />
+            <Image src={right} alt={`${title} screen`} width={0} height={0} sizes="200px"
+              style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 28, boxShadow: screenShadow }} />
           </div>
         )}
 
@@ -143,8 +144,8 @@ function ShowcaseCascade({ urls, t, title }: { urls: string[]; t: string; title:
           transform: 'translateX(-50%) translateX(0)',
           left: '50%', zIndex: 3, width: 230,
         }}>
-          <img src={cover} alt={title}
-            style={{ width: '100%', display: 'block', borderRadius: 32, boxShadow: coverShadow }} />
+          <Image src={cover} alt={title} width={0} height={0} priority sizes="230px"
+            style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 32, boxShadow: coverShadow }} />
         </div>
       </div>
     </div>
@@ -176,9 +177,11 @@ function ShowcaseRow({ urls, t, title }: { urls: string[]; t: string; title: str
             zIndex: isCenter ? 2 : 1,
             position: 'relative',
           }}>
-            <img src={url} alt={`${title} screen ${i + 1}`}
+            <Image src={url} alt={`${title} screen ${i + 1}`} width={0} height={0}
+              priority={isCenter}
+              sizes={urls.length >= 4 ? '160px' : '190px'}
               style={{
-                width: '100%', display: 'block', borderRadius: 24,
+                width: '100%', height: 'auto', display: 'block', borderRadius: 24,
                 boxShadow: isCenter
                   ? `0 28px 70px rgba(0,0,0,0.7), 0 0 0 1.5px ${rgba(t, 0.5)}, 0 0 50px ${rgba(t, 0.2)}`
                   : `0 16px 48px rgba(0,0,0,0.6), 0 0 0 1px ${rgba(t, 0.25)}`,
@@ -211,15 +214,15 @@ function ShowcaseEcosystem({
         <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
           {mobileUrls[0] && (
             <div style={{ flex: 1 }}>
-              <img src={mobileUrls[0]} alt={`${title} mobile`}
-                style={{ width: '100%', display: 'block', borderRadius: 22,
+              <Image src={mobileUrls[0]} alt={`${title} mobile`} width={0} height={0} priority sizes="45vw"
+                style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 22,
                   boxShadow: `0 20px 56px rgba(0,0,0,0.7), 0 0 0 1.5px ${rgba(t, 0.4)}` }} />
             </div>
           )}
           {mobileUrls[1] && (
             <div style={{ flex: 1, marginTop: 32 }}>
-              <img src={mobileUrls[1]} alt={`${title} mobile`}
-                style={{ width: '100%', display: 'block', borderRadius: 22,
+              <Image src={mobileUrls[1]} alt={`${title} mobile`} width={0} height={0} sizes="45vw"
+                style={{ width: '100%', height: 'auto', display: 'block', borderRadius: 22,
                   boxShadow: `0 20px 56px rgba(0,0,0,0.6), 0 0 0 1px ${rgba(t, 0.25)}` }} />
             </div>
           )}
@@ -260,8 +263,8 @@ function ShowcaseEcosystem({
                   {liveUrl?.replace('https://', '') ?? 'portal'}
                 </div>
               </div>
-              <img src={url} alt={`${title} web portal`}
-                style={{ width: '100%', display: 'block', objectPosition: 'top' }} />
+              <Image src={url} alt={`${title} web portal`} width={0} height={0} sizes="65vw"
+                style={{ width: '100%', height: 'auto', display: 'block', objectPosition: 'top' }} />
             </div>
           ))}
         </div>
@@ -279,7 +282,7 @@ function ShowcaseBrowser({
 }: {
   coverUrl: string; extraUrls: string[]; t: string; title: string; liveUrl?: string | null;
 }) {
-  const BrowserWrap = ({ src, alt }: { src: string; alt: string }) => (
+  const BrowserWrap = ({ src, alt, priority }: { src: string; alt: string; priority?: boolean }) => (
     <div style={{
       borderRadius: 12, overflow: 'hidden',
       border: `1px solid ${rgba(t, 0.3)}`,
@@ -307,13 +310,13 @@ function ShowcaseBrowser({
           {liveUrl?.replace('https://', '') ?? 'app'}
         </div>
       </div>
-      <img src={src} alt={alt} style={{ width: '100%', display: 'block', objectPosition: 'top' }} />
+      <Image src={src} alt={alt} width={0} height={0} priority={priority} sizes="(max-width: 768px) 100vw, 1000px" style={{ width: '100%', height: 'auto', display: 'block', objectPosition: 'top' }} />
     </div>
   );
 
   return (
     <div>
-      <BrowserWrap src={coverUrl} alt={title} />
+      <BrowserWrap src={coverUrl} alt={title} priority />
       {extraUrls.length > 0 && (
         <div style={{
           display: 'grid',
@@ -340,7 +343,7 @@ function AvatarBlock({ name, url }: { name: string; url: string | null }) {
   const initials = name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
 
   if (url) {
-    return <img src={url} alt={name} style={{ width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />;
+    return <Image src={url} alt={name} width={52} height={52} style={{ width: 52, height: 52, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }} />;
   }
   return (
     <div style={{

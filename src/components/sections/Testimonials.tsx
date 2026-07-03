@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import Image from 'next/image';
 import type { Testimonial } from '@/lib/data';
 
 /* ── Fallback data (shown when DB table doesn't exist yet) ──────── */
@@ -76,9 +77,11 @@ function Avatar({ name, url }: { name: string; url: string | null }) {
   const [c1, c2] = gradientForName(name);
   if (url) {
     return (
-      <img
+      <Image
         src={url}
         alt={name}
+        width={36}
+        height={36}
         style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
       />
     );
@@ -182,10 +185,12 @@ function TestimonialCard({ t, onPlay }: { t: Testimonial; onPlay?: (url: string)
           aria-label={`Play ${t.client_name}'s video testimonial`}
         >
           {t.video_thumbnail_url ? (
-            <img
+            <Image
               src={t.video_thumbnail_url}
               alt={`${t.client_name} video`}
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              fill
+              sizes="340px"
+              style={{ objectFit: 'cover' }}
             />
           ) : (
             <div style={{

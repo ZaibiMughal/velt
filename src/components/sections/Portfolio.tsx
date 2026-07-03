@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import Badge from '@/components/ui/Badge';
 import AnimatedSection from '@/components/ui/AnimatedSection';
@@ -108,27 +109,33 @@ function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', varia
         {/* Image panel — no own background; the card-wide gradient above shows through */}
         <div className="relative min-h-[240px] flex-1 overflow-hidden md:min-h-0">
           {hasImage && (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={coverUrl!}
-              alt={project.title}
+            <div
               style={{
                 position: 'absolute',
                 bottom: 0,
                 left: '50%',
                 transform: `translateX(-50%) scale(${hovered ? 1.03 : 1})`,
                 height: '94%',
-                width: 'auto',
-                maxWidth: '78%',
-                objectFit: 'contain',
-                objectPosition: 'bottom center',
-                borderRadius: '14px 14px 0 0',
-                boxShadow: `0 -4px 40px ${rgba(t, 0.22)}`,
-                maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
-                WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
+                width: '78%',
                 transition: 'transform 0.6s cubic-bezier(0.16,1,0.3,1)',
               }}
-            />
+            >
+              <Image
+                src={coverUrl!}
+                alt={project.title}
+                fill
+                priority
+                sizes="(max-width: 768px) 78vw, 460px"
+                style={{
+                  objectFit: 'contain',
+                  objectPosition: 'bottom center',
+                  borderRadius: '14px 14px 0 0',
+                  boxShadow: `0 -4px 40px ${rgba(t, 0.22)}`,
+                  maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
+                  WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
+                }}
+              />
+            </div>
           )}
         </div>
 
@@ -169,10 +176,7 @@ function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', varia
       >
         {hasImage && isMobileApp && (
           /* Portrait screenshot floating on themed gradient, anchored to bottom */
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={coverUrl!}
-            alt={project.title}
+          <div
             style={{
               position: 'absolute',
               bottom: 0,
@@ -180,27 +184,35 @@ function ProjectCard({ project, coverUrl, gradientIndex, height = '260px', varia
                 ? { right: '7%', left: 'auto' }
                 : { left: '50%', transform: 'translateX(-50%)' }),
               height: '86%',
-              width: 'auto',
-              maxWidth: compact ? '42%' : '62%',
-              objectFit: 'contain',
-              objectPosition: 'bottom center',
-              borderRadius: '14px 14px 0 0',
-              boxShadow: `0 -4px 40px ${rgba(t, 0.2)}`,
-              maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
-              WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
-              display: 'block',
+              width: compact ? '42%' : '62%',
             }}
-          />
+          >
+            <Image
+              src={coverUrl!}
+              alt={project.title}
+              fill
+              sizes={compact ? '(max-width: 768px) 42vw, 220px' : '(max-width: 768px) 62vw, 340px'}
+              style={{
+                objectFit: 'contain',
+                objectPosition: compact ? 'bottom right' : 'bottom center',
+                borderRadius: '14px 14px 0 0',
+                boxShadow: `0 -4px 40px ${rgba(t, 0.2)}`,
+                maskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 22%, black 100%)',
+              }}
+            />
+          </div>
         )}
         {hasImage && !isMobileApp && (
           /* Web/SaaS screenshot, dimmed with theme wash to sit in the dark card */
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={coverUrl!}
               alt={project.title}
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 768px) 100vw, 660px"
               style={{
+                objectFit: 'cover',
                 objectPosition: 'top center',
                 filter: 'brightness(0.6) saturate(0.85)',
                 opacity: hovered ? 1 : 0.9,

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import type { CaseStudy } from '@/data/work/index';
 import { getAllCaseStudies, getSignedImageUrl } from '@/lib/data';
 import Navbar from '@/components/layout/Navbar';
@@ -258,34 +259,40 @@ export default async function WorkPage({
                       {coverUrl ? (
                         isMobile ? (
                           /* Mobile: centered portrait screenshot floating on gradient */
-                          <img
-                            src={coverUrl}
-                            alt={study.title}
+                          <div
                             style={{
                               position: 'absolute',
                               bottom: 0,
                               left: '50%',
                               transform: 'translateX(-50%)',
                               height: '92%',
-                              width: 'auto',
-                              maxWidth: '58%',
-                              objectFit: 'contain',
-                              objectPosition: 'bottom center',
-                              borderRadius: '14px 14px 0 0',
-                              boxShadow: `0 -4px 40px ${rgba(t, 0.18)}, 0 0 0 1px ${rgba(t, 0.15)}`,
-                              display: 'block',
+                              width: '58%',
                             }}
-                          />
+                          >
+                            <Image
+                              src={coverUrl}
+                              alt={study.title}
+                              fill
+                              sizes="(max-width: 768px) 58vw, 260px"
+                              style={{
+                                objectFit: 'contain',
+                                objectPosition: 'bottom center',
+                                borderRadius: '14px 14px 0 0',
+                                boxShadow: `0 -4px 40px ${rgba(t, 0.18)}, 0 0 0 1px ${rgba(t, 0.15)}`,
+                              }}
+                            />
+                          </div>
                         ) : (
                           /* Web/SaaS: darkened screenshot with theme color tint */
                           <>
-                            <img
+                            <Image
                               src={coverUrl}
                               alt={study.title}
+                              fill
+                              sizes="(max-width: 900px) 50vw, (max-width: 1200px) 33vw, 360px"
                               style={{
-                                width: '100%', height: '100%',
-                                objectFit: 'cover', objectPosition: 'top center',
-                                display: 'block',
+                                objectFit: 'cover',
+                                objectPosition: 'top center',
                                 filter: 'brightness(0.55) saturate(0.85)',
                               }}
                             />
