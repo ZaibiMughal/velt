@@ -1,3 +1,4 @@
+import { unstable_cache } from 'next/cache';
 import { supabase } from './supabase';
 import type { Database } from './supabase';
 import type { CaseStudy } from '@/data/work/index';
@@ -77,18 +78,34 @@ function rowToTestimonial(row: TestimonialRow): Testimonial {
 }
 
 /**
+ * Signed URLs carry a unique token, so generating a fresh one on every
+ * request means the URL never repeats and neither the browser nor Next's
+ * image optimizer can ever cache the image across page loads. Caching the
+ * signed URL itself (server-side, keyed by path) keeps the URL stable for
+ * most of its 1-hour token lifetime, so repeat requests during that window
+ * actually get cache hits. Revalidates just under the token's expiry.
+ */
+const getCachedSignedUrl = unstable_cache(
+  async (path: string): Promise<string | null> => {
+    if (!supabase) return null;
+    const { data, error } = await supabase.storage
+      .from('portfolio-assets')
+      .createSignedUrl(path, 3600);
+    if (error || !data) return null;
+    return data.signedUrl;
+  },
+  ['portfolio-signed-url'],
+  { revalidate: 3000 },
+);
+
+/**
  * Returns a signed URL for a private portfolio-assets path.
- * Expires in 1 hour. Returns null if path is falsy or Supabase is unavailable.
+ * Returns null if path is falsy or Supabase is unavailable.
  */
 export async function getSignedImageUrl(path: string | null | undefined): Promise<string | null> {
   if (!path) return null;
   if (path.startsWith('/')) return path;
-  if (!supabase) return null;
-  const { data, error } = await supabase.storage
-    .from('portfolio-assets')
-    .createSignedUrl(path, 3600);
-  if (error || !data) return null;
-  return data.signedUrl;
+  return getCachedSignedUrl(path);
 }
 
 /**

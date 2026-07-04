@@ -690,7 +690,7 @@ export default async function CaseStudyPage({
               {isEcosystem ? (
                 <ShowcaseEcosystem
                   mobileUrls={[coverUrl, extraUrls[0]].filter(Boolean) as string[]}
-                  webUrls={extraUrls.slice(1)}
+                  webUrls={extraUrls.slice(2)}
                   t={t}
                   title={study.title}
                   liveUrl={study.live_url}
