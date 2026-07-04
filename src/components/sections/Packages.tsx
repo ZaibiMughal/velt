@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
@@ -301,6 +302,16 @@ export default function Packages() {
           <p className="text-center text-sm text-white/25 mt-8">
             30% advance · 70% on handover · Source code always yours
           </p>
+
+          <div className="flex justify-center mt-5">
+            <Link
+              href="/pricing"
+              className="text-sm font-medium"
+              style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'none' }}
+            >
+              See the full plan comparison <span style={{ color: '#818cf8' }}>&rarr;</span>
+            </Link>
+          </div>
         </AnimatedSection>
       </div>
     </section>
