@@ -216,7 +216,7 @@ export default function Packages() {
                             transition: `opacity 0.28s ease ${isActive ? '0.1s' : '0s'}`,
                           }}
                         >
-                          <ul className="flex flex-col gap-2 pt-2">
+                          <ul className="flex flex-col gap-2">
                             {pkg.features.slice(4, 7).map((f, fi) => (
                               <li
                                 key={fi}
