@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import type { Testimonial } from '@/lib/data';
 
@@ -100,9 +100,9 @@ function Avatar({ name, url }: { name: string; url: string | null }) {
 
 /* ── PlayIcon ───────────────────────────────────────────────────── */
 
-function PlayIcon() {
+function PlayIcon({ size = 20 }: { size?: number }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <polygon points="5,3 19,12 5,21" />
     </svg>
   );
@@ -160,9 +160,133 @@ function VideoModal({ url, name, onClose }: { url: string; name: string; onClose
   );
 }
 
+/* ── Full Testimonial Modal ───────────────────────────────────────── */
+
+function TestimonialModal({
+  t, onClose, onPlay,
+}: {
+  t: Testimonial;
+  onClose: () => void;
+  onPlay?: (url: string) => void;
+}) {
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === 'Escape') onClose();
+    }
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return (
+    <div
+      style={{
+        position: 'fixed', inset: 0, zIndex: 1000,
+        background: 'rgba(0,0,0,0.85)',
+        backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: 24,
+      }}
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={`Full testimonial from ${t.client_name}`}
+    >
+      <div
+        style={{
+          width: '100%', maxWidth: 560,
+          maxHeight: '85vh', overflowY: 'auto',
+          borderRadius: 20, position: 'relative',
+          background: '#111114',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: '0 32px 80px rgba(0,0,0,0.8)',
+          padding: '40px 40px 32px',
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          style={{
+            position: 'absolute', top: 16, right: 16,
+            width: 32, height: 32, borderRadius: '50%',
+            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
+            cursor: 'pointer', color: 'rgba(255,255,255,0.5)', fontSize: 18, lineHeight: 1,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}
+          aria-label="Close testimonial"
+        >
+          ×
+        </button>
+
+        {/* Quote mark */}
+        <div style={{
+          fontSize: 56, lineHeight: 0.8, color: '#6366f1', opacity: 0.5,
+          fontFamily: 'Georgia, serif', userSelect: 'none', marginBottom: 8,
+        }}>
+          &ldquo;
+        </div>
+
+        {/* Full quote */}
+        <p style={{
+          fontSize: 17, color: 'rgba(255,255,255,0.85)', lineHeight: 1.75,
+          margin: '0 0 28px',
+        }}>
+          {t.quote}
+        </p>
+
+        <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 24 }} />
+
+        {/* Identity + video link */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+            <Avatar name={t.client_name} url={t.avatar_url} />
+            <div>
+              <p style={{ fontSize: 15, fontWeight: 600, color: '#fff', margin: 0 }}>
+                {t.client_name}
+              </p>
+              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.42)', margin: '2px 0 0' }}>
+                {[t.client_role, t.client_company].filter(Boolean).join(' · ')}
+              </p>
+            </div>
+          </div>
+
+          {t.video_url && (
+            <button
+              onClick={() => { onClose(); onPlay?.(t.video_url!); }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.3)',
+                borderRadius: 999, padding: '8px 16px', cursor: 'pointer',
+                color: '#a5b4fc', fontSize: 13, fontWeight: 600, flexShrink: 0,
+              }}
+            >
+              <PlayIcon size={14} />
+              Watch video
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ── Testimonial Card ────────────────────────────────────────────── */
 
-function TestimonialCard({ t, onPlay }: { t: Testimonial; onPlay?: (url: string) => void }) {
+function TestimonialCard({
+  t, onPlay, onReadMore,
+}: {
+  t: Testimonial;
+  onPlay?: (url: string) => void;
+  onReadMore?: (t: Testimonial) => void;
+}) {
+  const quoteRef = useRef<HTMLParagraphElement>(null);
+  const [truncated, setTruncated] = useState(false);
+
+  useEffect(() => {
+    const el = quoteRef.current;
+    if (!el) return;
+    setTruncated(el.scrollHeight > el.clientHeight + 1);
+  }, [t.quote]);
+
   return (
     <div style={{
       flexShrink: 0, width: 340,
@@ -225,13 +349,28 @@ function TestimonialCard({ t, onPlay }: { t: Testimonial; onPlay?: (url: string)
         </div>
 
         {/* Quote text */}
-        <p style={{
-          fontSize: 14, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7,
-          margin: 0, flex: 1,
-          display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden',
-        } as React.CSSProperties}>
+        <p
+          ref={quoteRef}
+          style={{
+            fontSize: 14, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7,
+            margin: 0, flex: 1,
+            display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+          } as React.CSSProperties}
+        >
           {t.quote}
         </p>
+
+        {truncated && (
+          <button
+            onClick={() => onReadMore?.(t)}
+            style={{
+              alignSelf: 'flex-start', background: 'none', border: 'none', cursor: 'pointer',
+              padding: 0, marginTop: -12, fontSize: 12.5, fontWeight: 600, color: '#818cf8',
+            }}
+          >
+            Read full testimonial
+          </button>
+        )}
 
         {/* Divider */}
         <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
@@ -256,12 +395,13 @@ function TestimonialCard({ t, onPlay }: { t: Testimonial; onPlay?: (url: string)
 /* ── Marquee Row ─────────────────────────────────────────────────── */
 
 function MarqueeRow({
-  items, direction, duration, onPlay,
+  items, direction, duration, onPlay, onReadMore,
 }: {
   items: Testimonial[];
   direction: 'left' | 'right';
   duration: number;
   onPlay: (url: string) => void;
+  onReadMore: (t: Testimonial) => void;
 }) {
   const trackRef = useRef<HTMLDivElement>(null);
   // Duplicate 4× for seamless looping
@@ -286,7 +426,7 @@ function MarqueeRow({
         onMouseLeave={() => { if (trackRef.current) trackRef.current.style.animationPlayState = 'running'; }}
       >
         {repeated.map((t, i) => (
-          <TestimonialCard key={`${t.id}-${i}`} t={t} onPlay={onPlay} />
+          <TestimonialCard key={`${t.id}-${i}`} t={t} onPlay={onPlay} onReadMore={onReadMore} />
         ))}
       </div>
     </div>
@@ -298,6 +438,7 @@ function MarqueeRow({
 export default function Testimonials({ testimonials }: { testimonials: Testimonial[] }) {
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
   const [activeVideoName, setActiveVideoName] = useState('');
+  const [activeTestimonial, setActiveTestimonial] = useState<Testimonial | null>(null);
 
   const items = testimonials.length > 0 ? testimonials : FALLBACK_TESTIMONIALS;
 
@@ -358,7 +499,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
             fontSize: 16, color: 'rgba(255,255,255,0.42)',
             maxWidth: 440, margin: '0 auto', lineHeight: 1.65,
           }}>
-            From first call to final handover - here&apos;s what working with Hexspire is actually like.
+            From first call to final handover, here&apos;s what working with Hexspire is actually like.
           </p>
         </div>
 
@@ -372,6 +513,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
               const t = items.find((t) => t.video_url === url);
               handlePlay(url, t?.client_name ?? '');
             }}
+            onReadMore={(t) => setActiveTestimonial(t)}
           />
         </div>
 
@@ -392,6 +534,15 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           url={activeVideo}
           name={activeVideoName}
           onClose={() => { setActiveVideo(null); setActiveVideoName(''); }}
+        />
+      )}
+
+      {/* Full testimonial modal */}
+      {activeTestimonial && (
+        <TestimonialModal
+          t={activeTestimonial}
+          onClose={() => setActiveTestimonial(null)}
+          onPlay={(url) => handlePlay(url, activeTestimonial.client_name)}
         />
       )}
     </>
