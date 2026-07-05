@@ -20,6 +20,15 @@ export default function Packages() {
 
   return (
     <section id="packages" className="py-24 md:py-32 overflow-x-clip">
+      {/* Below md, the 3D fan collapses to a single centered card, switched via the tab bar above.
+          The side cards' partial-visibility slivers only read correctly at desktop widths. */}
+      <style>{`
+        @media (max-width: 767px) {
+          .pkg-card:not(.pkg-card-active) { display: none; }
+          .pkg-card-active { margin-left: 0 !important; }
+        }
+        .pkg-tab-scroll::-webkit-scrollbar { display: none; }
+      `}</style>
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}
@@ -38,10 +47,15 @@ export default function Packages() {
         </AnimatedSection>
 
         <AnimatedSection delay={0.1}>
-          {/* Tab bar */}
-          <div className="flex justify-center mb-10">
+          {/* Tab bar — scrolls horizontally below md, since all 3 tabs together
+              don't fit a phone width and centering would push the first tab
+              off-screen with no way to scroll back to it. */}
+          <div
+            className="pkg-tab-scroll flex justify-start md:justify-center mb-10 overflow-x-auto"
+            style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
+          >
             <div
-              className="flex gap-1 p-1 rounded-2xl"
+              className="flex gap-1 p-1 rounded-2xl shrink-0 mx-auto"
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
             >
               {packages.map((pkg, i) => (
@@ -101,9 +115,10 @@ export default function Packages() {
                     x:       dist * (isActive ? 0 : -32),
                   }}
                   transition={{ type: 'spring', stiffness: 320, damping: 34, mass: 0.8 }}
-                  className="relative flex flex-col rounded-2xl"
+                  className={`pkg-card relative flex flex-col rounded-2xl ${isActive ? 'pkg-card-active' : ''}`}
                   style={{
                     width: '340px',
+                    maxWidth: '100%',
                     flexShrink: 0,
                     marginLeft: i > 0 ? '-48px' : '0',
                     zIndex:     isActive ? 10 : i < active ? 4 : 3,
