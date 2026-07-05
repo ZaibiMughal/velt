@@ -129,7 +129,10 @@ export default function Navbar() {
           className="pointer-events-auto"
           style={{
             position: 'fixed',
-            zIndex: 50,
+            /* Above the mobile menu overlay (z-60) so the hamburger button,
+               animated into an X while the menu is open, stays visible and
+               clickable instead of being hidden behind the overlay. */
+            zIndex: 65,
             /* left/right shrink inward on scroll → creates the floating pill */
             top:   scrolled ? '10px'  : '0px',
             left:  scrolled ? '5%'   : '0px',
