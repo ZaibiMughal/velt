@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import LogoMark from '@/components/ui/LogoMark';
 import Wordmark from '@/components/ui/Wordmark';
@@ -275,6 +276,20 @@ function toggle(arr: string[], v: string) {
   return arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v];
 }
 
+/* Tells the visitor why "Next" is still disabled instead of leaving them to guess. */
+function MinLengthHint({ value, min }: { value: string; min: number }) {
+  const len = value.trim().length;
+  const remaining = min - len;
+  if (remaining <= 0) return null;
+  return (
+    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: '8px 0 0' }}>
+      {len === 0
+        ? `Write at least ${min} characters to continue.`
+        : `${remaining} more character${remaining === 1 ? '' : 's'} to continue.`}
+    </p>
+  );
+}
+
 /* ── chip ──────────────────────────────────────────────────────────────── */
 
 function Chip({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
@@ -463,6 +478,7 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
           onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
           onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
         />
+        <MinLengthHint value={data.description} min={10} />
         <FileUploadZone files={data.files} data={data} setData={setData} />
       </div>
     );
@@ -528,15 +544,18 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
   if (step === 6) {
     const { placeholder } = getStep6Content(data.stage);
     return (
-      <textarea
-        placeholder={placeholder}
-        value={data.success}
-        onChange={e => setData({ ...data, success: e.target.value })}
-        rows={5}
-        style={{ ...INPUT, resize: 'none' }}
-        onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
-        onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
-      />
+      <div>
+        <textarea
+          placeholder={placeholder}
+          value={data.success}
+          onChange={e => setData({ ...data, success: e.target.value })}
+          rows={5}
+          style={{ ...INPUT, resize: 'none' }}
+          onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
+          onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+        />
+        <MinLengthHint value={data.success} min={5} />
+      </div>
     );
   }
 
@@ -570,6 +589,14 @@ export default function GuidedBrief() {
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  // The trigger link lives inside the Contact section's motion.form, which
+  // (like any Framer Motion element) keeps a `transform` style applied even
+  // at rest — that creates a CSS stacking context that traps this modal's
+  // z-index below MobileStickyCTA's, regardless of how high it's set.
+  // Porting straight to <body> escapes that trap entirely.
+  useEffect(() => { setMounted(true); }, []);
 
   const ready = canAdvance(step, data) && !submitting;
   const pct   = Math.round((step / TOTAL) * 100);
@@ -697,7 +724,9 @@ export default function GuidedBrief() {
         </svg>
       </button>
 
-      {/* full-screen overlay */}
+      {/* full-screen overlay, portaled to <body> so it isn't trapped inside an
+          ancestor stacking context (see mounted comment above) */}
+      {mounted && createPortal(
       <AnimatePresence>
         {open && (
           <motion.div
@@ -728,15 +757,19 @@ export default function GuidedBrief() {
                 <LogoMark size={20} />
                 <Wordmark />
               </span>
-              <button type="button" onClick={close} style={{
-                background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
-                color: 'rgba(255,255,255,0.35)', cursor: 'pointer', padding: '6px 14px',
-                fontSize: 12, fontFamily: 'inherit', transition: 'all 0.15s ease',
+              <button type="button" onClick={close} aria-label="Close and return to the site" style={{
+                display: 'flex', alignItems: 'center', gap: 7,
+                background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 999,
+                color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: '7px 16px 7px 12px',
+                fontSize: 13, fontFamily: 'inherit', transition: 'all 0.15s ease',
               }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.25)'; (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.6)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.35)'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.25)'; (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.85)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.5)'; }}
               >
-                Esc
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+                Back to site
               </button>
             </div>
 
@@ -856,7 +889,9 @@ export default function GuidedBrief() {
             )}
           </motion.div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body,
+      )}
     </>
   );
 }
