@@ -2,6 +2,8 @@ export interface Package {
   id: string;
   name: string;
   price: string;
+  /** Caption shown next to the price. Defaults to 'Fixed' when omitted. */
+  priceNote?: string;
   delivery: string;
   description: string;
   highlighted: boolean;
@@ -44,7 +46,7 @@ export const packages: Package[] = [
   {
     id: 'growth',
     name: 'Growth Platform',
-    price: '$15,000',
+    price: '$18,000',
     delivery: 'From 3–4 Weeks',
     description: 'Everything in Launch MVP, plus full admin control.',
     highlighted: true,
@@ -68,7 +70,8 @@ export const packages: Package[] = [
   {
     id: 'saas',
     name: 'SaaS Platform',
-    price: '$20,000',
+    price: '$25,000',
+    priceNote: 'Starting from',
     delivery: 'From 6 Weeks',
     description: 'Full-stack SaaS with web, mobile, and subscriptions.',
     highlighted: false,

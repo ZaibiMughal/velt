@@ -112,7 +112,7 @@ export default function PricingPage() {
                 <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: '-0.02em' }}>
                   {pkg.price}
                   <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', marginLeft: 6 }}>
-                    Fixed
+                    {pkg.priceNote ?? 'Fixed'}
                   </span>
                 </div>
                 <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, margin: '10px 0 0' }}>

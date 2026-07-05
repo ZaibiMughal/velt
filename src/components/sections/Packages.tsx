@@ -234,7 +234,9 @@ export default function Packages() {
                       >
                         {pkg.price}
                       </span>
-                      <span className="text-[11px] text-white/30 uppercase tracking-widest pb-1">fixed</span>
+                      <span className="text-[11px] text-white/30 uppercase tracking-widest pb-1">
+                        {pkg.priceNote ?? 'Fixed'}
+                      </span>
                     </div>
 
                     {/* Feature list */}
