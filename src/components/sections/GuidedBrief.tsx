@@ -559,22 +559,39 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
     );
   }
 
-  if (step === 7) return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-      <input type="text" placeholder="Your name"
-        value={data.name} onChange={e => setData({ ...data, name: e.target.value })}
-        style={INPUT}
-        onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
-        onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
-      />
-      <input type="email" placeholder="your@email.com"
-        value={data.email} onChange={e => setData({ ...data, email: e.target.value })}
-        style={INPUT}
-        onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
-        onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
-      />
-    </div>
-  );
+  if (step === 7) {
+    const nameOk = data.name.trim().length > 0;
+    const emailOk = /\S+@\S+\.\S+/.test(data.email);
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <input type="text" placeholder="Your name"
+          value={data.name} onChange={e => setData({ ...data, name: e.target.value })}
+          style={INPUT}
+          onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
+          onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+        />
+        <input type="email" placeholder="your@email.com"
+          value={data.email} onChange={e => setData({ ...data, email: e.target.value })}
+          style={INPUT}
+          onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
+          onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+        />
+        {!nameOk ? (
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
+            Enter your name to continue.
+          </p>
+        ) : !emailOk && data.email.length > 0 ? (
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
+            That email address doesn&apos;t look complete, check for a typo.
+          </p>
+        ) : !emailOk ? (
+          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
+            Enter a valid email address to continue.
+          </p>
+        ) : null}
+      </div>
+    );
+  }
 
   return null;
 }
