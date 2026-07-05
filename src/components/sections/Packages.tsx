@@ -27,7 +27,6 @@ export default function Packages() {
           .pkg-card:not(.pkg-card-active) { display: none; }
           .pkg-card-active { margin-left: 0 !important; }
         }
-        .pkg-tab-scroll::-webkit-scrollbar { display: none; }
       `}</style>
       <div className="max-w-7xl mx-auto px-6">
 
@@ -47,15 +46,53 @@ export default function Packages() {
         </AnimatedSection>
 
         <AnimatedSection delay={0.1}>
-          {/* Tab bar — scrolls horizontally below md, since all 3 tabs together
-              don't fit a phone width and centering would push the first tab
-              off-screen with no way to scroll back to it. */}
-          <div
-            className="pkg-tab-scroll flex justify-start md:justify-center mb-10 overflow-x-auto"
-            style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
-          >
+          {/* Mobile: vertical list, all 3 plans visible at once with no
+              scroll-discoverability problem. Desktop: horizontal pill tab bar. */}
+          <div className="flex md:hidden flex-col gap-2 mb-8">
+            {packages.map((pkg, i) => {
+              const isActive = i === active;
+              return (
+                <button
+                  key={pkg.id}
+                  onClick={() => setActive(i)}
+                  className="relative flex items-center justify-between gap-3 rounded-2xl px-4 py-3.5 text-left transition-colors duration-200"
+                  style={{
+                    background: isActive ? 'rgba(99,102,241,0.12)' : 'rgba(255,255,255,0.03)',
+                    border: `1px solid ${isActive ? 'rgba(99,102,241,0.4)' : 'rgba(255,255,255,0.07)'}`,
+                  }}
+                >
+                  <span className="flex items-center gap-2">
+                    <span
+                      className="w-1.5 h-1.5 rounded-full shrink-0"
+                      style={{ background: isActive ? '#818cf8' : 'transparent' }}
+                    />
+                    <span className="text-sm font-medium" style={{ color: isActive ? '#fff' : 'rgba(255,255,255,0.55)' }}>
+                      {pkg.name}
+                    </span>
+                    {pkg.highlighted && (
+                      <span
+                        className="text-[9px] font-semibold uppercase tracking-wider rounded-full px-2 py-0.5"
+                        style={{ background: 'rgba(99,102,241,0.18)', color: '#a5b4fc' }}
+                      >
+                        Popular
+                      </span>
+                    )}
+                  </span>
+                  <span
+                    className="text-sm font-semibold tabular-nums shrink-0"
+                    style={{ color: isActive ? '#a5b4fc' : 'rgba(255,255,255,0.35)' }}
+                  >
+                    {pkg.price}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Desktop tab bar */}
+          <div className="hidden md:flex justify-center mb-10">
             <div
-              className="flex gap-1 p-1 rounded-2xl shrink-0 mx-auto"
+              className="flex gap-1 p-1 rounded-2xl"
               style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}
             >
               {packages.map((pkg, i) => (
