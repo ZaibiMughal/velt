@@ -34,7 +34,7 @@ All required. Set in `.env.local`:
 SUPABASE_URL=https://epiqtwwszkrmmzyzhxzm.supabase.co
 SUPABASE_SERVICE_ROLE_KEY=...
 RESEND_API_KEY=...
-CONTACT_EMAIL=zohaibumar6@gmail.com
+CONTACT_EMAIL=info@hexspire.io
 ```
 
 The Supabase client is created server-side only using the service role key. There is no anon key — no client-side Supabase access.

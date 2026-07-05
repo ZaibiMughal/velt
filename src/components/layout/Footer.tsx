@@ -76,10 +76,10 @@ export default function Footer({ className }: FooterProps) {
               {PRIMARY_CTA_LABEL}
             </Link>
             <a
-              href="mailto:zohaibumar6@gmail.com"
+              href="mailto:info@hexspire.io"
               className="text-sm text-white/40 transition-colors hover:text-white"
             >
-              zohaibumar6@gmail.com
+              info@hexspire.io
             </a>
           </div>
         </div>
