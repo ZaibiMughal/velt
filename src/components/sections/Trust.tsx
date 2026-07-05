@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 
 const ROW_1 =
-  'Mobile Apps · Web Applications · SaaS Platforms · Admin Dashboards · React Native · Next.js · TypeScript · Node.js · Supabase · Stripe · PostgreSQL · ';
+  'Mobile Apps · Web Applications · SaaS Platforms · Admin Dashboards · Flutter · React Native · Next.js · TypeScript · Node.js · Supabase · Stripe · PostgreSQL · ';
 
 const ROW_2 =
   'React · TailwindCSS · Framer Motion · Firebase · AWS · Vercel · Expo · Flutter · GraphQL · REST APIs · Figma · ';
