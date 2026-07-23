@@ -13,12 +13,6 @@ export interface Package {
   idealFor: string[];
 }
 
-/**
- * Shown in the Packages section scarcity line.
- * Update this monthly so repeat visitors see it change.
- */
-export const SLOTS_AVAILABLE = 2;
-
 export const packages: Package[] = [
   {
     id: 'mvp',
