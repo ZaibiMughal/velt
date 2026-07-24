@@ -730,7 +730,7 @@ export default function GuidedBrief() {
         onClick={() => setOpen(true)}
         style={{
           background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit',
-          color: 'var(--color-muted)', fontSize: 14, padding: 0,
+          color: 'var(--color-muted)', fontSize: 14, padding: 0, borderRadius: 8,
           display: 'inline-flex', alignItems: 'center', gap: 5,
           transition: 'color 0.2s ease',
         }}

@@ -49,6 +49,16 @@ body {
   color: #ffffff;
 }
 
+/* Keyboard focus indicator, shown when the browser deems focus visible
+   (tabbing, or focus restored after keyboard use, e.g. closing the guided
+   brief). Kept for accessibility but styled to match the 2D system instead
+   of the raw UA outline; outline-offset gives it air, and outline follows
+   each element's border-radius. */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
 /* Tailwind's preflight resets buttons to cursor: default; interactive
    elements should show the hand cursor. */
 button:not(:disabled),
