@@ -48,13 +48,13 @@ export default async function Home() {
         <Hero />
         <Trust />
         <Portfolio caseStudies={caseStudies} />
-        <Testimonials testimonials={testimonials} />
         <Partners partners={partners} />
+        <Testimonials testimonials={testimonials} />
         <HowWeWork />
         <WhyHexspire />
         <Packages />
-        <FAQ />
         <PaymentStructure />
+        <FAQ />
         <Contact />
       </main>
       <Footer />

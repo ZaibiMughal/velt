@@ -7,15 +7,16 @@ interface PartnersProps {
   partners: Partner[];
 }
 
-/**
- * Logos that are naturally monochrome (no brand color in the source file)
- * don't get anything from the grayscale->color hover trick, since desaturating
- * a colorless image is a no-op. For these, swap to a separate colored asset
- * on hover instead of just removing a filter.
+/*
+ * The partner logo assets are a mix of white marks (drawn for the old dark
+ * site) and dark marks, so neither native color nor plain grayscale is
+ * visible for all of them on the cream background. Every logo is therefore
+ * flattened to a solid ink silhouette via brightness(0), which reads the
+ * alpha channel as a stamp shape regardless of the source colors, and
+ * simply darkens on hover. The old grayscale-to-brand-color hover reveal
+ * (and its per-logo hover-asset override) only made sense on the dark
+ * design and was dropped with it.
  */
-const HOVER_LOGO_OVERRIDES: Record<string, string> = {
-  PIPA: 'https://epiqtwwszkrmmzyzhxzm.supabase.co/storage/v1/object/public/partner-logos/pipa-pink-hover.png',
-};
 
 /*
  * A fixed box (not just a fixed height) with object-fit: contain, so a
@@ -28,8 +29,6 @@ const LOGO_BOX_WIDTH = 130;
 const LOGO_BOX_HEIGHT = 46;
 
 function PartnerItem({ partner }: { partner: Partner }) {
-  const hoverSrc = HOVER_LOGO_OVERRIDES[partner.name];
-
   const content = partner.logo_url ? (
     <div style={{ position: 'relative', width: LOGO_BOX_WIDTH, height: LOGO_BOX_HEIGHT }}>
       <Image
@@ -40,26 +39,14 @@ function PartnerItem({ partner }: { partner: Partner }) {
         className="partner-logo-img"
         style={{
           objectFit: 'contain',
-          filter: hoverSrc ? 'none' : 'grayscale(1)',
-          opacity: 0.5,
-          transition: 'filter 0.3s ease, opacity 0.3s ease',
+          /* grayscale + darken keeps white-source marks visible on cream
+             while preserving internal detail in filled app-icon logos,
+             which a flat brightness(0) silhouette erases. */
+          filter: 'grayscale(1) brightness(0.45)',
+          opacity: 0.6,
+          transition: 'opacity 0.3s ease',
         }}
       />
-      {hoverSrc && (
-        <Image
-          src={hoverSrc}
-          alt=""
-          aria-hidden="true"
-          fill
-          sizes="130px"
-          className="partner-logo-hover"
-          style={{
-            objectFit: 'contain',
-            opacity: 0,
-            transition: 'opacity 0.3s ease',
-          }}
-        />
-      )}
     </div>
   ) : (
     <span className="text-sm font-semibold tracking-wide whitespace-nowrap" style={{ color: 'var(--color-muted)' }}>
@@ -104,10 +91,9 @@ export default function Partners({ partners }: PartnersProps) {
   return (
     <section
       className="py-14"
-      style={{ borderTop: '2px solid var(--color-border-muted)', borderBottom: '2px solid var(--color-border-muted)' }}
       aria-label="Companies we've worked with"
     >
-      <p className="text-center text-[10px] font-semibold uppercase tracking-widest mb-14" style={{ color: 'var(--color-muted-dark)' }}>
+      <p className="text-center text-[10px] font-semibold uppercase tracking-widest mb-12" style={{ color: 'var(--color-muted-dark)', letterSpacing: '0.18em' }}>
         Trusted by founders &amp; businesses
       </p>
 
@@ -143,12 +129,7 @@ export default function Partners({ partners }: PartnersProps) {
         }
         .partner-logo-link:hover .partner-logo-img,
         .partner-logo-link:focus-visible .partner-logo-img {
-          filter: grayscale(0) !important;
-          opacity: 1 !important;
-        }
-        .partner-logo-link:hover .partner-logo-hover,
-        .partner-logo-link:focus-visible .partner-logo-hover {
-          opacity: 1 !important;
+          opacity: 0.95 !important;
         }
       `}</style>
     </section>
