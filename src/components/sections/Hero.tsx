@@ -5,6 +5,7 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import StickerBadge from '@/components/ui/StickerBadge';
+import HeroRibbon from '@/components/ui/HeroRibbon';
 import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon } from '@/components/ui/ProductIcons';
 
 function scrollTo(id: string) {
@@ -202,6 +203,16 @@ export default function Hero() {
           <ProductCards />
         </motion.div>
       </div>
+
+      {/* Signature ribbon: process words flowing along a wavy path across the hero base */}
+      <motion.div
+        className="pointer-events-none absolute bottom-[-8px] left-0 right-0 hidden h-[200px] lg:block"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.9, delay: 0.9, ease: EASE }}
+      >
+        <HeroRibbon />
+      </motion.div>
     </section>
   );
 }

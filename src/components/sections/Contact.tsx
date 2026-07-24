@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Badge from '@/components/ui/Badge';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import Button from '@/components/ui/Button';
+import TechDeck from '@/components/ui/TechDeck';
 import GuidedBrief from '@/components/sections/GuidedBrief';
 import { cn } from '@/lib/utils';
 import { CAL_URL, BOOKING_ENABLED } from '@/lib/site';
@@ -220,7 +221,26 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="py-24 md:py-32">
+    <section id="contact" className="relative py-24 md:py-32">
+      {/* Cycling tech-stack deck in the form's empty left margin */}
+      <div
+        className="hidden xl:flex flex-col items-center gap-4"
+        style={{
+          position: 'absolute',
+          left: 'max(32px, calc(50% - 590px))',
+          top: '52%',
+          pointerEvents: 'none',
+        }}
+      >
+        <p
+          className="text-[10px] font-bold uppercase"
+          style={{ letterSpacing: '0.18em', color: 'var(--color-muted-dark)' }}
+        >
+          We build with
+        </p>
+        <TechDeck />
+      </div>
+
       <div className="max-w-7xl mx-auto px-6">
         {/* Section header */}
         <AnimatedSection className="flex flex-col items-center text-center gap-4 mb-16">

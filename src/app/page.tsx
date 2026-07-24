@@ -12,7 +12,7 @@ import FAQ from '@/components/sections/FAQ';
 import PaymentStructure from '@/components/sections/PaymentStructure';
 import Contact from '@/components/sections/Contact';
 import Testimonials from '@/components/sections/Testimonials';
-import { getAllCaseStudies, getAllPartners, getAllTestimonials, getSignedImageUrl } from '@/lib/data';
+import { getAllCaseStudies, getAllPartners, getAllTestimonials } from '@/lib/data';
 
 export const metadata: Metadata = {
   title: { absolute: 'Hexspire | Ship Your Product Without Building a Full Team' },
@@ -41,18 +41,13 @@ export default async function Home() {
     getAllTestimonials(),
   ]);
 
-  // Signed cover URLs for the 3 featured portfolio cards
-  const coverUrls = await Promise.all(
-    caseStudies.slice(0, 3).map((s) => getSignedImageUrl(s.cover_image)),
-  );
-
   return (
     <>
       <Navbar />
       <main>
         <Hero />
         <Trust />
-        <Portfolio caseStudies={caseStudies} coverUrls={coverUrls} />
+        <Portfolio caseStudies={caseStudies} />
         <Testimonials testimonials={testimonials} />
         <Partners partners={partners} />
         <HowWeWork />

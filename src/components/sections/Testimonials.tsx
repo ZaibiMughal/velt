@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import LaptopScene from '@/components/ui/LaptopScene';
 import type { Testimonial } from '@/lib/data';
 
 /* ── Fallback data (shown when DB table doesn't exist yet) ──────── */
@@ -464,6 +465,17 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
           position: 'absolute', top: 0, right: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: 'none',
           background: 'linear-gradient(to left, var(--color-bg-dark), transparent)',
         }} />
+
+        {/* Illustrated laptop scene anchored in the header's empty right corner */}
+        <div
+          className="hidden xl:block"
+          style={{
+            position: 'absolute', top: 96, right: 'max(40px, calc(50% - 640px))',
+            width: 270, zIndex: 1, pointerEvents: 'none',
+          }}
+        >
+          <LaptopScene />
+        </div>
 
         {/* Section header */}
         <div style={{
