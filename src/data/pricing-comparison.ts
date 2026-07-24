@@ -35,6 +35,7 @@ export const COMPARISON: ComparisonCategory[] = [
       { label: 'Core business features', values: [true, true, true] },
       { label: 'Authentication and user accounts', values: [true, true, true] },
       { label: 'User profiles and database setup', values: [true, true, true] },
+      { label: 'Backend server', note: 'Supabase, Node.js, etc.', values: [true, true, true] },
       { label: 'API integrations', values: ['Essential', '+ additional', '+ third-party and CRM'] },
       { label: 'UX/UI design adaptation', values: [true, true, true] },
       { label: 'Responsive design', values: [true, true, true] },

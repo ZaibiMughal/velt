@@ -17,7 +17,7 @@ export const packages: Package[] = [
   {
     id: 'mvp',
     name: 'Launch MVP',
-    price: '$8,000',
+    price: '$10,000',
     delivery: 'From 2 Weeks',
     description: 'For founders validating an idea fast.',
     highlighted: false,
@@ -26,6 +26,7 @@ export const packages: Package[] = [
       'Core Business Features',
       'Authentication & User Accounts',
       'User Profiles & Database Setup',
+      'Backend Server (Supabase, Node.js, etc.)',
       'Essential API Integrations',
       'Push Notifications (mobile)',
       'UX/UI Design Adaptation',
@@ -40,7 +41,7 @@ export const packages: Package[] = [
   {
     id: 'growth',
     name: 'Growth Platform',
-    price: '$14,000',
+    price: '$15,000',
     delivery: 'From 3–4 Weeks',
     description: 'Everything in Launch MVP, plus full admin control.',
     highlighted: true,
