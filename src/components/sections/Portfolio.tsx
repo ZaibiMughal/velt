@@ -48,6 +48,7 @@ function ArrowBadge({ hovered, t }: { hovered: boolean; t: string }) {
 
 interface CardProps {
   project: CaseStudy;
+  coverUrl?: string | null;
   height?: string;
   /**
    * 'compact' is the small stacked card. 'feature' is the large hero card —
@@ -57,7 +58,7 @@ interface CardProps {
   variant?: 'default' | 'compact' | 'feature';
 }
 
-function ProjectCard({ project, height = '260px', variant = 'default' }: CardProps) {
+function ProjectCard({ project, coverUrl = null, height = '260px', variant = 'default' }: CardProps) {
   const [hovered, setHovered] = useState(false);
   const isMobileApp = project.category === 'Mobile App';
   const t = project.theme_color || '#6366f1';
@@ -119,7 +120,7 @@ function ProjectCard({ project, height = '260px', variant = 'default' }: CardPro
               transition: 'transform 0.4s ease',
             }}
           >
-            <AnimatedPhone t={t} />
+            <AnimatedPhone t={t} screenshot={coverUrl} />
           </div>
         </div>
       </Link>
@@ -156,13 +157,13 @@ function ProjectCard({ project, height = '260px', variant = 'default' }: CardPro
               aspectRatio: '240 / 440',
             }}
           >
-            <AnimatedPhone t={t} />
+            <AnimatedPhone t={t} screenshot={coverUrl} />
           </div>
         ) : (
           /* Animated illustrated browser window */
           <div className="absolute inset-0 flex items-center justify-center p-5">
             <div style={{ width: '92%', aspectRatio: '480 / 300', maxHeight: '100%' }}>
-              <AnimatedBrowser t={t} />
+              <AnimatedBrowser t={t} screenshot={coverUrl} />
             </div>
           </div>
         )}
@@ -219,9 +220,10 @@ function PlaceholderCard({ index, height = '260px' }: { index: number; height?: 
 
 interface PortfolioProps {
   caseStudies: CaseStudy[];
+  coverUrls?: (string | null)[];
 }
 
-export default function Portfolio({ caseStudies }: PortfolioProps) {
+export default function Portfolio({ caseStudies, coverUrls = [] }: PortfolioProps) {
   const isEmpty = caseStudies.length === 0;
   const shown = caseStudies.slice(0, 3);
 
@@ -251,22 +253,22 @@ export default function Portfolio({ caseStudies }: PortfolioProps) {
               </div>
             </div>
           ) : shown.length === 1 ? (
-            <ProjectCard project={shown[0]} height="480px" variant="feature" />
+            <ProjectCard project={shown[0]} coverUrl={coverUrls[0]} height="480px" variant="feature" />
           ) : shown.length === 2 ? (
             <div className="grid md:grid-cols-2 gap-4">
-              {shown.map((p) => (
-                <ProjectCard key={p.slug} project={p} height="420px" variant="feature" />
+              {shown.map((p, i) => (
+                <ProjectCard key={p.slug} project={p} coverUrl={coverUrls[i]} height="420px" variant="feature" />
               ))}
             </div>
           ) : (
             /* 3-card bento: large left, two stacked right */
             <div className="grid md:grid-cols-5 gap-4">
               <div className="md:col-span-3">
-                <ProjectCard project={shown[0]} height="520px" variant="feature" />
+                <ProjectCard project={shown[0]} coverUrl={coverUrls[0]} height="520px" variant="feature" />
               </div>
               <div className="md:col-span-2 flex flex-col gap-4">
-                <ProjectCard project={shown[1]} height="250px" variant="compact" />
-                <ProjectCard project={shown[2]} height="250px" variant="compact" />
+                <ProjectCard project={shown[1]} coverUrl={coverUrls[1]} height="250px" variant="compact" />
+                <ProjectCard project={shown[2]} coverUrl={coverUrls[2]} height="250px" variant="compact" />
               </div>
             </div>
           )}
