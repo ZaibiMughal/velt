@@ -44,6 +44,15 @@ export function LayersIcon() {
   );
 }
 
+export function SparkIcon() {
+  return (
+    <svg {...common}>
+      <path d="M11 4 l1.7 4.8 L17.5 10.5 l-4.8 1.7 L11 17 l-1.7 -4.8 L4.5 10.5 l4.8 -1.7 Z" />
+      <path d="M18.5 15 l0.9 2.6 2.6 0.9 -2.6 0.9 -0.9 2.6 -0.9 -2.6 -2.6 -0.9 2.6 -0.9 Z" />
+    </svg>
+  );
+}
+
 export function CodeIcon() {
   return (
     <svg {...common}>

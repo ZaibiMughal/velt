@@ -113,6 +113,8 @@ export default function Navbar() {
         className="pointer-events-auto fixed top-3 left-3 right-3 md:top-4 md:left-6 md:right-6"
         style={{
           zIndex: 65,
+          maxWidth: 1060,
+          margin: '0 auto',
           borderRadius: '20px',
           background: 'var(--color-surface)',
           border: '1px solid var(--color-border-muted)',

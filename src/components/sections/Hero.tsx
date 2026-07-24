@@ -6,7 +6,7 @@ import Badge from '@/components/ui/Badge';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import StickerBadge from '@/components/ui/StickerBadge';
 import HeroRibbon from '@/components/ui/HeroRibbon';
-import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon } from '@/components/ui/ProductIcons';
+import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon, SparkIcon } from '@/components/ui/ProductIcons';
 
 function scrollTo(id: string) {
   document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -29,10 +29,11 @@ const STATS = [
 /* ─── Flat scattered product cards (right column) ────────────────────────── */
 
 const PRODUCT_CARDS = [
-  { text: 'Mobile App', sub: 'iOS + Android', x: '4%', y: '2%', rotate: -4, fill: 'var(--color-surface)', delay: 0, Icon: PhoneIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: 5 },
-  { text: 'Web App', sub: 'React / Next.js', x: '48%', y: '14%', rotate: 3, fill: 'var(--color-bg-accent)', delay: 0.5, Icon: GlobeIcon, badgeFill: 'var(--color-surface)', badgeRotate: -6 },
-  { text: 'SaaS Platform', sub: 'Full-stack', x: '2%', y: '52%', rotate: 2, fill: 'var(--color-bg-accent)', delay: 1.0, Icon: LayersIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6 },
-  { text: 'Admin Dashboard', sub: 'Analytics', x: '46%', y: '62%', rotate: -3, fill: 'var(--color-surface)', delay: 0.7, Icon: ChartIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: -5 },
+  { text: 'Mobile App', sub: 'iOS + Android', x: '4%', y: '0%', rotate: -4, fill: 'var(--color-surface)', delay: 0, Icon: PhoneIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: 5, highlight: false },
+  { text: 'Web App', sub: 'React / Next.js', x: '50%', y: '10%', rotate: 3, fill: 'var(--color-bg-accent)', delay: 0.5, Icon: GlobeIcon, badgeFill: 'var(--color-surface)', badgeRotate: -6, highlight: false },
+  { text: 'AI Automations', sub: 'Agents + workflows', x: '16%', y: '30%', rotate: -2, fill: 'var(--color-primary)', delay: 1.3, Icon: SparkIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6, highlight: true },
+  { text: 'SaaS Platform', sub: 'Full-stack', x: '2%', y: '58%', rotate: 2, fill: 'var(--color-bg-accent)', delay: 1.0, Icon: LayersIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6, highlight: false },
+  { text: 'Admin Dashboard', sub: 'Analytics', x: '46%', y: '64%', rotate: -3, fill: 'var(--color-surface)', delay: 0.7, Icon: ChartIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: -5, highlight: false },
 ] as const;
 
 function ProductCards() {
@@ -78,8 +79,8 @@ function ProductCards() {
               <card.Icon />
             </StickerBadge>
             <div>
-              <div className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>{card.text}</div>
-              <div className="text-xs mt-0.5" style={{ color: 'var(--color-muted)' }}>{card.sub}</div>
+              <div className="text-sm font-semibold" style={{ color: card.highlight ? '#ffffff' : 'var(--color-text)' }}>{card.text}</div>
+              <div className="text-xs mt-0.5" style={{ color: card.highlight ? 'rgba(255,255,255,0.75)' : 'var(--color-muted)' }}>{card.sub}</div>
             </div>
           </div>
         </motion.div>

@@ -2,84 +2,123 @@
 
 import { motion } from 'framer-motion';
 import StickerBadge from '@/components/ui/StickerBadge';
+import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import { CodeIcon } from '@/components/ui/ProductIcons';
 
-const ROW_1 =
-  'Mobile Apps · Web Applications · SaaS Platforms · Admin Dashboards · Flutter · React Native · Next.js · TypeScript · Node.js · Supabase · Stripe · PostgreSQL · ';
+/**
+ * "What we build" band: a rounded dark panel with a serif heading, the
+ * service categories as flat chips, and a single marquee of outlined
+ * tech pills. Modeled on the reference site's dark logo-band panels
+ * rather than a bare full-bleed text ticker.
+ */
 
-const ROW_2 =
-  'React · TailwindCSS · Framer Motion · Firebase · AWS · Vercel · Expo · Flutter · GraphQL · REST APIs · Figma · ';
+const SERVICES = [
+  'Mobile Apps',
+  'Web Applications',
+  'SaaS Platforms',
+  'Admin Dashboards',
+  'AI Automations',
+] as const;
 
-const ROW_1_REPEATED = ROW_1.repeat(4);
-const ROW_2_REPEATED = ROW_2.repeat(4);
+const TECH = [
+  'Flutter', 'React Native', 'Next.js', 'TypeScript', 'React', 'Node.js',
+  'Supabase', 'PostgreSQL', 'Stripe', 'Firebase', 'OpenAI', 'AWS',
+  'Vercel', 'Expo', 'GraphQL', 'REST APIs', 'TailwindCSS', 'Framer Motion', 'Figma',
+] as const;
 
-function MarqueeRow({ repeated, direction }: { repeated: string; direction: 'left' | 'right' }) {
-  const isRight = direction === 'right';
-
+function TechPillRow({ hidden }: { hidden?: boolean }) {
   return (
-    <div className="overflow-hidden relative">
-      <motion.div
-        className="flex whitespace-nowrap"
-        animate={{ x: isRight ? ['-50%', '0%'] : ['0%', '-50%'] }}
-        transition={{
-          duration: 30,
-          repeat: Infinity,
-          ease: 'linear',
-        }}
-      >
-        <span className="text-sm font-medium flex-shrink-0" style={{ color: 'var(--color-muted-inverse)' }}>
-          {repeated.split('·').map((item, i) => (
-            <span key={i}>
-              {i > 0 && (
-                <span className="mx-2" style={{ color: 'var(--color-primary)' }}>
-                  ·
-                </span>
-              )}
-              {item}
-            </span>
-          ))}
+    <div className="flex shrink-0 items-center gap-3 pr-3" aria-hidden={hidden}>
+      {TECH.map((name) => (
+        <span
+          key={name}
+          className="whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium"
+          style={{
+            border: '2px solid rgba(253,251,246,0.22)',
+            color: 'var(--color-muted-inverse)',
+          }}
+        >
+          {name}
         </span>
-        <span className="text-sm font-medium flex-shrink-0" style={{ color: 'var(--color-muted-inverse)' }} aria-hidden>
-          {repeated.split('·').map((item, i) => (
-            <span key={i}>
-              {i > 0 && (
-                <span className="mx-2" style={{ color: 'var(--color-primary)' }}>
-                  ·
-                </span>
-              )}
-              {item}
-            </span>
-          ))}
-        </span>
-      </motion.div>
-      {/* Fade edges */}
-      <div
-        className="absolute inset-y-0 left-0 w-20 pointer-events-none"
-        style={{ background: 'linear-gradient(to right, var(--color-bg-dark), transparent)' }}
-      />
-      <div
-        className="absolute inset-y-0 right-0 w-20 pointer-events-none"
-        style={{ background: 'linear-gradient(to left, var(--color-bg-dark), transparent)' }}
-      />
+      ))}
     </div>
   );
 }
 
 export default function Trust() {
   return (
-    <section
-      aria-label="Technology stack"
-      className="relative py-14"
-      style={{ background: 'var(--color-bg-dark)' }}
-    >
-      <div className="hidden sm:block absolute left-6 top-1/2 -translate-y-1/2 z-10">
-        <StickerBadge size={40} rotate={-8}>
-          <CodeIcon />
-        </StickerBadge>
-      </div>
-      <div className="flex flex-col gap-4">
-        <MarqueeRow repeated={ROW_1_REPEATED} direction="left" />
-        <MarqueeRow repeated={ROW_2_REPEATED} direction="right" />
+    <section aria-label="What we build" className="px-4 py-6 md:px-6">
+      <div
+        className="relative mx-auto max-w-7xl overflow-hidden py-14 md:py-16"
+        style={{ background: 'var(--color-bg-dark)', borderRadius: 40 }}
+      >
+        {/* Header */}
+        <div className="mb-8 px-6 text-center">
+          <p
+            className="mb-4 text-[10px] font-bold uppercase"
+            style={{ letterSpacing: '0.18em', color: 'var(--color-muted-inverse-dark)' }}
+          >
+            What we build
+          </p>
+          <h2
+            className="font-serif text-3xl md:text-4xl"
+            style={{ color: 'var(--color-text-inverse)', letterSpacing: '-0.02em' }}
+          >
+            Mobile, web, and{' '}
+            <span className="relative inline-block italic">
+              AI automations.
+              <HandDrawnUnderline color="var(--color-secondary)" className="absolute left-0 -bottom-1.5 h-3 w-full" />
+            </span>
+          </h2>
+        </div>
+
+        {/* Service chips */}
+        <div className="mb-10 flex flex-wrap items-center justify-center gap-2.5 px-6">
+          {SERVICES.map((s) => {
+            const highlight = s === 'AI Automations';
+            return (
+              <span
+                key={s}
+                className="rounded-full px-4 py-2 text-sm font-semibold"
+                style={
+                  highlight
+                    ? { background: 'var(--color-bg-accent)', border: '2px solid var(--color-border-emphasis)', color: 'var(--color-text)' }
+                    : { border: '2px solid rgba(253,251,246,0.45)', color: 'var(--color-text-inverse)' }
+                }
+              >
+                {s}
+              </span>
+            );
+          })}
+        </div>
+
+        {/* Tech pill marquee */}
+        <div className="relative overflow-hidden">
+          <motion.div
+            className="flex w-max"
+            animate={{ x: ['0%', '-50%'] }}
+            transition={{ duration: 48, repeat: Infinity, ease: 'linear' }}
+          >
+            <TechPillRow />
+            <TechPillRow hidden />
+          </motion.div>
+          {/* Edge fades into the panel color */}
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 w-24"
+            style={{ background: 'linear-gradient(to right, var(--color-bg-dark), transparent)' }}
+          />
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 w-24"
+            style={{ background: 'linear-gradient(to left, var(--color-bg-dark), transparent)' }}
+          />
+        </div>
+
+        {/* Sticker badge slapped over the panel's bottom-left corner */}
+        <div className="absolute bottom-5 left-6 hidden md:block">
+          <StickerBadge size={52} rotate={-8}>
+            <CodeIcon />
+          </StickerBadge>
+        </div>
       </div>
     </section>
   );
