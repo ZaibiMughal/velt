@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import Image from 'next/image';
 import type { CaseStudy } from '@/data/work/index';
 import { getAllCaseStudies, getSignedImageUrl } from '@/lib/data';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { AnimatedPhone, AnimatedBrowser } from '@/components/ui/IllustratedDevices';
 import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 
 export const metadata: Metadata = {
@@ -89,11 +89,11 @@ export default async function WorkPage({
         .work-card:hover {
           border-color: var(--t) !important;
         }
-        .work-card-img img {
-          transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
+        .work-card-img {
+          transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .work-card:hover .work-card-img img {
-          transform: scale(1.06);
+        .work-card:hover .work-card-img {
+          transform: scale(1.025);
         }
         .work-card-arrow {
           transition: color 0.2s ease, transform 0.2s ease;
@@ -233,75 +233,38 @@ export default async function WorkPage({
                       aria-label={`View case study: ${study.title}`}
                     />
 
-                    {/* ── Image area ── */}
+                    {/* ── Illustration area: real screenshot inside a drawn
+                        device frame, on a panel tinted with the project's
+                        theme color (matches the homepage portfolio cards) ── */}
                     <div
-                      className="work-card-img"
                       style={{
                         position: 'relative',
-                        height: isMobile ? 272 : 210,
+                        height: 260,
                         overflow: 'hidden',
                         flexShrink: 0,
-                        background: 'var(--color-bg-accent)',
+                        background: rgba(t, 0.08),
                         borderBottom: '2px solid var(--color-border-muted)',
                       }}
                     >
-                      {coverUrl ? (
-                        isMobile ? (
-                          /* Mobile: centered portrait screenshot on a flat accent panel */
-                          <div
-                            style={{
-                              position: 'absolute',
-                              bottom: 0,
-                              left: '50%',
-                              transform: 'translateX(-50%)',
-                              height: '92%',
-                              width: '58%',
-                            }}
-                          >
-                            <Image
-                              src={coverUrl}
-                              alt={study.title}
-                              fill
-                              sizes="(max-width: 768px) 58vw, 260px"
-                              style={{
-                                objectFit: 'contain',
-                                objectPosition: 'bottom center',
-                                borderRadius: '14px 14px 0 0',
-                                border: `2px solid ${t}`,
-                                borderBottom: 'none',
-                              }}
-                            />
+                      {isMobile ? (
+                        <div
+                          style={{
+                            position: 'absolute',
+                            bottom: '-7%',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            height: '102%',
+                            aspectRatio: '240 / 440',
+                          }}
+                        >
+                          <div className="work-card-img" style={{ width: '100%', height: '100%' }}>
+                            <AnimatedPhone t={t} screenshot={coverUrl} />
                           </div>
-                        ) : (
-                          /* Web/SaaS: full-brightness screenshot, no dark blend */
-                          <Image
-                            src={coverUrl}
-                            alt={study.title}
-                            fill
-                            sizes="(max-width: 900px) 50vw, (max-width: 1200px) 33vw, 360px"
-                            style={{
-                              objectFit: 'cover',
-                              objectPosition: 'top center',
-                            }}
-                          />
-                        )
+                        </div>
                       ) : (
-                        /* No-image: flat branded placeholder */
-                        <div style={{
-                          width: '100%', height: '100%', position: 'relative', overflow: 'hidden',
-                          background: 'var(--color-bg-accent)',
-                        }}>
-                          <div style={{
-                            position: 'absolute', top: 32, left: 32,
-                            width: 72, height: 72, borderRadius: 18,
-                            background: 'var(--color-surface)', border: `2px solid ${t}`,
-                          }} />
-                          <div style={{
-                            position: 'absolute', bottom: 20, right: 20,
-                            fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
-                            textTransform: 'uppercase', color: t,
-                          }}>
-                            {study.category}
+                        <div className="absolute inset-0 flex items-center justify-center p-5">
+                          <div className="work-card-img" style={{ width: '90%', aspectRatio: '480 / 300', maxHeight: '100%' }}>
+                            <AnimatedBrowser t={t} screenshot={coverUrl} />
                           </div>
                         </div>
                       )}

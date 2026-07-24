@@ -9,14 +9,13 @@ interface PartnersProps {
 
 /*
  * The partner logo assets are a mix of white marks (drawn for the old dark
- * site) and dark marks, so neither native color nor plain grayscale is
- * visible for all of them on the cream background. Every logo is therefore
- * flattened to a solid ink silhouette via brightness(0), which reads the
- * alpha channel as a stamp shape regardless of the source colors, and
- * simply darkens on hover. The old grayscale-to-brand-color hover reveal
- * (and its per-logo hover-asset override) only made sense on the dark
- * design and was dropped with it.
+ * site) and dark marks, so no single treatment shows every logo's native
+ * colors on the light page. At rest all logos render as uniform darkened
+ * grayscale. On hover the filter drops to reveal true brand colors, and
+ * the white-source marks listed below additionally get a flat ink chip
+ * behind them, since their true colors are invisible on porcelain.
  */
+const LIGHT_SOURCE_LOGOS = new Set(['RideSpotr', 'PIPA', 'IbisPrep', 'TruckTuck']);
 
 /*
  * A fixed box (not just a fixed height) with object-fit: contain, so a
@@ -29,8 +28,13 @@ const LOGO_BOX_WIDTH = 130;
 const LOGO_BOX_HEIGHT = 46;
 
 function PartnerItem({ partner }: { partner: Partner }) {
+  const needsDarkChip = LIGHT_SOURCE_LOGOS.has(partner.name);
+
   const content = partner.logo_url ? (
-    <div style={{ position: 'relative', width: LOGO_BOX_WIDTH, height: LOGO_BOX_HEIGHT }}>
+    <div
+      className={needsDarkChip ? 'partner-chip partner-chip--dark' : 'partner-chip'}
+      style={{ position: 'relative', width: LOGO_BOX_WIDTH, height: LOGO_BOX_HEIGHT }}
+    >
       <Image
         src={partner.logo_url}
         alt={partner.name}
@@ -44,7 +48,7 @@ function PartnerItem({ partner }: { partner: Partner }) {
              which a flat brightness(0) silhouette erases. */
           filter: 'grayscale(1) brightness(0.45)',
           opacity: 0.6,
-          transition: 'opacity 0.3s ease',
+          transition: 'opacity 0.3s ease, filter 0.3s ease',
         }}
       />
     </div>
@@ -127,9 +131,21 @@ export default function Partners({ partners }: PartnersProps) {
           from { transform: translateX(0); }
           to   { transform: translateX(-${Math.round(100 / 3)}%); }
         }
+        .partner-chip {
+          border-radius: 12px;
+          transition: background 0.25s ease;
+          box-sizing: content-box;
+          padding: 6px 10px;
+          margin: -6px -10px;
+        }
         .partner-logo-link:hover .partner-logo-img,
         .partner-logo-link:focus-visible .partner-logo-img {
-          opacity: 0.95 !important;
+          filter: none !important;
+          opacity: 1 !important;
+        }
+        .partner-logo-link:hover .partner-chip--dark,
+        .partner-logo-link:focus-visible .partner-chip--dark {
+          background: var(--color-bg-dark);
         }
       `}</style>
     </section>

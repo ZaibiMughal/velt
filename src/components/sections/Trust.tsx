@@ -66,7 +66,7 @@ export default function Trust() {
           >
             Mobile, web, and{' '}
             <span className="relative inline-block italic">
-              AI automations.
+              SaaS platforms.
               <HandDrawnUnderline color="var(--color-secondary)" className="absolute left-0 -bottom-1.5 h-3 w-full" />
             </span>
           </h2>
