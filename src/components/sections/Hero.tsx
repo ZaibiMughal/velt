@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { motion, animate, useMotionValue } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
@@ -18,12 +19,58 @@ const fadeUp = (delay: number) => ({
   transition: { duration: 0.6, ease: EASE, delay },
 });
 
+/* ─── Stat sticker chips ─────────────────────────────────────────────────── */
+
 const STATS = [
-  { value: '30+', label: 'Projects Shipped' },
-  { value: '8+', label: 'Years Experience' },
-  { value: '10+', label: 'Countries' },
-  { value: '1M+', label: 'Monthly Users' },
+  { value: 30, suffix: '+', label: 'Projects Shipped', rotate: -2 },
+  { value: 8, suffix: '+', label: 'Years Experience', rotate: 1.5 },
+  { value: 10, suffix: '+', label: 'Countries', rotate: -1.5 },
+  { value: 1, suffix: 'M+', label: 'Monthly Users', rotate: 2 },
 ] as const;
+
+function StatNumber({ value, delay }: { value: number; delay: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const mv = useMotionValue(0);
+
+  useEffect(() => {
+    const controls = animate(mv, value, {
+      duration: 1.1,
+      delay,
+      ease: EASE,
+      onUpdate: (v) => {
+        if (ref.current) ref.current.textContent = String(Math.round(v));
+      },
+    });
+    return () => controls.stop();
+  }, [mv, value, delay]);
+
+  return <span ref={ref}>0</span>;
+}
+
+function StatChips() {
+  return (
+    <div className="flex flex-wrap gap-3">
+      {STATS.map((s, i) => (
+        <motion.div
+          key={s.label}
+          initial={{ opacity: 0, y: 16, rotate: 0 }}
+          animate={{ opacity: 1, y: 0, rotate: s.rotate }}
+          transition={{ delay: 0.5 + i * 0.1, duration: 0.45, ease: [0.34, 1.56, 0.64, 1] }}
+          className="rounded-2xl px-5 py-3"
+          style={{ background: 'var(--color-surface)', border: '2px solid var(--color-border-emphasis)' }}
+        >
+          <p className="font-serif" style={{ fontSize: 25, fontWeight: 500, color: 'var(--color-text)', margin: 0, lineHeight: 1.15, letterSpacing: '-0.01em' }}>
+            <StatNumber value={s.value} delay={0.6 + i * 0.1} />
+            <span style={{ color: 'var(--color-primary)' }}>{s.suffix}</span>
+          </p>
+          <p style={{ fontSize: 11, color: 'var(--color-muted)', margin: '1px 0 0', whiteSpace: 'nowrap' }}>
+            {s.label}
+          </p>
+        </motion.div>
+      ))}
+    </div>
+  );
+}
 
 /* ─── Flat scattered product cards (right column) ────────────────────────── */
 
@@ -106,7 +153,9 @@ export default function Hero() {
       `}</style>
 
       {/* Left text column */}
-      <div className="relative z-10 flex w-full flex-col justify-center px-6 pt-32 sm:px-12 lg:w-1/2 lg:py-20 lg:pl-20 lg:pr-12">
+      {/* lg top padding must clear the fixed nav (top 16px + 64px tall) with
+          real air beneath it, not land flush against its bottom edge */}
+      <div className="relative z-10 flex w-full flex-col justify-center px-6 pt-32 sm:px-12 lg:w-1/2 lg:pt-36 lg:pb-20 lg:pl-20 lg:pr-12">
         <motion.div {...fadeUp(0)} style={{ marginBottom: 28 }}>
           <Badge dot>Product Development Studio</Badge>
         </motion.div>
@@ -174,22 +223,8 @@ export default function Hero() {
           </Button>
         </motion.div>
 
-        {/* Stats strip */}
-        <motion.div
-          {...fadeUp(0.5)}
-          className="grid grid-cols-2 gap-x-8 gap-y-4 sm:flex sm:flex-wrap sm:items-center sm:gap-x-10"
-        >
-          {STATS.map(({ value, label }) => (
-            <div key={label}>
-              <p className="font-serif" style={{ fontSize: 24, fontWeight: 500, color: 'var(--color-text)', margin: 0, letterSpacing: '-0.01em' }}>
-                {value}
-              </p>
-              <p style={{ fontSize: 11, color: 'var(--color-muted-dark)', margin: '2px 0 0', whiteSpace: 'nowrap' }}>
-                {label}
-              </p>
-            </div>
-          ))}
-        </motion.div>
+        {/* Stat sticker chips */}
+        <StatChips />
       </div>
 
       {/* Right: scattered flat product cards */}
