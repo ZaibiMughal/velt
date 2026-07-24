@@ -137,14 +137,15 @@ export default function Navbar() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={handleBookingClick}
-              className="hidden md:inline-flex"
-            >
-              {PRIMARY_CTA_LABEL}
-            </Button>
+            <div className="hidden md:block">
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={handleBookingClick}
+              >
+                {PRIMARY_CTA_LABEL}
+              </Button>
+            </div>
             <button
               className="md:hidden"
               onClick={() => setMobileOpen((v) => !v)}

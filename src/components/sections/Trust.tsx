@@ -69,10 +69,10 @@ export default function Trust() {
   return (
     <section
       aria-label="Technology stack"
-      className="relative py-12"
+      className="relative py-14"
       style={{ background: 'var(--color-bg-dark)' }}
     >
-      <div className="hidden sm:block absolute left-6 bottom-6 z-10">
+      <div className="hidden sm:block absolute left-6 top-1/2 -translate-y-1/2 z-10">
         <StickerBadge size={40} rotate={-8}>
           <CodeIcon />
         </StickerBadge>
