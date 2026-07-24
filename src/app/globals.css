@@ -47,6 +47,17 @@ body {
   color: #ffffff;
 }
 
+/* Tailwind's preflight resets buttons to cursor: default; interactive
+   elements should show the hand cursor. */
+button:not(:disabled),
+[role='button']:not([aria-disabled='true']),
+a[href],
+label[for],
+select,
+summary {
+  cursor: pointer;
+}
+
 /* Flat, snappy reveal for outline-drawn elements (nodes, dividers) —
    no blur/opacity fade, matches the "hard edge" 2D motion language. */
 @keyframes fill-in {

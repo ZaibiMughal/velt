@@ -75,7 +75,7 @@ export default function Trust() {
         {/* Service chips */}
         <div className="mb-10 flex flex-wrap items-center justify-center gap-2.5 px-6">
           {SERVICES.map((s) => {
-            const highlight = s === 'AI Automations';
+            const highlight = s === 'SaaS Platforms';
             return (
               <span
                 key={s}

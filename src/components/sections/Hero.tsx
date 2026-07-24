@@ -5,7 +5,6 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import StickerBadge from '@/components/ui/StickerBadge';
-import HeroRibbon from '@/components/ui/HeroRibbon';
 import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon, SparkIcon } from '@/components/ui/ProductIcons';
 
 function scrollTo(id: string) {
@@ -31,8 +30,8 @@ const STATS = [
 const PRODUCT_CARDS = [
   { text: 'Mobile App', sub: 'iOS + Android', x: '4%', y: '0%', rotate: -4, fill: 'var(--color-surface)', delay: 0, Icon: PhoneIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: 5, highlight: false },
   { text: 'Web App', sub: 'React / Next.js', x: '50%', y: '10%', rotate: 3, fill: 'var(--color-bg-accent)', delay: 0.5, Icon: GlobeIcon, badgeFill: 'var(--color-surface)', badgeRotate: -6, highlight: false },
-  { text: 'AI Automations', sub: 'Agents + workflows', x: '16%', y: '30%', rotate: -2, fill: 'var(--color-primary)', delay: 1.3, Icon: SparkIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6, highlight: true },
-  { text: 'SaaS Platform', sub: 'Full-stack', x: '2%', y: '58%', rotate: 2, fill: 'var(--color-bg-accent)', delay: 1.0, Icon: LayersIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6, highlight: false },
+  { text: 'AI Automations', sub: 'Agents + workflows', x: '16%', y: '30%', rotate: -2, fill: 'var(--color-bg-accent)', delay: 1.3, Icon: SparkIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6, highlight: false },
+  { text: 'SaaS Platform', sub: 'Full-stack', x: '2%', y: '58%', rotate: 2, fill: 'var(--color-primary)', delay: 1.0, Icon: LayersIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6, highlight: true },
   { text: 'Admin Dashboard', sub: 'Analytics', x: '46%', y: '64%', rotate: -3, fill: 'var(--color-surface)', delay: 0.7, Icon: ChartIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: -5, highlight: false },
 ] as const;
 
@@ -204,16 +203,6 @@ export default function Hero() {
           <ProductCards />
         </motion.div>
       </div>
-
-      {/* Signature ribbon: process words flowing along a wavy path across the hero base */}
-      <motion.div
-        className="pointer-events-none absolute bottom-[-8px] left-0 right-0 hidden h-[200px] lg:block"
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.9, delay: 0.9, ease: EASE }}
-      >
-        <HeroRibbon />
-      </motion.div>
     </section>
   );
 }
