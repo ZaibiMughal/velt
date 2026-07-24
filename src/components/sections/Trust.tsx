@@ -34,7 +34,7 @@ function TechPillRow({ hidden }: { hidden?: boolean }) {
           key={name}
           className="whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium"
           style={{
-            border: '2px solid rgba(253,251,246,0.22)',
+            border: '2px solid rgba(247,248,250,0.22)',
             color: 'var(--color-muted-inverse)',
           }}
         >
@@ -83,7 +83,7 @@ export default function Trust() {
                 style={
                   highlight
                     ? { background: 'var(--color-bg-accent)', border: '2px solid var(--color-border-emphasis)', color: 'var(--color-text)' }
-                    : { border: '2px solid rgba(253,251,246,0.45)', color: 'var(--color-text-inverse)' }
+                    : { border: '2px solid rgba(247,248,250,0.45)', color: 'var(--color-text-inverse)' }
                 }
               >
                 {s}

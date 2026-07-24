@@ -10,11 +10,11 @@ import { motion } from 'framer-motion';
  * on a dark background.
  */
 
-const INK = '#09090b';
-const PAPER = '#fdfbf6';
+const INK = '#0b0c10';
+const PAPER = '#f7f8fa';
 const INDIGO = '#6366f1';
-const VIOLET = '#a78bfa';
-const LAVENDER = '#ebe9ff';
+const SKY = '#60a5fa';
+const ICE = '#e3edff';
 
 const stage = {
   hidden: {},
@@ -31,7 +31,7 @@ const fillBox: React.CSSProperties = { transformBox: 'fill-box', transformOrigin
 export default function LaptopScene({ className }: { className?: string }) {
   const codeLines = [
     { x: 108, y: 74, w: 56, c: PAPER, o: 0.9 },
-    { x: 108, y: 88, w: 84, c: VIOLET, o: 1 },
+    { x: 108, y: 88, w: 84, c: SKY, o: 1 },
     { x: 122, y: 102, w: 62, c: PAPER, o: 0.45 },
     { x: 122, y: 116, w: 74, c: INDIGO, o: 1 },
     { x: 108, y: 130, w: 44, c: PAPER, o: 0.7 },
@@ -64,7 +64,7 @@ export default function LaptopScene({ className }: { className?: string }) {
         <g transform="rotate(-4 190 140)">
           {/* Screen */}
           <rect x="92" y="52" width="196" height="118" rx="12" fill={INK} stroke={INK} strokeWidth="3" />
-          <rect x="100" y="60" width="180" height="102" rx="8" fill="#17171a" />
+          <rect x="100" y="60" width="180" height="102" rx="8" fill="#16181d" />
           {codeLines.map((l, i) => (
             <motion.rect
               key={i}
@@ -90,7 +90,7 @@ export default function LaptopScene({ className }: { className?: string }) {
           />
 
           {/* Keyboard deck */}
-          <path d="M70 214 L310 214 L290 172 L90 172 Z" fill={LAVENDER} stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+          <path d="M70 214 L310 214 L290 172 L90 172 Z" fill={ICE} stroke={INK} strokeWidth="3" strokeLinejoin="round" />
           {/* Key rows */}
           {[0, 1, 2].map((row) =>
             Array.from({ length: 9 - row }, (_, i) => (
@@ -152,8 +152,8 @@ export default function LaptopScene({ className }: { className?: string }) {
           <rect x="286" y="18" width="82" height="52" rx="17" />
           <path d="M312 68 L308 88 L332 70 Z" />
         </g>
-        <rect x="286" y="18" width="82" height="52" rx="17" fill={VIOLET} stroke={INK} strokeWidth="3" />
-        <path d="M312 68 L308 88 L332 70 Z" fill={VIOLET} stroke={INK} strokeWidth="3" strokeLinejoin="round" />
+        <rect x="286" y="18" width="82" height="52" rx="17" fill={SKY} stroke={INK} strokeWidth="3" />
+        <path d="M312 68 L308 88 L332 70 Z" fill={SKY} stroke={INK} strokeWidth="3" strokeLinejoin="round" />
         <path
           d="M300 44 q6 -10 12 0 q6 10 12 0 q6 -10 12 0 q6 10 12 0"
           fill="none"
@@ -185,7 +185,7 @@ export default function LaptopScene({ className }: { className?: string }) {
       >
         <path
           d="M52 150 l5.5 13 13 5.5 -13 5.5 -5.5 13 -5.5 -13 -13 -5.5 13 -5.5 Z"
-          fill={VIOLET}
+          fill={SKY}
           stroke={INK}
           strokeWidth="2.5"
           strokeLinejoin="round"

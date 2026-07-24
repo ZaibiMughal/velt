@@ -93,7 +93,7 @@ export default function Footer({ className }: FooterProps) {
         </div>
 
         {/* Bottom row */}
-        <div className="mt-10 pt-6 text-center" style={{ borderTop: '1px solid rgba(253,251,246,0.14)' }}>
+        <div className="mt-10 pt-6 text-center" style={{ borderTop: '1px solid rgba(247,248,250,0.14)' }}>
           <p className="text-xs" style={{ color: 'var(--color-muted-inverse-dark)' }}>
             &copy; {new Date().getFullYear()} Hexspire. All rights reserved.
           </p>

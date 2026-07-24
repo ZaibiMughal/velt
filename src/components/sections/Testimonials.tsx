@@ -117,7 +117,7 @@ function VideoModal({ url, name, onClose }: { url: string; name: string; onClose
     <div
       style={{
         position: 'fixed', inset: 0, zIndex: 1000,
-        background: 'rgba(9,9,11,0.75)',
+        background: 'rgba(11,12,16,0.75)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 24,
       }}
@@ -182,7 +182,7 @@ function TestimonialModal({
     <div
       style={{
         position: 'fixed', inset: 0, zIndex: 1000,
-        background: 'rgba(9,9,11,0.75)',
+        background: 'rgba(11,12,16,0.75)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 24,
       }}

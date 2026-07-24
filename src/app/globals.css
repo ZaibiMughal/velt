@@ -1,29 +1,31 @@
 @import "tailwindcss";
 
 :root {
-  /* Cream/parchment is the default page background (2D redesign) */
-  --color-bg: #fdfbf6;
+  /* Porcelain & Sky palette: cool gallery-white paper is the default page
+     background, ice-blue accent panels, sky secondary against the indigo
+     primary. (2D redesign, palette option 01.) */
+  --color-bg: #f7f8fa;
   --color-surface: #ffffff;
-  --color-surface-hover: #f6f3ea;
-  --color-border-muted: #e4e1d6;
-  --color-border-emphasis: #09090b;
+  --color-surface-hover: #eef0f4;
+  --color-border-muted: #dfe2e9;
+  --color-border-emphasis: #0b0c10;
 
-  /* Alternating panel colors, used to break up the cream base */
-  --color-bg-dark: #09090b;
-  --color-bg-dark-surface: #17171a;
-  --color-bg-accent: #ebe9ff;
+  /* Alternating panel colors, used to break up the porcelain base */
+  --color-bg-dark: #0b0c10;
+  --color-bg-dark-surface: #16181d;
+  --color-bg-accent: #e3edff;
   --color-bg-accent-strong: #6366f1;
 
   --color-primary: #6366f1;
   --color-primary-hover: #4f52d1;
-  --color-secondary: #a78bfa;
+  --color-secondary: #60a5fa;
 
-  --color-text: #09090b;
-  --color-text-inverse: #fdfbf6;
-  --color-muted: rgba(9, 9, 11, 0.6);
-  --color-muted-dark: rgba(9, 9, 11, 0.4);
-  --color-muted-inverse: rgba(253, 251, 246, 0.65);
-  --color-muted-inverse-dark: rgba(253, 251, 246, 0.4);
+  --color-text: #0b0c10;
+  --color-text-inverse: #f7f8fa;
+  --color-muted: rgba(11, 12, 16, 0.62);
+  --color-muted-dark: rgba(11, 12, 16, 0.42);
+  --color-muted-inverse: rgba(247, 248, 250, 0.65);
+  --color-muted-inverse-dark: rgba(247, 248, 250, 0.4);
 }
 
 @theme inline {

@@ -20,8 +20,8 @@ function rgba(hex: string, alpha: number): string {
   return `rgba(${r},${g},${b},${alpha})`;
 }
 
-const INK = '#09090b';
-const PAPER = '#fdfbf6';
+const INK = '#0b0c10';
+const PAPER = '#f7f8fa';
 
 /* Shared variants: parent svg staggers children in when scrolled into view */
 const stage = {
@@ -150,7 +150,7 @@ export function AnimatedPhone({ t, screenshot, className }: { t: string; screens
             {/* List rows */}
             {[312, 348].map((y, i) => (
               <motion.g key={y} variants={slideIn}>
-                <rect x="40" y={y} width="160" height="26" rx="9" fill={i === 0 ? rgba(t, 0.1) : '#ffffff'} stroke={i === 0 ? t : 'rgba(9,9,11,0.2)'} strokeWidth="2" />
+                <rect x="40" y={y} width="160" height="26" rx="9" fill={i === 0 ? rgba(t, 0.1) : '#ffffff'} stroke={i === 0 ? t : 'rgba(11,12,16,0.2)'} strokeWidth="2" />
                 <circle cx="58" cy={y + 13} r="6" fill={i === 0 ? t : rgba(t, 0.3)} />
                 <rect x="72" y={y + 9} width={i === 0 ? 74 : 96} height="7" rx="3.5" fill={INK} opacity="0.5" />
               </motion.g>
@@ -159,7 +159,7 @@ export function AnimatedPhone({ t, screenshot, className }: { t: string; screens
             {/* Tab bar */}
             <rect x="40" y="390" width="160" height="24" rx="12" fill={PAPER} stroke={INK} strokeWidth="2" />
             {[70, 105, 140, 175].map((cx, i) => (
-              <circle key={cx} cx={cx} cy="402" r="4.5" fill={i === 0 ? t : 'rgba(9,9,11,0.22)'} />
+              <circle key={cx} cx={cx} cy="402" r="4.5" fill={i === 0 ? t : 'rgba(11,12,16,0.22)'} />
             ))}
           </>
         )}
@@ -270,7 +270,7 @@ export function AnimatedBrowser({ t, screenshot, className }: { t: string; scree
             <line x1="82" y1="44" x2="82" y2="292" stroke={INK} strokeWidth="2.5" />
             {[66, 92, 118, 144].map((y, i) => (
               <motion.g key={y} variants={slideIn}>
-                <rect x="26" y={y} width="42" height="16" rx="8" fill={i === 0 ? t : 'transparent'} stroke={i === 0 ? INK : 'rgba(9,9,11,0.25)'} strokeWidth="2" />
+                <rect x="26" y={y} width="42" height="16" rx="8" fill={i === 0 ? t : 'transparent'} stroke={i === 0 ? INK : 'rgba(11,12,16,0.25)'} strokeWidth="2" />
               </motion.g>
             ))}
 
@@ -288,7 +288,7 @@ export function AnimatedBrowser({ t, screenshot, className }: { t: string; scree
             <rect x="110" y="140" width="64" height="7" rx="3.5" fill={INK} opacity="0.5" />
             {/* Grid lines */}
             {[176, 206, 236].map((y) => (
-              <line key={y} x1="110" y1={y} x2="282" y2={y} stroke={'rgba(9,9,11,0.1)'} strokeWidth="1.5" strokeDasharray="3 5" />
+              <line key={y} x1="110" y1={y} x2="282" y2={y} stroke={'rgba(11,12,16,0.1)'} strokeWidth="1.5" strokeDasharray="3 5" />
             ))}
             {/* Animated chart line */}
             <motion.path
@@ -304,7 +304,7 @@ export function AnimatedBrowser({ t, screenshot, className }: { t: string; scree
             {/* Activity list */}
             {[132, 168, 204, 240].map((y, i) => (
               <motion.g key={y} variants={slideIn}>
-                <rect x="310" y={y} width="140" height="26" rx="9" fill={i === 0 ? rgba(t, 0.1) : '#ffffff'} stroke={i === 0 ? t : 'rgba(9,9,11,0.2)'} strokeWidth="2" />
+                <rect x="310" y={y} width="140" height="26" rx="9" fill={i === 0 ? rgba(t, 0.1) : '#ffffff'} stroke={i === 0 ? t : 'rgba(11,12,16,0.2)'} strokeWidth="2" />
                 <circle cx="326" cy={y + 13} r="5" fill={i === 0 ? t : rgba(t, 0.35)} />
                 <rect x="338" y={y + 10} width={[78, 92, 64, 86][i]} height="6" rx="3" fill={INK} opacity="0.45" />
               </motion.g>
