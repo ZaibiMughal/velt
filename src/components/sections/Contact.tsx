@@ -32,14 +32,20 @@ const contactSchema = z.object({
 type ContactFormData = z.infer<typeof contactSchema>;
 
 const inputBase = cn(
-  'w-full bg-black/40 border border-white/[0.08] rounded-lg px-4 py-3',
-  'text-sm text-white placeholder-white/25',
-  'focus:outline-none focus:ring-1 focus:ring-[#6366f1]/60 focus:border-[#6366f1]/60',
-  'transition-colors duration-200 cursor-none'
+  'w-full rounded-lg px-4 py-3 border-2',
+  'text-sm placeholder:opacity-100',
+  'focus:outline-none',
+  'transition-colors duration-150'
 );
 
-const inputError = 'border-red-500/60 focus:ring-red-500/40';
-const labelClass = 'block text-xs text-white/50 uppercase tracking-wider mb-2';
+const inputBaseStyle = {
+  background: 'var(--color-bg)',
+  borderColor: 'var(--color-border-muted)',
+  color: 'var(--color-text)',
+} as const;
+
+const inputError = 'border-red-500/70';
+const labelClass = 'block text-xs uppercase tracking-wider mb-2';
 
 /* ── Custom themed dropdown ────────────────────────────────────────── */
 
@@ -77,10 +83,10 @@ function CustomSelect({ id, options, placeholder, value, onChange, hasError, ari
         aria-describedby={ariaDescribedBy}
         className={cn(
           inputBase,
-          'text-left flex items-center justify-between gap-2 cursor-none',
+          'text-left flex items-center justify-between gap-2',
           hasError && inputError,
-          !value && 'text-white/25'
         )}
+        style={{ ...inputBaseStyle, color: value ? 'var(--color-text)' : 'var(--color-muted)' }}
       >
         <span>{value || placeholder}</span>
         <svg
@@ -93,7 +99,7 @@ function CustomSelect({ id, options, placeholder, value, onChange, hasError, ari
             flexShrink: 0,
             transition: 'transform 0.2s ease',
             transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
-            color: 'rgba(255,255,255,0.3)',
+            color: 'var(--color-muted)',
           }}
         >
           <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -104,16 +110,14 @@ function CustomSelect({ id, options, placeholder, value, onChange, hasError, ari
         {open && (
           <motion.ul
             role="listbox"
-            initial={{ opacity: 0, y: -6, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
             transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute z-50 mt-1.5 w-full rounded-lg overflow-hidden"
+            className="absolute z-50 mt-1.5 w-full rounded-lg overflow-hidden border-2"
             style={{
-              background: 'rgba(14,14,18,0.97)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.7), 0 0 0 1px rgba(99,102,241,0.1)',
-              backdropFilter: 'blur(12px)',
+              background: 'var(--color-surface)',
+              borderColor: 'var(--color-border-emphasis)',
             }}
           >
             {options.map(opt => {
@@ -126,15 +130,15 @@ function CustomSelect({ id, options, placeholder, value, onChange, hasError, ari
                   onClick={() => { onChange(opt); setOpen(false); }}
                   className="px-4 py-2.5 text-sm cursor-pointer transition-colors duration-150 flex items-center gap-2"
                   style={{
-                    color: selected ? '#a5b4fc' : 'rgba(255,255,255,0.65)',
-                    background: selected ? 'rgba(99,102,241,0.12)' : 'transparent',
+                    color: selected ? 'var(--color-primary)' : 'var(--color-text)',
+                    background: selected ? 'var(--color-bg-accent)' : 'transparent',
                   }}
-                  onMouseEnter={e => { if (!selected) (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; }}
+                  onMouseEnter={e => { if (!selected) (e.currentTarget as HTMLElement).style.background = 'var(--color-surface-hover)'; }}
                   onMouseLeave={e => { if (!selected) (e.currentTarget as HTMLElement).style.background = 'transparent'; }}
                 >
                   {selected && (
                     <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-                      <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="#6366f1" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="var(--color-primary)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   )}
                   <span style={{ marginLeft: selected ? 0 : 14 }}>{opt}</span>
@@ -159,15 +163,15 @@ function SuccessState() {
       className="flex flex-col items-center text-center gap-4 py-12"
     >
       <div
-        className="w-16 h-16 rounded-full flex items-center justify-center"
-        style={{ background: 'rgba(99,102,241,0.15)' }}
+        className="w-16 h-16 rounded-full flex items-center justify-center border-2"
+        style={{ background: 'var(--color-bg-accent)', borderColor: 'var(--color-border-emphasis)' }}
       >
         <svg
           width="28"
           height="28"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="#6366f1"
+          stroke="var(--color-primary)"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -176,8 +180,8 @@ function SuccessState() {
           <polyline points="20 6 9 17 4 12" />
         </svg>
       </div>
-      <h3 className="text-lg font-semibold text-white">Message sent!</h3>
-      <p className="text-sm text-white/50">
+      <h3 className="text-lg font-semibold" style={{ color: 'var(--color-text)' }}>Message sent!</h3>
+      <p className="text-sm" style={{ color: 'var(--color-muted)' }}>
         {"We'll be in touch within 24 hours."}
       </p>
     </motion.div>
@@ -221,10 +225,10 @@ export default function Contact() {
         {/* Section header */}
         <AnimatedSection className="flex flex-col items-center text-center gap-4 mb-16">
           <Badge>{"Let's Build"}</Badge>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight" style={{ color: 'var(--color-text)' }}>
             {"Let's build your next product"}
           </h2>
-          <p className="text-white/50 max-w-lg">
+          <p className="max-w-lg" style={{ color: 'var(--color-muted)' }}>
             Tell us about your project. A real engineer reads every message and replies within 24 hours.
           </p>
 
@@ -235,16 +239,15 @@ export default function Contact() {
                 href={CAL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-2.5 rounded-full px-6 py-3 text-sm font-semibold text-white transition-shadow hover:shadow-[0_4px_28px_rgba(99,102,241,0.5)]"
-                style={{ background: 'linear-gradient(135deg, #6366f1, #7c3aed)', boxShadow: '0 4px 20px rgba(99,102,241,0.35)' }}
+                className="mt-2 inline-flex items-center gap-2.5 rounded-full px-6 py-3 text-sm font-semibold text-white border-2"
+                style={{ background: 'var(--color-primary)', borderColor: 'var(--color-border-emphasis)' }}
               >
                 <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
                 </span>
                 Book a free 15-minute call
               </a>
-              <p className="text-xs text-white/25">Pick a time that suits you. No commitment, no sales pitch.</p>
+              <p className="text-xs" style={{ color: 'var(--color-muted-dark)' }}>Pick a time that suits you. No commitment, no sales pitch.</p>
             </>
           )}
         </AnimatedSection>
@@ -252,8 +255,8 @@ export default function Contact() {
         {/* Form card */}
         <AnimatedSection delay={0.1} className="max-w-xl mx-auto">
           <div
-            className="rounded-2xl p-8 md:p-10 border border-white/[0.08]"
-            style={{ background: '#111113' }}
+            className="rounded-2xl p-8 md:p-10 border-2"
+            style={{ background: 'var(--color-surface)', borderColor: 'var(--color-border-muted)' }}
           >
             <AnimatePresence mode="wait">
               {submitted ? (
@@ -270,7 +273,7 @@ export default function Contact() {
                 >
                   {/* Name */}
                   <div>
-                    <label htmlFor="contact-name" className={labelClass}>Name</label>
+                    <label htmlFor="contact-name" className={labelClass} style={{ color: 'var(--color-muted)' }}>Name</label>
                     <input
                       id="contact-name"
                       type="text"
@@ -278,10 +281,11 @@ export default function Contact() {
                       aria-invalid={!!errors.name}
                       aria-describedby={errors.name ? 'contact-name-error' : undefined}
                       className={cn(inputBase, errors.name && inputError)}
+                      style={inputBaseStyle}
                       {...register('name')}
                     />
                     {errors.name && (
-                      <p id="contact-name-error" role="alert" className="mt-1.5 text-xs text-red-400">
+                      <p id="contact-name-error" role="alert" className="mt-1.5 text-xs text-red-500">
                         {errors.name.message}
                       </p>
                     )}
@@ -289,7 +293,7 @@ export default function Contact() {
 
                   {/* Email */}
                   <div>
-                    <label htmlFor="contact-email" className={labelClass}>Email</label>
+                    <label htmlFor="contact-email" className={labelClass} style={{ color: 'var(--color-muted)' }}>Email</label>
                     <input
                       id="contact-email"
                       type="email"
@@ -297,10 +301,11 @@ export default function Contact() {
                       aria-invalid={!!errors.email}
                       aria-describedby={errors.email ? 'contact-email-error' : undefined}
                       className={cn(inputBase, errors.email && inputError)}
+                      style={inputBaseStyle}
                       {...register('email')}
                     />
                     {errors.email && (
-                      <p id="contact-email-error" role="alert" className="mt-1.5 text-xs text-red-400">
+                      <p id="contact-email-error" role="alert" className="mt-1.5 text-xs text-red-500">
                         {errors.email.message}
                       </p>
                     )}
@@ -308,15 +313,16 @@ export default function Contact() {
 
                   {/* Company */}
                   <div>
-                    <label htmlFor="contact-company" className={labelClass}>
+                    <label htmlFor="contact-company" className={labelClass} style={{ color: 'var(--color-muted)' }}>
                       Company{' '}
-                      <span className="normal-case text-white/25">(optional)</span>
+                      <span className="normal-case" style={{ color: 'var(--color-muted-dark)' }}>(optional)</span>
                     </label>
                     <input
                       id="contact-company"
                       type="text"
                       placeholder="Your company"
                       className={inputBase}
+                      style={inputBaseStyle}
                       {...register('company')}
                     />
                   </div>
@@ -325,7 +331,7 @@ export default function Contact() {
                   <div className="grid sm:grid-cols-2 gap-5">
                     {/* Budget */}
                     <div>
-                      <label htmlFor="contact-budget" className={labelClass}>Budget</label>
+                      <label htmlFor="contact-budget" className={labelClass} style={{ color: 'var(--color-muted)' }}>Budget</label>
                       <Controller
                         name="budget"
                         control={control}
@@ -342,7 +348,7 @@ export default function Contact() {
                         )}
                       />
                       {errors.budget && (
-                        <p id="contact-budget-error" role="alert" className="mt-1.5 text-xs text-red-400">
+                        <p id="contact-budget-error" role="alert" className="mt-1.5 text-xs text-red-500">
                           {errors.budget.message}
                         </p>
                       )}
@@ -350,7 +356,7 @@ export default function Contact() {
 
                     {/* Project Type */}
                     <div>
-                      <label htmlFor="contact-type" className={labelClass}>Project Type</label>
+                      <label htmlFor="contact-type" className={labelClass} style={{ color: 'var(--color-muted)' }}>Project Type</label>
                       <Controller
                         name="projectType"
                         control={control}
@@ -367,7 +373,7 @@ export default function Contact() {
                         )}
                       />
                       {errors.projectType && (
-                        <p id="contact-type-error" role="alert" className="mt-1.5 text-xs text-red-400">
+                        <p id="contact-type-error" role="alert" className="mt-1.5 text-xs text-red-500">
                           {errors.projectType.message}
                         </p>
                       )}
@@ -376,7 +382,7 @@ export default function Contact() {
 
                   {/* Description */}
                   <div>
-                    <label htmlFor="contact-description" className={labelClass}>Project Description</label>
+                    <label htmlFor="contact-description" className={labelClass} style={{ color: 'var(--color-muted)' }}>Project Description</label>
                     <textarea
                       id="contact-description"
                       rows={4}
@@ -384,10 +390,11 @@ export default function Contact() {
                       aria-invalid={!!errors.description}
                       aria-describedby={errors.description ? 'contact-description-error' : undefined}
                       className={cn(inputBase, 'resize-none', errors.description && inputError)}
+                      style={inputBaseStyle}
                       {...register('description')}
                     />
                     {errors.description && (
-                      <p id="contact-description-error" role="alert" className="mt-1.5 text-xs text-red-400">
+                      <p id="contact-description-error" role="alert" className="mt-1.5 text-xs text-red-500">
                         {errors.description.message}
                       </p>
                     )}
@@ -395,7 +402,7 @@ export default function Contact() {
 
                   {/* Network error */}
                   {errorMessage && (
-                    <p role="alert" aria-live="assertive" className="text-sm text-red-400 text-center">
+                    <p role="alert" aria-live="assertive" className="text-sm text-red-500 text-center">
                       {errorMessage}
                     </p>
                   )}
@@ -413,9 +420,9 @@ export default function Contact() {
 
                   {/* Guided brief CTA */}
                   <div className="flex items-center gap-3 pt-1">
-                    <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.06)' }} />
-                    <span className="text-xs" style={{ color: 'rgba(255,255,255,0.2)' }}>or</span>
-                    <div className="flex-1 h-px" style={{ background: 'rgba(255,255,255,0.06)' }} />
+                    <div className="flex-1 h-px" style={{ background: 'var(--color-border-muted)' }} />
+                    <span className="text-xs" style={{ color: 'var(--color-muted-dark)' }}>or</span>
+                    <div className="flex-1 h-px" style={{ background: 'var(--color-border-muted)' }} />
                   </div>
                   <div className="text-center">
                     <GuidedBrief />

@@ -1,22 +1,35 @@
 @import "tailwindcss";
 
 :root {
-  --color-bg: #09090b;
-  --color-surface: #111113;
-  --color-surface-hover: #161619;
-  --color-border: rgba(255, 255, 255, 0.07);
-  --color-border-hover: rgba(255, 255, 255, 0.15);
+  /* Cream/parchment is the default page background (2D redesign) */
+  --color-bg: #fdfbf6;
+  --color-surface: #ffffff;
+  --color-surface-hover: #f6f3ea;
+  --color-border-muted: #e4e1d6;
+  --color-border-emphasis: #09090b;
+
+  /* Alternating panel colors, used to break up the cream base */
+  --color-bg-dark: #09090b;
+  --color-bg-dark-surface: #17171a;
+  --color-bg-accent: #ebe9ff;
+  --color-bg-accent-strong: #6366f1;
+
   --color-primary: #6366f1;
-  --color-primary-hover: #5254cc;
-  --color-secondary: #7c3aed;
-  --color-text: #ffffff;
-  --color-muted: rgba(255, 255, 255, 0.45);
-  --color-muted-dark: rgba(255, 255, 255, 0.25);
+  --color-primary-hover: #4f52d1;
+  --color-secondary: #a78bfa;
+
+  --color-text: #09090b;
+  --color-text-inverse: #fdfbf6;
+  --color-muted: rgba(9, 9, 11, 0.6);
+  --color-muted-dark: rgba(9, 9, 11, 0.4);
+  --color-muted-inverse: rgba(253, 251, 246, 0.65);
+  --color-muted-inverse-dark: rgba(253, 251, 246, 0.4);
 }
 
 @theme inline {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-fraunces);
 }
 
 html {
@@ -29,16 +42,14 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-* {
-  cursor: none;
-}
-
 ::selection {
-  background-color: #6366f1;
+  background-color: var(--color-primary);
   color: #ffffff;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+/* Flat, snappy reveal for outline-drawn elements (nodes, dividers) —
+   no blur/opacity fade, matches the "hard edge" 2D motion language. */
+@keyframes fill-in {
+  0% { background-color: transparent; }
+  100% { background-color: var(--color-primary); }
 }

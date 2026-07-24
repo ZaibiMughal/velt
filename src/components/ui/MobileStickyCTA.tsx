@@ -73,14 +73,13 @@ export default function MobileStickyCTA() {
           width: '100%',
           padding: '15px 24px',
           borderRadius: 999,
-          border: '1px solid rgba(255,255,255,0.14)',
-          background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
+          border: '2px solid var(--color-text)',
+          background: 'var(--color-primary)',
           color: '#fff',
           fontSize: 15,
           fontWeight: 600,
           fontFamily: 'inherit',
           cursor: 'pointer',
-          boxShadow: '0 8px 32px rgba(99,102,241,0.5), 0 2px 12px rgba(0,0,0,0.4)',
         }}
       >
         {PRIMARY_CTA_LABEL}

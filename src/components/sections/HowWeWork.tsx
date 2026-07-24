@@ -22,16 +22,16 @@ function ZigItem({ step, index }: { step: typeof processSteps[0]; index: number 
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
             className="text-right max-w-xs"
           >
-            <span className="font-mono text-[10px] font-bold tracking-widest" style={{ color: '#6366f1' }}>
+            <span className="font-mono text-[10px] font-bold tracking-widest" style={{ color: 'var(--color-primary)' }}>
               {step.step}
             </span>
-            <h3 className="text-base font-bold text-white mt-1">{step.title}</h3>
-            <p className="text-sm text-white/40 mt-0.5 leading-relaxed">{step.description}</p>
+            <h3 className="text-base font-bold mt-1" style={{ color: 'var(--color-text)' }}>{step.title}</h3>
+            <p className="text-sm mt-0.5 leading-relaxed" style={{ color: 'var(--color-muted)' }}>{step.description}</p>
           </motion.div>
         )}
       </div>
 
-      {/* Center spine dot */}
+      {/* Center spine node — flips from outline to solid flat fill on scroll-in */}
       <div className="relative shrink-0 flex items-center justify-center" style={{ width: '40px' }}>
         <motion.div
           className="relative z-10 rounded-full"
@@ -39,12 +39,11 @@ function ZigItem({ step, index }: { step: typeof processSteps[0]; index: number 
           animate={inView ? { scale: 1, opacity: 1 } : {}}
           transition={{ duration: 0.4, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           style={{
-            width: '14px',
-            height: '14px',
-            background: inView ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)',
-            border: `2px solid ${inView ? 'rgba(99,102,241,0.8)' : 'rgba(255,255,255,0.1)'}`,
-            boxShadow: inView ? '0 0 14px rgba(99,102,241,0.7)' : 'none',
-            transition: 'border-color 0.5s, box-shadow 0.5s, background 0.5s',
+            width: '16px',
+            height: '16px',
+            background: inView ? 'var(--color-primary)' : 'transparent',
+            border: `2px solid ${inView ? 'var(--color-border-emphasis)' : 'var(--color-border-muted)'}`,
+            transition: 'border-color 0.4s, background-color 0.4s',
           }}
         />
       </div>
@@ -58,15 +57,47 @@ function ZigItem({ step, index }: { step: typeof processSteps[0]; index: number 
             transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-xs"
           >
-            <span className="font-mono text-[10px] font-bold tracking-widest" style={{ color: '#6366f1' }}>
+            <span className="font-mono text-[10px] font-bold tracking-widest" style={{ color: 'var(--color-primary)' }}>
               {step.step}
             </span>
-            <h3 className="text-base font-bold text-white mt-1">{step.title}</h3>
-            <p className="text-sm text-white/40 mt-0.5 leading-relaxed">{step.description}</p>
+            <h3 className="text-base font-bold mt-1" style={{ color: 'var(--color-text)' }}>{step.title}</h3>
+            <p className="text-sm mt-0.5 leading-relaxed" style={{ color: 'var(--color-muted)' }}>{step.description}</p>
           </motion.div>
         )}
       </div>
     </div>
+  );
+}
+
+/** Hand-drawn wavy spine, replacing the old straight gradient line. Draws
+ * itself in once the whole timeline scrolls into view. */
+function WavySpine() {
+  const ref = useRef<SVGSVGElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  return (
+    <svg
+      ref={ref}
+      className="absolute top-0 bottom-0"
+      style={{ left: '50%', width: '40px', height: '100%', transform: 'translateX(-50%)' }}
+      viewBox="0 0 40 100"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <motion.path
+        d="M20,0 C30,6 10,12 20,18 C30,24 10,30 20,36 C30,42 10,48 20,54 C30,60 10,66 20,72 C30,78 10,84 20,90 C25,94 20,98 20,100"
+        stroke="var(--color-primary)"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeDasharray="0.5 5"
+        vectorEffect="non-scaling-stroke"
+        fill="none"
+        opacity={0.55}
+        initial={{ pathLength: 0 }}
+        animate={inView ? { pathLength: 1 } : { pathLength: 0 }}
+        transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1] }}
+      />
+    </svg>
   );
 }
 
@@ -78,20 +109,13 @@ export default function HowWeWork() {
       <div className="max-w-4xl mx-auto px-6">
         <AnimatedSection className="flex flex-col items-center text-center gap-5 mb-16">
           <Badge>Process</Badge>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">How we work</h2>
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl tracking-tight" style={{ color: 'var(--color-text)', fontWeight: 500 }}>
+            How we work
+          </h2>
         </AnimatedSection>
 
         <div className="relative">
-          {/* Vertical spine line */}
-          <div
-            className="absolute top-0 bottom-0"
-            style={{
-              left: '50%',
-              width: '1px',
-              transform: 'translateX(-50%)',
-              background: 'linear-gradient(to bottom, transparent, rgba(99,102,241,0.25) 10%, rgba(99,102,241,0.25) 90%, transparent)',
-            }}
-          />
+          <WavySpine />
 
           <div className="flex flex-col gap-6">
             {processSteps.map((step, i) => (

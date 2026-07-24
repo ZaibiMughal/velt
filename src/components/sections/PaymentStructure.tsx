@@ -26,15 +26,15 @@ const HANDOVER_ITEMS = [
 
 export default function PaymentStructure() {
   return (
-    <section className="py-24 md:py-32">
+    <section className="py-24 md:py-32" style={{ background: 'var(--color-bg-accent)' }}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Section header */}
         <AnimatedSection className="flex flex-col items-center text-center gap-4 mb-16">
           <Badge>Transparency</Badge>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight" style={{ color: 'var(--color-text)' }}>
             Simple, structured payments
           </h2>
-          <p className="text-white/50 max-w-lg">
+          <p style={{ color: 'var(--color-muted)' }} className="max-w-lg">
             Just two payments. No milestones, no surprises.
           </p>
         </AnimatedSection>
@@ -45,25 +45,20 @@ export default function PaymentStructure() {
             <AnimatedSection
               key={stage.label}
               delay={index * 0.1}
-              className="rounded-2xl p-8 border border-white/[0.08] flex flex-col gap-3"
+              className="rounded-2xl p-8 flex flex-col gap-3"
               style={{
-                background: 'rgba(255,255,255,0.02)',
-                backdropFilter: 'blur(8px)',
+                background: 'var(--color-surface)',
+                border: '2px solid var(--color-border-muted)',
               }}
             >
               <span
-                className="text-5xl font-bold tracking-tight"
-                style={{
-                  background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
+                className="font-serif text-5xl font-medium tracking-tight"
+                style={{ color: 'var(--color-primary)' }}
               >
                 {stage.percent}
               </span>
-              <h3 className="text-base font-semibold text-white">{stage.label}</h3>
-              <p className="text-sm text-white/50 leading-relaxed">{stage.description}</p>
+              <h3 className="text-base font-semibold" style={{ color: 'var(--color-text)' }}>{stage.label}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--color-muted)' }}>{stage.description}</p>
             </AnimatedSection>
           ))}
         </div>
@@ -71,15 +66,15 @@ export default function PaymentStructure() {
         {/* Handover checklist */}
         <AnimatedSection
           delay={0.3}
-          className="max-w-2xl mx-auto rounded-2xl p-8 border border-white/[0.08]"
-          style={{ background: '#111113' }}
+          className="max-w-2xl mx-auto rounded-2xl p-8"
+          style={{ background: 'var(--color-surface)', border: '2px solid var(--color-border-muted)' }}
         >
-          <h3 className="text-base font-semibold text-white mb-6">
+          <h3 className="text-base font-semibold mb-6" style={{ color: 'var(--color-text)' }}>
             What you receive on handover
           </h3>
           <div className="grid sm:grid-cols-2 gap-3">
             {HANDOVER_ITEMS.map((item) => (
-              <div key={item} className="flex items-start gap-2.5 text-sm text-white/70">
+              <div key={item} className="flex items-start gap-2.5 text-sm" style={{ color: 'var(--color-text)' }}>
                 <CheckIcon />
                 {item}
               </div>
@@ -89,11 +84,12 @@ export default function PaymentStructure() {
 
         {/* Contextual CTA */}
         <AnimatedSection delay={0.35} className="mt-10 text-center">
-          <p className="text-sm text-white/40">
+          <p className="text-sm" style={{ color: 'var(--color-muted)' }}>
             Ready to start?{' '}
             <a
               href="#contact"
-              className="font-medium text-indigo-400 transition-colors hover:text-indigo-300"
+              className="font-semibold transition-colors"
+              style={{ color: 'var(--color-primary)' }}
             >
               Claim your build slot →
             </a>

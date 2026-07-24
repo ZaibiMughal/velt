@@ -82,7 +82,7 @@ function Avatar({ name, url }: { name: string; url: string | null }) {
         alt={name}
         width={36}
         height={36}
-        style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0 }}
+        style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: '2px solid var(--color-border-emphasis)' }}
       />
     );
   }
@@ -90,6 +90,7 @@ function Avatar({ name, url }: { name: string; url: string | null }) {
     <div style={{
       width: 36, height: 36, borderRadius: '50%', flexShrink: 0,
       background: `linear-gradient(135deg, ${c1}, ${c2})`,
+      border: '2px solid var(--color-border-emphasis)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: 12, fontWeight: 700, color: '#fff',
     }}>
@@ -115,8 +116,7 @@ function VideoModal({ url, name, onClose }: { url: string; name: string; onClose
     <div
       style={{
         position: 'fixed', inset: 0, zIndex: 1000,
-        background: 'rgba(0,0,0,0.85)',
-        backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+        background: 'rgba(9,9,11,0.75)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 24,
       }}
@@ -126,22 +126,22 @@ function VideoModal({ url, name, onClose }: { url: string; name: string; onClose
         style={{
           width: '100%', maxWidth: 800,
           borderRadius: 16, overflow: 'hidden',
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.8)',
+          background: 'var(--color-surface)',
+          border: '2px solid var(--color-border-emphasis)',
         }}
         onClick={(e) => e.stopPropagation()}
       >
         {/* Chrome bar */}
         <div style={{
           padding: '10px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.06)',
+          background: 'var(--color-bg-accent)', borderBottom: '2px solid var(--color-border-emphasis)',
         }}>
-          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.4)' }}>{name}</span>
+          <span style={{ fontSize: 12, color: 'var(--color-text)', fontWeight: 600 }}>{name}</span>
           <button
             onClick={onClose}
             style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              color: 'rgba(255,255,255,0.4)', fontSize: 18, lineHeight: 1,
+              color: 'var(--color-text)', fontSize: 18, lineHeight: 1,
               padding: '0 4px',
             }}
             aria-label="Close video"
@@ -181,8 +181,7 @@ function TestimonialModal({
     <div
       style={{
         position: 'fixed', inset: 0, zIndex: 1000,
-        background: 'rgba(0,0,0,0.85)',
-        backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+        background: 'rgba(9,9,11,0.75)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         padding: 24,
       }}
@@ -196,9 +195,8 @@ function TestimonialModal({
           width: '100%', maxWidth: 560,
           maxHeight: '85vh', overflowY: 'auto',
           borderRadius: 20, position: 'relative',
-          background: '#111114',
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.8)',
+          background: 'var(--color-surface)',
+          border: '2px solid var(--color-border-emphasis)',
           padding: '40px 40px 32px',
         }}
         onClick={(e) => e.stopPropagation()}
@@ -208,8 +206,8 @@ function TestimonialModal({
           style={{
             position: 'absolute', top: 16, right: 16,
             width: 32, height: 32, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)',
-            cursor: 'pointer', color: 'rgba(255,255,255,0.5)', fontSize: 18, lineHeight: 1,
+            background: 'var(--color-bg)', border: '2px solid var(--color-border-muted)',
+            cursor: 'pointer', color: 'var(--color-text)', fontSize: 18, lineHeight: 1,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
           aria-label="Close testimonial"
@@ -219,31 +217,31 @@ function TestimonialModal({
 
         {/* Quote mark */}
         <div style={{
-          fontSize: 56, lineHeight: 0.8, color: '#6366f1', opacity: 0.5,
-          fontFamily: 'Georgia, serif', userSelect: 'none', marginBottom: 8,
+          fontSize: 56, lineHeight: 0.8, color: 'var(--color-primary)',
+          fontFamily: 'var(--font-serif)', userSelect: 'none', marginBottom: 8,
         }}>
           &ldquo;
         </div>
 
         {/* Full quote */}
         <p style={{
-          fontSize: 17, color: 'rgba(255,255,255,0.85)', lineHeight: 1.75,
+          fontSize: 17, color: 'var(--color-text)', lineHeight: 1.75,
           margin: '0 0 28px',
         }}>
           {t.quote}
         </p>
 
-        <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 24 }} />
+        <div style={{ height: 2, background: 'var(--color-border-muted)', marginBottom: 24 }} />
 
         {/* Identity + video link */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <Avatar name={t.client_name} url={t.avatar_url} />
             <div>
-              <p style={{ fontSize: 15, fontWeight: 600, color: '#fff', margin: 0 }}>
+              <p style={{ fontSize: 15, fontWeight: 600, color: 'var(--color-text)', margin: 0 }}>
                 {t.client_name}
               </p>
-              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.42)', margin: '2px 0 0' }}>
+              <p style={{ fontSize: 13, color: 'var(--color-muted)', margin: '2px 0 0' }}>
                 {[t.client_role, t.client_company].filter(Boolean).join(' · ')}
               </p>
             </div>
@@ -254,9 +252,9 @@ function TestimonialModal({
               onClick={() => { onClose(); onPlay?.(t.video_url!); }}
               style={{
                 display: 'flex', alignItems: 'center', gap: 8,
-                background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.3)',
+                background: 'var(--color-bg-accent)', border: '2px solid var(--color-border-emphasis)',
                 borderRadius: 999, padding: '8px 16px', cursor: 'pointer',
-                color: '#a5b4fc', fontSize: 13, fontWeight: 600, flexShrink: 0,
+                color: 'var(--color-text)', fontSize: 13, fontWeight: 600, flexShrink: 0,
               }}
             >
               <PlayIcon size={14} />
@@ -290,8 +288,8 @@ function TestimonialCard({
   return (
     <div style={{
       flexShrink: 0, width: 340,
-      background: 'rgba(255,255,255,0.025)',
-      border: '1px solid rgba(255,255,255,0.07)',
+      background: 'var(--color-surface)',
+      border: '2px solid var(--color-border-muted)',
       borderRadius: 20,
       overflow: 'hidden',
       display: 'flex', flexDirection: 'column',
@@ -302,8 +300,8 @@ function TestimonialCard({
           onClick={() => onPlay?.(t.video_url!)}
           style={{
             position: 'relative', width: '100%', aspectRatio: '16/9',
-            background: 'rgba(255,255,255,0.04)',
-            border: 'none', padding: 0, cursor: 'pointer', flexShrink: 0,
+            background: 'var(--color-bg-accent)',
+            border: 'none', borderBottom: '2px solid var(--color-border-muted)', padding: 0, cursor: 'pointer', flexShrink: 0,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}
           aria-label={`Play ${t.client_name}'s video testimonial`}
@@ -317,21 +315,16 @@ function TestimonialCard({
               style={{ objectFit: 'cover' }}
             />
           ) : (
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'radial-gradient(ellipse at 40% 50%, rgba(99,102,241,0.25) 0%, transparent 65%)',
-            }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'var(--color-bg-accent)' }} />
           )}
           {/* Play button */}
           <div style={{
             position: 'relative', zIndex: 1,
             width: 52, height: 52, borderRadius: '50%',
-            background: 'rgba(255,255,255,0.12)',
-            backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
-            border: '1px solid rgba(255,255,255,0.2)',
+            background: 'var(--color-surface)',
+            border: '2px solid var(--color-border-emphasis)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            color: '#fff',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
+            color: 'var(--color-text)',
           }}>
             <PlayIcon />
           </div>
@@ -342,8 +335,8 @@ function TestimonialCard({
       <div style={{ padding: '22px 24px', flex: 1, display: 'flex', flexDirection: 'column', gap: 16 }}>
         {/* Quote mark */}
         <div style={{
-          fontSize: 48, lineHeight: 0.8, color: '#6366f1', opacity: 0.5,
-          fontFamily: 'Georgia, serif', userSelect: 'none',
+          fontSize: 48, lineHeight: 0.8, color: 'var(--color-primary)',
+          fontFamily: 'var(--font-serif)', userSelect: 'none',
         }}>
           &ldquo;
         </div>
@@ -352,7 +345,7 @@ function TestimonialCard({
         <p
           ref={quoteRef}
           style={{
-            fontSize: 14, color: 'rgba(255,255,255,0.72)', lineHeight: 1.7,
+            fontSize: 14, color: 'var(--color-muted)', lineHeight: 1.7,
             margin: 0, flex: 1,
             display: '-webkit-box', WebkitLineClamp: 5, WebkitBoxOrient: 'vertical', overflow: 'hidden',
           } as React.CSSProperties}
@@ -365,7 +358,7 @@ function TestimonialCard({
             onClick={() => onReadMore?.(t)}
             style={{
               alignSelf: 'flex-start', background: 'none', border: 'none', cursor: 'pointer',
-              padding: 0, marginTop: -12, fontSize: 12.5, fontWeight: 600, color: '#818cf8',
+              padding: 0, marginTop: -12, fontSize: 12.5, fontWeight: 600, color: 'var(--color-primary)',
             }}
           >
             Read full testimonial
@@ -373,16 +366,16 @@ function TestimonialCard({
         )}
 
         {/* Divider */}
-        <div style={{ height: 1, background: 'rgba(255,255,255,0.06)' }} />
+        <div style={{ height: 2, background: 'var(--color-border-muted)' }} />
 
         {/* Identity */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <Avatar name={t.client_name} url={t.avatar_url} />
           <div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#fff', margin: 0 }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--color-text)', margin: 0 }}>
               {t.client_name}
             </p>
-            <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.38)', margin: '2px 0 0' }}>
+            <p style={{ fontSize: 11, color: 'var(--color-muted)', margin: '2px 0 0' }}>
               {[t.client_role, t.client_company].filter(Boolean).join(' · ')}
             </p>
           </div>
@@ -461,21 +454,15 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         }
       `}</style>
 
-      <section style={{ position: 'relative', overflow: 'hidden', padding: '100px 0' }}>
-        {/* Background glow */}
-        <div style={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          background: 'radial-gradient(ellipse 80% 60% at 50% 50%, rgba(99,102,241,0.06) 0%, transparent 65%)',
-        }} />
-
+      <section style={{ position: 'relative', overflow: 'hidden', padding: '100px 0', background: 'var(--color-bg-dark)' }}>
         {/* Edge fade masks */}
         <div style={{
           position: 'absolute', top: 0, left: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: 'none',
-          background: 'linear-gradient(to right, #09090b, transparent)',
+          background: 'linear-gradient(to right, var(--color-bg-dark), transparent)',
         }} />
         <div style={{
           position: 'absolute', top: 0, right: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: 'none',
-          background: 'linear-gradient(to left, #09090b, transparent)',
+          background: 'linear-gradient(to left, var(--color-bg-dark), transparent)',
         }} />
 
         {/* Section header */}
@@ -485,18 +472,18 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         }}>
           <p style={{
             fontSize: 10, fontWeight: 700, letterSpacing: '0.18em',
-            textTransform: 'uppercase', color: '#6366f1', marginBottom: 16,
+            textTransform: 'uppercase', color: 'var(--color-primary)', marginBottom: 16,
           }}>
             Client Stories
           </p>
-          <h2 style={{
-            fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800,
-            letterSpacing: '-0.03em', color: '#fff', margin: '0 0 16px', lineHeight: 1.05,
+          <h2 className="font-serif" style={{
+            fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 500,
+            letterSpacing: '-0.02em', color: 'var(--color-text-inverse)', margin: '0 0 16px', lineHeight: 1.05,
           }}>
             What clients say
           </h2>
           <p style={{
-            fontSize: 16, color: 'rgba(255,255,255,0.42)',
+            fontSize: 16, color: 'var(--color-muted-inverse)',
             maxWidth: 440, margin: '0 auto', lineHeight: 1.65,
           }}>
             From first call to final handover, here&apos;s what working with Hexspire is actually like.
@@ -519,9 +506,9 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
 
         {/* Contextual CTA */}
         <div style={{ textAlign: 'center', marginTop: 48, position: 'relative', zIndex: 1 }}>
-          <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.4)', margin: 0 }}>
+          <p style={{ fontSize: 14, color: 'var(--color-muted-inverse)', margin: 0 }}>
             Want results like these?{' '}
-            <a href="#contact" style={{ color: '#818cf8', fontWeight: 500, textDecoration: 'none' }}>
+            <a href="#contact" style={{ color: 'var(--color-text-inverse)', fontWeight: 600, textDecoration: 'underline' }}>
               Start your project →
             </a>
           </p>

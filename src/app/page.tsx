@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
+import Trust from '@/components/sections/Trust';
 import Packages from '@/components/sections/Packages';
 import HowWeWork from '@/components/sections/HowWeWork';
 import WhyHexspire from '@/components/sections/WhyHexspire';
@@ -50,6 +51,7 @@ export default async function Home() {
       <Navbar />
       <main>
         <Hero />
+        <Trust />
         <Portfolio caseStudies={caseStudies} coverUrls={coverUrls} />
         <Testimonials testimonials={testimonials} />
         <Partners partners={partners} />

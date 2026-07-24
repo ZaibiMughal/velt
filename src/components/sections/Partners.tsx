@@ -62,7 +62,7 @@ function PartnerItem({ partner }: { partner: Partner }) {
       )}
     </div>
   ) : (
-    <span className="text-sm font-semibold tracking-wide whitespace-nowrap" style={{ color: 'rgba(255,255,255,0.35)' }}>
+    <span className="text-sm font-semibold tracking-wide whitespace-nowrap" style={{ color: 'var(--color-muted)' }}>
       {partner.name}
     </span>
   );
@@ -104,10 +104,10 @@ export default function Partners({ partners }: PartnersProps) {
   return (
     <section
       className="py-14"
-      style={{ borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}
+      style={{ borderTop: '2px solid var(--color-border-muted)', borderBottom: '2px solid var(--color-border-muted)' }}
       aria-label="Companies we've worked with"
     >
-      <p className="text-center text-[10px] font-semibold uppercase tracking-widest mb-14" style={{ color: 'rgba(255,255,255,0.18)' }}>
+      <p className="text-center text-[10px] font-semibold uppercase tracking-widest mb-14" style={{ color: 'var(--color-muted-dark)' }}>
         Trusted by founders &amp; businesses
       </p>
 
@@ -116,11 +116,11 @@ export default function Partners({ partners }: PartnersProps) {
         {/* Edge fade masks */}
         <div
           className="absolute inset-y-0 left-0 z-10 w-24 pointer-events-none"
-          style={{ background: 'linear-gradient(to right, #09090b, transparent)' }}
+          style={{ background: 'linear-gradient(to right, var(--color-bg), transparent)' }}
         />
         <div
           className="absolute inset-y-0 right-0 z-10 w-24 pointer-events-none"
-          style={{ background: 'linear-gradient(to left, #09090b, transparent)' }}
+          style={{ background: 'linear-gradient(to left, var(--color-bg), transparent)' }}
         />
 
         <div

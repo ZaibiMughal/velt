@@ -10,7 +10,7 @@ export default function FAQ() {
         {/* Section header */}
         <AnimatedSection className="flex flex-col items-center text-center gap-4 mb-16">
           <Badge>FAQ</Badge>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
+          <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight" style={{ color: 'var(--color-text)' }}>
             Common questions
           </h2>
         </AnimatedSection>
@@ -22,11 +22,12 @@ export default function FAQ() {
 
         {/* Contextual CTA */}
         <AnimatedSection delay={0.15} className="max-w-2xl mx-auto mt-10 text-center">
-          <p className="text-sm text-white/40">
+          <p className="text-sm" style={{ color: 'var(--color-muted)' }}>
             Still have a question?{' '}
             <a
               href="#contact"
-              className="font-medium text-indigo-400 transition-colors hover:text-indigo-300"
+              className="font-medium transition-colors"
+              style={{ color: 'var(--color-primary)' }}
             >
               Ask us directly →
             </a>

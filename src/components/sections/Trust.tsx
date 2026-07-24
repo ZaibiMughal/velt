@@ -25,11 +25,11 @@ function MarqueeRow({ repeated, direction }: { repeated: string; direction: 'lef
           ease: 'linear',
         }}
       >
-        <span className="text-sm font-medium text-white/25 flex-shrink-0">
+        <span className="text-sm font-medium flex-shrink-0" style={{ color: 'var(--color-muted-inverse)' }}>
           {repeated.split('·').map((item, i) => (
             <span key={i}>
               {i > 0 && (
-                <span className="mx-2" style={{ color: '#6366f1' }}>
+                <span className="mx-2" style={{ color: 'var(--color-primary)' }}>
                   ·
                 </span>
               )}
@@ -37,11 +37,11 @@ function MarqueeRow({ repeated, direction }: { repeated: string; direction: 'lef
             </span>
           ))}
         </span>
-        <span className="text-sm font-medium text-white/25 flex-shrink-0" aria-hidden>
+        <span className="text-sm font-medium flex-shrink-0" style={{ color: 'var(--color-muted-inverse)' }} aria-hidden>
           {repeated.split('·').map((item, i) => (
             <span key={i}>
               {i > 0 && (
-                <span className="mx-2" style={{ color: '#6366f1' }}>
+                <span className="mx-2" style={{ color: 'var(--color-primary)' }}>
                   ·
                 </span>
               )}
@@ -53,11 +53,11 @@ function MarqueeRow({ repeated, direction }: { repeated: string; direction: 'lef
       {/* Fade edges */}
       <div
         className="absolute inset-y-0 left-0 w-20 pointer-events-none"
-        style={{ background: 'linear-gradient(to right, #09090b, transparent)' }}
+        style={{ background: 'linear-gradient(to right, var(--color-bg-dark), transparent)' }}
       />
       <div
         className="absolute inset-y-0 right-0 w-20 pointer-events-none"
-        style={{ background: 'linear-gradient(to left, #09090b, transparent)' }}
+        style={{ background: 'linear-gradient(to left, var(--color-bg-dark), transparent)' }}
       />
     </div>
   );
@@ -67,8 +67,8 @@ export default function Trust() {
   return (
     <section
       aria-label="Technology stack"
-      className="py-12 border-y"
-      style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+      className="py-12"
+      style={{ background: 'var(--color-bg-dark)' }}
     >
       <div className="flex flex-col gap-4">
         <MarqueeRow repeated={ROW_1_REPEATED} direction="left" />

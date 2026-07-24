@@ -28,7 +28,8 @@ function ChevronIcon({ open }: { open: boolean }) {
       strokeLinejoin="round"
       animate={{ rotate: open ? 180 : 0 }}
       transition={{ duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
-      className="shrink-0 text-white/40"
+      className="shrink-0"
+      style={{ color: 'var(--color-primary)' }}
     >
       <polyline points="6 9 12 15 18 9" />
     </motion.svg>
@@ -43,20 +44,21 @@ export default function Accordion({ items, className }: AccordionProps) {
   }
 
   return (
-    <div className={cn('divide-y divide-white/[0.06]', className)}>
+    <div
+      className={cn(className)}
+      style={{ borderTop: '2px solid var(--color-border-muted)' }}
+    >
       {items.map((item, index) => {
         const isOpen = openIndex === index;
         const btnId = `faq-btn-${index}`;
         const panelId = `faq-panel-${index}`;
         return (
-          <div key={item.question}>
+          <div key={item.question} style={{ borderBottom: '2px solid var(--color-border-muted)' }}>
             <button
               id={btnId}
               onClick={() => toggle(index)}
-              className={cn(
-                'w-full flex items-center justify-between gap-4 py-5 text-left transition-colors duration-200 cursor-none',
-                isOpen ? 'text-white' : 'text-white/60 hover:text-white',
-              )}
+              className="w-full flex items-center justify-between gap-4 py-5 text-left transition-colors duration-200"
+              style={{ color: isOpen ? 'var(--color-text)' : 'var(--color-muted)' }}
               aria-expanded={isOpen}
               aria-controls={panelId}
             >
@@ -78,7 +80,7 @@ export default function Accordion({ items, className }: AccordionProps) {
                   transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
                   className="overflow-hidden"
                 >
-                  <p className="pb-5 text-sm text-white/60 leading-relaxed">
+                  <p className="pb-5 text-sm leading-relaxed" style={{ color: 'var(--color-muted)' }}>
                     {item.answer}
                   </p>
                 </motion.div>

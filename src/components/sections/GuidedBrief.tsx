@@ -181,7 +181,7 @@ function fmtBytes(b: number) {
 /* ── SVG icons (replacing emojis) ─────────────────────────────────────── */
 
 function FileTypeIcon({ file }: { file: File }) {
-  const color = 'rgba(165,180,252,0.7)';
+  const color = 'var(--color-primary)';
   const size  = 16;
 
   if (file.type.startsWith('image/')) return (
@@ -219,7 +219,7 @@ function FileTypeIcon({ file }: { file: File }) {
 
 function WarnIcon() {
   return (
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 1 }}>
       <path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z" />
       <line x1="12" y1="9" x2="12" y2="13" />
       <line x1="12" y1="17" x2="12.01" y2="17" />
@@ -264,13 +264,16 @@ function canAdvance(step: number, data: BriefData): boolean {
 
 const INPUT: React.CSSProperties = {
   width: '100%', boxSizing: 'border-box',
-  background: 'rgba(255,255,255,0.04)',
-  border: '1px solid rgba(255,255,255,0.1)',
+  background: 'var(--color-bg)',
+  border: '2px solid var(--color-border-muted)',
   borderRadius: 12, padding: '13px 16px',
-  color: 'white', fontSize: 15, outline: 'none',
+  color: 'var(--color-text)', fontSize: 15, outline: 'none',
   fontFamily: 'inherit', lineHeight: 1.6,
   transition: 'border-color 0.15s ease',
 };
+
+const INPUT_FOCUS_COLOR = 'var(--color-primary)';
+const INPUT_BLUR_COLOR = 'var(--color-border-muted)';
 
 function toggle(arr: string[], v: string) {
   return arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v];
@@ -282,7 +285,7 @@ function MinLengthHint({ value, min }: { value: string; min: number }) {
   const remaining = min - len;
   if (remaining <= 0) return null;
   return (
-    <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: '8px 0 0' }}>
+    <p style={{ fontSize: 12, color: 'var(--color-muted)', margin: '8px 0 0' }}>
       {len === 0
         ? `Write at least ${min} characters to continue.`
         : `${remaining} more character${remaining === 1 ? '' : 's'} to continue.`}
@@ -296,10 +299,10 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
   return (
     <button type="button" onClick={onClick} style={{
       padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit',
-      border: active ? '1px solid rgba(99,102,241,0.7)' : '1px solid rgba(255,255,255,0.1)',
-      background: active ? 'rgba(99,102,241,0.18)' : 'rgba(255,255,255,0.04)',
-      color: active ? '#a5b4fc' : 'rgba(255,255,255,0.65)',
-      fontSize: 14, fontWeight: active ? 500 : 400,
+      border: active ? '2px solid var(--color-primary)' : '2px solid var(--color-border-muted)',
+      background: active ? 'var(--color-bg-accent)' : 'var(--color-surface)',
+      color: active ? 'var(--color-primary)' : 'var(--color-text)',
+      fontSize: 14, fontWeight: active ? 600 : 400,
       transition: 'all 0.15s ease', textAlign: 'left',
     }}>{label}</button>
   );
@@ -331,8 +334,8 @@ function FileUploadZone({ files, data, setData }: { files: File[]; data: BriefDa
 
   return (
     <div style={{ marginTop: 22 }}>
-      <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.28)', textTransform: 'uppercase', letterSpacing: '0.09em', margin: '0 0 10px' }}>
-        Attach files <span style={{ textTransform: 'none', color: 'rgba(255,255,255,0.16)' }}>(optional)</span>
+      <p style={{ fontSize: 11, color: 'var(--color-muted)', textTransform: 'uppercase', letterSpacing: '0.09em', margin: '0 0 10px' }}>
+        Attach files <span style={{ textTransform: 'none', color: 'var(--color-muted-dark)' }}>(optional)</span>
       </p>
 
       <div
@@ -343,9 +346,9 @@ function FileUploadZone({ files, data, setData }: { files: File[]; data: BriefDa
         onDragLeave={() => setDragging(false)}
         onDrop={e => { e.preventDefault(); setDragging(false); addFiles(e.dataTransfer.files); }}
         style={{
-          border: `1.5px dashed ${dragging ? 'rgba(99,102,241,0.65)' : 'rgba(255,255,255,0.12)'}`,
+          border: `2px dashed ${dragging ? 'var(--color-primary)' : 'var(--color-border-muted)'}`,
           borderRadius: 12, padding: '22px 24px', cursor: 'pointer',
-          background: dragging ? 'rgba(99,102,241,0.07)' : 'rgba(255,255,255,0.02)',
+          background: dragging ? 'var(--color-bg-accent)' : 'var(--color-surface)',
           transition: 'all 0.15s ease', textAlign: 'center', outline: 'none',
         }}
       >
@@ -353,7 +356,7 @@ function FileUploadZone({ files, data, setData }: { files: File[]; data: BriefDa
           onChange={e => { addFiles(e.target.files); e.target.value = ''; }} />
 
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
-          stroke={dragging ? 'rgba(99,102,241,0.7)' : 'rgba(255,255,255,0.22)'}
+          stroke={dragging ? 'var(--color-primary)' : 'var(--color-muted)'}
           strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"
           style={{ margin: '0 auto 10px', display: 'block', transition: 'stroke 0.15s ease' }}>
           <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
@@ -361,14 +364,14 @@ function FileUploadZone({ files, data, setData }: { files: File[]; data: BriefDa
           <line x1="12" y1="3" x2="12" y2="15" />
         </svg>
 
-        <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', margin: '0 0 10px' }}>
+        <p style={{ fontSize: 13, color: 'var(--color-muted)', margin: '0 0 10px' }}>
           Drag & drop or{' '}
-          <span style={{ color: '#818cf8', fontWeight: 500 }}>browse files</span>
+          <span style={{ color: 'var(--color-primary)', fontWeight: 600 }}>browse files</span>
         </p>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '4px 20px' }}>
           {[['Images', '20 MB'], ['PDF', '5 MB'], ['Video', '200 MB'], ['ZIP', '200 MB']].map(([type, limit]) => (
-            <span key={type} style={{ fontSize: 11, color: 'rgba(255,255,255,0.2)', whiteSpace: 'nowrap' }}>
+            <span key={type} style={{ fontSize: 11, color: 'var(--color-muted-dark)', whiteSpace: 'nowrap' }}>
               {type} · {limit} max
             </span>
           ))}
@@ -381,7 +384,7 @@ function FileUploadZone({ files, data, setData }: { files: File[]; data: BriefDa
           {errors.map((e, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 7 }}>
               <WarnIcon />
-              <span style={{ fontSize: 12, color: '#f87171', lineHeight: 1.4 }}>{e}</span>
+              <span style={{ fontSize: 12, color: '#dc2626', lineHeight: 1.4 }}>{e}</span>
             </div>
           ))}
         </div>
@@ -394,25 +397,25 @@ function FileUploadZone({ files, data, setData }: { files: File[]; data: BriefDa
             <div key={i} style={{
               display: 'flex', alignItems: 'center', gap: 10,
               padding: '9px 14px', borderRadius: 9,
-              background: 'rgba(99,102,241,0.09)',
-              border: '1px solid rgba(99,102,241,0.18)',
+              background: 'var(--color-bg-accent)',
+              border: '2px solid var(--color-border-muted)',
             }}>
               <FileTypeIcon file={file} />
-              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.7)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+              <span style={{ fontSize: 13, color: 'var(--color-text)', flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                 {file.name}
               </span>
-              <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', flexShrink: 0 }}>
+              <span style={{ fontSize: 11, color: 'var(--color-muted)', flexShrink: 0 }}>
                 {fmtBytes(file.size)}
               </span>
               <button type="button"
                 onClick={() => setData({ ...data, files: files.filter((_, j) => j !== i) })}
                 style={{
-                  background: 'none', border: 'none', color: 'rgba(255,255,255,0.3)',
+                  background: 'none', border: 'none', color: 'var(--color-muted)',
                   cursor: 'pointer', fontSize: 17, lineHeight: 1, padding: '0 2px', flexShrink: 0,
                   transition: 'color 0.12s ease',
                 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#f87171'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.3)'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = '#dc2626'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-muted)'; }}
               >×</button>
             </div>
           ))}
@@ -442,20 +445,20 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
           <button key={s.label} type="button" onClick={() => setData({ ...data, stage: s.label, features: [] })}
             style={{
               padding: '14px 18px', borderRadius: 12, textAlign: 'left', cursor: 'pointer', fontFamily: 'inherit',
-              border: active ? '1px solid rgba(99,102,241,0.7)' : '1px solid rgba(255,255,255,0.1)',
-              background: active ? 'rgba(99,102,241,0.12)' : 'rgba(255,255,255,0.03)',
+              border: active ? '2px solid var(--color-primary)' : '2px solid var(--color-border-muted)',
+              background: active ? 'var(--color-bg-accent)' : 'var(--color-surface)',
               display: 'flex', alignItems: 'center', gap: 16, transition: 'all 0.15s ease',
             }}>
             <span style={{
               width: 20, height: 20, borderRadius: '50%', flexShrink: 0, boxSizing: 'border-box',
-              border: active ? '6px solid #6366f1' : '2px solid rgba(255,255,255,0.2)',
+              border: active ? '6px solid var(--color-primary)' : '2px solid var(--color-border-muted)',
               transition: 'all 0.15s ease',
             }} />
             <span>
-              <span style={{ display: 'block', fontSize: 15, color: active ? '#e0e7ff' : 'rgba(255,255,255,0.75)', fontWeight: active ? 500 : 400 }}>
+              <span style={{ display: 'block', fontSize: 15, color: 'var(--color-text)', fontWeight: active ? 600 : 400 }}>
                 {s.label}
               </span>
-              <span style={{ display: 'block', fontSize: 12, color: 'rgba(255,255,255,0.28)', marginTop: 3 }}>
+              <span style={{ display: 'block', fontSize: 12, color: 'var(--color-muted)', marginTop: 3 }}>
                 {s.sub}
               </span>
             </span>
@@ -475,8 +478,8 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
           onChange={e => setData({ ...data, description: e.target.value })}
           rows={5}
           style={{ ...INPUT, resize: 'none' }}
-          onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
-          onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+          onFocus={e => { e.target.style.borderColor = INPUT_FOCUS_COLOR; }}
+          onBlur={e => { e.target.style.borderColor = INPUT_BLUR_COLOR; }}
         />
         <MinLengthHint value={data.description} min={10} />
         <FileUploadZone files={data.files} data={data} setData={setData} />
@@ -493,10 +496,10 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
           <button type="button"
             onClick={() => setData({ ...data, features: allSelected ? [] : [...list] })}
             style={{
-              background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 7,
-              color: allSelected ? '#a5b4fc' : 'rgba(255,255,255,0.38)', cursor: 'pointer',
+              background: 'none', borderRadius: 7,
+              color: allSelected ? 'var(--color-primary)' : 'var(--color-muted)', cursor: 'pointer',
               padding: '5px 12px', fontSize: 12, fontFamily: 'inherit', transition: 'all 0.15s ease',
-              borderColor: allSelected ? 'rgba(99,102,241,0.4)' : 'rgba(255,255,255,0.1)',
+              border: allSelected ? '2px solid var(--color-primary)' : '2px solid var(--color-border-muted)',
             }}>
             {allSelected ? 'Clear all' : 'Select all'}
           </button>
@@ -518,7 +521,7 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
         { label: 'Timeline', key: 'timeline' as const, opts: TIMELINES },
       ] as const).map(({ label, key, opts }) => (
         <div key={key}>
-          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 12px', textAlign: 'center' }}>
+          <p style={{ fontSize: 11, color: 'var(--color-muted)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 12px', textAlign: 'center' }}>
             {label}
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 9, justifyContent: 'center' }}>
@@ -528,10 +531,10 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
                 <button key={o} type="button" onClick={() => setData({ ...data, [key]: o })}
                   style={{
                     padding: '10px 20px', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit',
-                    border: active ? '1px solid rgba(99,102,241,0.7)' : '1px solid rgba(255,255,255,0.1)',
-                    background: active ? 'rgba(99,102,241,0.16)' : 'rgba(255,255,255,0.04)',
-                    color: active ? '#a5b4fc' : 'rgba(255,255,255,0.6)',
-                    fontSize: 14, transition: 'all 0.15s ease',
+                    border: active ? '2px solid var(--color-primary)' : '2px solid var(--color-border-muted)',
+                    background: active ? 'var(--color-bg-accent)' : 'var(--color-surface)',
+                    color: active ? 'var(--color-primary)' : 'var(--color-text)',
+                    fontSize: 14, fontWeight: active ? 600 : 400, transition: 'all 0.15s ease',
                   }}>{o}</button>
               );
             })}
@@ -551,8 +554,8 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
           onChange={e => setData({ ...data, success: e.target.value })}
           rows={5}
           style={{ ...INPUT, resize: 'none' }}
-          onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
-          onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+          onFocus={e => { e.target.style.borderColor = INPUT_FOCUS_COLOR; }}
+          onBlur={e => { e.target.style.borderColor = INPUT_BLUR_COLOR; }}
         />
         <MinLengthHint value={data.success} min={5} />
       </div>
@@ -567,25 +570,25 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
         <input type="text" placeholder="Your name"
           value={data.name} onChange={e => setData({ ...data, name: e.target.value })}
           style={INPUT}
-          onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
-          onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+          onFocus={e => { e.target.style.borderColor = INPUT_FOCUS_COLOR; }}
+          onBlur={e => { e.target.style.borderColor = INPUT_BLUR_COLOR; }}
         />
         <input type="email" placeholder="your@email.com"
           value={data.email} onChange={e => setData({ ...data, email: e.target.value })}
           style={INPUT}
-          onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.5)'; }}
-          onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.1)'; }}
+          onFocus={e => { e.target.style.borderColor = INPUT_FOCUS_COLOR; }}
+          onBlur={e => { e.target.style.borderColor = INPUT_BLUR_COLOR; }}
         />
         {!nameOk ? (
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
+          <p style={{ fontSize: 12, color: 'var(--color-muted)', margin: 0 }}>
             Enter your name to continue.
           </p>
         ) : !emailOk && data.email.length > 0 ? (
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
+          <p style={{ fontSize: 12, color: 'var(--color-muted)', margin: 0 }}>
             That email address doesn&apos;t look complete, check for a typo.
           </p>
         ) : !emailOk ? (
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.3)', margin: 0 }}>
+          <p style={{ fontSize: 12, color: 'var(--color-muted)', margin: 0 }}>
             Enter a valid email address to continue.
           </p>
         ) : null}
@@ -727,22 +730,24 @@ export default function GuidedBrief() {
         onClick={() => setOpen(true)}
         style={{
           background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit',
-          color: 'rgba(255,255,255,0.38)', fontSize: 14, padding: 0,
+          color: 'var(--color-muted)', fontSize: 14, padding: 0,
           display: 'inline-flex', alignItems: 'center', gap: 5,
           transition: 'color 0.2s ease',
         }}
-        onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.7)'; }}
-        onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.38)'; }}
+        onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-text)'; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-muted)'; }}
       >
         Ready to give us the full picture?{' '}
-        <span style={{ color: '#818cf8', fontWeight: 500 }}>Start the guided brief</span>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <span style={{ color: 'var(--color-primary)', fontWeight: 600 }}>Start the guided brief</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
         </svg>
       </button>
 
       {/* full-screen overlay, portaled to <body> so it isn't trapped inside an
-          ancestor stacking context (see mounted comment above) */}
+          ancestor stacking context (see mounted comment above). The overlay
+          itself is the flat cream "card" — a full-bleed takeover, so there's
+          no separate blurred scrim behind it to replace. */}
       {mounted && createPortal(
       <AnimatePresence>
         {open && (
@@ -754,34 +759,34 @@ export default function GuidedBrief() {
             transition={{ duration: 0.28 }}
             style={{
               position: 'fixed', inset: 0, zIndex: 300,
-              background: '#060608',
+              background: 'var(--color-bg)',
               display: 'flex', flexDirection: 'column',
               fontFamily: 'inherit',
             }}
           >
             {/* Progress bar */}
-            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'rgba(255,255,255,0.06)', zIndex: 1 }}>
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 3, background: 'var(--color-border-muted)', zIndex: 1 }}>
               <motion.div
                 animate={{ width: `${pct}%` }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                style={{ height: '100%', background: 'linear-gradient(90deg, #6366f1, #7c3aed)', boxShadow: '0 0 12px rgba(99,102,241,0.55)' }}
+                style={{ height: '100%', background: 'var(--color-primary)' }}
               />
             </div>
 
             {/* Top bar */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '28px 48px 0', position: 'relative', zIndex: 1 }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 15, fontWeight: 800, color: 'white', letterSpacing: '-0.02em' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 15, fontWeight: 800, color: 'var(--color-text)', letterSpacing: '-0.02em' }}>
                 <LogoMark size={20} />
                 <Wordmark />
               </span>
               <button type="button" onClick={close} aria-label="Close and return to the site" style={{
                 display: 'flex', alignItems: 'center', gap: 7,
-                background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 999,
-                color: 'rgba(255,255,255,0.5)', cursor: 'pointer', padding: '7px 16px 7px 12px',
+                background: 'none', border: '2px solid var(--color-border-muted)', borderRadius: 999,
+                color: 'var(--color-muted)', cursor: 'pointer', padding: '7px 16px 7px 12px',
                 fontSize: 13, fontFamily: 'inherit', transition: 'all 0.15s ease',
               }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.25)'; (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.85)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(255,255,255,0.1)'; (e.currentTarget as HTMLButtonElement).style.color = 'rgba(255,255,255,0.5)'; }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--color-border-emphasis)'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-text)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.borderColor = 'var(--color-border-muted)'; (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-muted)'; }}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                   <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
@@ -805,22 +810,22 @@ export default function GuidedBrief() {
                   >
                     <div style={{
                       width: 64, height: 64, borderRadius: '50%', margin: '0 auto 24px',
-                      background: 'rgba(99,102,241,0.15)', border: '1px solid rgba(99,102,241,0.3)',
+                      background: 'var(--color-bg-accent)', border: '2px solid var(--color-border-emphasis)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                     }}>
-                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                     </div>
-                    <h2 style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 700, color: 'white', margin: '0 0 12px', letterSpacing: '-0.025em' }}>
+                    <h2 className="font-serif" style={{ fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', fontWeight: 500, color: 'var(--color-text)', margin: '0 0 12px', letterSpacing: '-0.02em' }}>
                       Brief submitted.
                     </h2>
-                    <p style={{ fontSize: 17, color: 'rgba(255,255,255,0.4)', margin: '0 0 32px', lineHeight: 1.6 }}>
+                    <p style={{ fontSize: 17, color: 'var(--color-muted)', margin: '0 0 32px', lineHeight: 1.6 }}>
                       We'll review everything and get back to you within 24 hours.
                     </p>
                     <button type="button" onClick={close} style={{
-                      background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)',
-                      borderRadius: 10, color: 'rgba(255,255,255,0.55)', cursor: 'pointer',
+                      background: 'var(--color-surface)', border: '2px solid var(--color-border-muted)',
+                      borderRadius: 10, color: 'var(--color-text)', cursor: 'pointer',
                       padding: '10px 28px', fontSize: 14, fontFamily: 'inherit',
                     }}>Close</button>
                   </motion.div>
@@ -838,16 +843,16 @@ export default function GuidedBrief() {
                     style={{ paddingTop: 8, paddingBottom: 24 }}
                   >
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 24 }}>
-                      <span style={{ fontSize: 'clamp(2.8rem, 5vw, 4.5rem)', fontWeight: 800, color: 'rgba(99,102,241,0.2)', lineHeight: 1, letterSpacing: '-0.04em' }}>
+                      <span className="font-serif" style={{ fontSize: 'clamp(2.8rem, 5vw, 4.5rem)', fontWeight: 500, color: 'rgba(99,102,241,0.3)', lineHeight: 1, letterSpacing: '-0.02em' }}>
                         {String(step).padStart(2, '0')}
                       </span>
-                      <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.16)' }}>/ {TOTAL}</span>
+                      <span style={{ fontSize: 14, color: 'var(--color-muted-dark)' }}>/ {TOTAL}</span>
                     </div>
 
-                    <h2 style={{ fontSize: 'clamp(1.5rem, 2.8vw, 2.4rem)', fontWeight: 700, color: 'white', margin: '0 0 6px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+                    <h2 className="font-serif" style={{ fontSize: 'clamp(1.5rem, 2.8vw, 2.4rem)', fontWeight: 500, color: 'var(--color-text)', margin: '0 0 6px', letterSpacing: '-0.01em', lineHeight: 1.2 }}>
                       {getTitle(step)}
                     </h2>
-                    <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.3)', margin: '0 0 28px', lineHeight: 1.55 }}>
+                    <p style={{ fontSize: 15, color: 'var(--color-muted)', margin: '0 0 28px', lineHeight: 1.55 }}>
                       {getSub(step)}
                     </p>
 
@@ -862,7 +867,7 @@ export default function GuidedBrief() {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 48px 36px' }}>
                 <button type="button" onClick={back} disabled={step === 1} style={{
                   background: 'none', border: 'none', cursor: step === 1 ? 'default' : 'pointer',
-                  color: step === 1 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.4)',
+                  color: step === 1 ? 'var(--color-muted-dark)' : 'var(--color-muted)',
                   fontSize: 14, fontFamily: 'inherit', transition: 'color 0.15s ease',
                 }}>Back</button>
 
@@ -870,34 +875,34 @@ export default function GuidedBrief() {
                   {submitError && (
                     <span style={{ display: 'flex', alignItems: 'flex-start', gap: 7, maxWidth: 320 }}>
                       <WarnIcon />
-                      <span style={{ fontSize: 12, color: '#f87171', lineHeight: 1.4 }}>{submitError}</span>
+                      <span style={{ fontSize: 12, color: '#dc2626', lineHeight: 1.4 }}>{submitError}</span>
                     </span>
                   )}
                   {step === 4 && (
                     <button type="button" onClick={() => { setDir(1); setStep(s => s + 1); }} style={{
-                      background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8,
-                      color: 'rgba(255,255,255,0.32)', cursor: 'pointer',
+                      background: 'none', border: '2px solid var(--color-border-muted)', borderRadius: 8,
+                      color: 'var(--color-muted)', cursor: 'pointer',
                       padding: '10px 18px', fontSize: 13, fontFamily: 'inherit',
                     }}>Skip</button>
                   )}
                   {step !== 3 && step !== 6 && step !== 7 && (
-                    <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.16)' }}>
+                    <span style={{ fontSize: 11, color: 'var(--color-muted-dark)' }}>
                       or press{' '}
                       <kbd style={{
                         padding: '2px 7px', borderRadius: 5, fontSize: 10,
-                        border: '1px solid rgba(255,255,255,0.12)',
-                        color: 'rgba(255,255,255,0.22)', background: 'rgba(255,255,255,0.04)',
+                        border: '1px solid var(--color-border-muted)',
+                        color: 'var(--color-muted)', background: 'var(--color-surface)',
                         fontFamily: 'inherit',
                       }}>Enter</kbd>
                     </span>
                   )}
                   <button type="button" onClick={next} disabled={!ready} style={{
                     padding: '11px 30px', borderRadius: 10, cursor: ready ? 'pointer' : 'default',
-                    background: ready ? 'linear-gradient(135deg, #6366f1, #7c3aed)' : 'rgba(255,255,255,0.06)',
-                    color: ready ? 'white' : 'rgba(255,255,255,0.2)',
-                    border: 'none', fontSize: 14, fontWeight: 500, fontFamily: 'inherit',
+                    background: ready ? 'var(--color-primary)' : 'var(--color-border-muted)',
+                    color: ready ? '#fff' : 'var(--color-muted)',
+                    border: ready ? '2px solid var(--color-border-emphasis)' : '2px solid transparent',
+                    fontSize: 14, fontWeight: 600, fontFamily: 'inherit',
                     transition: 'all 0.2s ease',
-                    boxShadow: ready ? '0 4px 20px rgba(99,102,241,0.45)' : 'none',
                   }}>
                     {submitting ? 'Submitting…' : step === TOTAL ? 'Submit Brief' : 'Next'}
                   </button>
