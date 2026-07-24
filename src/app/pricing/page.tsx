@@ -30,9 +30,9 @@ function ComparisonCell({ value }: { value: CellValue }) {
     );
   }
   if (value === false) {
-    return <span style={{ color: 'rgba(255,255,255,0.16)' }}>&mdash;</span>;
+    return <span style={{ color: 'var(--color-muted-dark)' }}>&mdash;</span>;
   }
-  return <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)' }}>{value}</span>;
+  return <span style={{ fontSize: 13, color: 'var(--color-muted)' }}>{value}</span>;
 }
 
 export default function PricingPage() {
@@ -47,38 +47,39 @@ export default function PricingPage() {
         .cmp-table-wrap { overflow-x: auto; }
         .cmp-table { width: 100%; border-collapse: collapse; min-width: 720px; }
         .cmp-table thead th {
-          position: sticky; top: 64px; z-index: 2;
-          background: #0a0a0d;
+          position: sticky; top: 76px; z-index: 2;
+          background: var(--color-surface);
           padding: 18px 20px 16px; text-align: left; font-size: 13px; font-weight: 700;
-          border-bottom: 1px solid rgba(255,255,255,0.14);
+          border-bottom: 2px solid var(--color-border-emphasis);
+          color: var(--color-text);
         }
         .cmp-table thead th.plan-col { text-align: center; min-width: 170px; }
         .cmp-category td {
           padding: 22px 20px 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-          text-transform: uppercase; color: #a5b4fc; border-bottom: none;
+          text-transform: uppercase; color: var(--color-primary); border-bottom: none;
         }
         .cmp-category:first-of-type td { padding-top: 18px; }
-        .cmp-table tbody tr:not(.cmp-category) { border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .cmp-table tbody tr:not(.cmp-category) { border-bottom: 1px solid var(--color-border-muted); }
         .cmp-table tbody tr:not(.cmp-category):last-child { border-bottom: none; }
-        .cmp-table tbody td { padding: 13px 20px; font-size: 13.5px; color: rgba(255,255,255,0.75); vertical-align: middle; }
+        .cmp-table tbody td { padding: 13px 20px; font-size: 13.5px; color: var(--color-text); vertical-align: middle; }
         .cmp-table tbody td.plan-col { text-align: center; }
-        .cmp-col-popular { background: rgba(99,102,241,0.045); }
+        .cmp-col-popular { background: var(--color-bg-accent); }
       `}</style>
 
-      <main style={{ background: '#09090b', minHeight: '100vh' }}>
+      <main style={{ background: 'var(--color-bg)', minHeight: '100vh' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '140px clamp(20px, 5vw, 48px) 0' }}>
           {/* Hero */}
           <div style={{ maxWidth: 640, margin: '0 auto 56px', textAlign: 'center' }}>
             <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 18 }}>
               <Badge>Pricing, in full</Badge>
             </div>
-            <h1 style={{
-              fontSize: 'clamp(2rem, 4.5vw, 2.8rem)', fontWeight: 800, letterSpacing: '-0.035em',
-              margin: '0 0 16px', lineHeight: 1.1,
+            <h1 className="font-serif" style={{
+              fontSize: 'clamp(2.2rem, 4.5vw, 3.2rem)', fontWeight: 500, letterSpacing: '-0.02em',
+              margin: '0 0 16px', lineHeight: 1.1, color: 'var(--color-text)',
             }}>
               See exactly what&apos;s in each plan.
             </h1>
-            <p style={{ fontSize: 15.5, lineHeight: 1.7, color: 'rgba(255,255,255,0.5)', margin: 0 }}>
+            <p style={{ fontSize: 15.5, lineHeight: 1.7, color: 'var(--color-muted)', margin: 0 }}>
               The homepage shows the headline features. This is the complete breakdown. Every plan
               inherits everything from the tier below it, so nothing is hidden until a call.
             </p>
@@ -90,11 +91,9 @@ export default function PricingPage() {
               <div
                 key={pkg.id}
                 style={{
-                  position: 'relative', padding: '24px 20px', borderRadius: 16,
-                  border: pkg.highlighted ? '1px solid rgba(99,102,241,0.5)' : '1px solid rgba(255,255,255,0.08)',
-                  background: pkg.highlighted
-                    ? 'linear-gradient(180deg, rgba(99,102,241,0.08), transparent 60%), #0d0d10'
-                    : '#0d0d10',
+                  position: 'relative', padding: '24px 20px', borderRadius: 24,
+                  border: pkg.highlighted ? '2px solid var(--color-border-emphasis)' : '2px solid var(--color-border-muted)',
+                  background: 'var(--color-surface)',
                 }}
               >
                 {pkg.badge && (
@@ -102,20 +101,20 @@ export default function PricingPage() {
                     position: 'absolute', top: -11, left: 20, fontSize: 10, fontWeight: 700,
                     letterSpacing: '0.06em', textTransform: 'uppercase', padding: '4px 10px',
                     borderRadius: 999, color: '#fff',
-                    background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
+                    background: 'var(--color-primary)',
                   }}>
                     {pkg.badge}
                   </span>
                 )}
-                <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 4px' }}>{pkg.name}</h3>
-                <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)', margin: '0 0 14px' }}>{pkg.delivery}</p>
-                <div style={{ fontSize: 30, fontWeight: 800, letterSpacing: '-0.02em' }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, margin: '0 0 4px', color: 'var(--color-text)' }}>{pkg.name}</h3>
+                <p style={{ fontSize: 12, color: 'var(--color-muted-dark)', margin: '0 0 14px' }}>{pkg.delivery}</p>
+                <div className="font-serif" style={{ fontSize: 32, fontWeight: 500, letterSpacing: '-0.01em', color: 'var(--color-text)' }}>
                   {pkg.price}
-                  <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.28)', marginLeft: 6 }}>
+                  <span className="font-sans" style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-muted-dark)', marginLeft: 6 }}>
                     {pkg.priceNote ?? 'Fixed'}
                   </span>
                 </div>
-                <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.5)', lineHeight: 1.5, margin: '10px 0 0' }}>
+                <p style={{ fontSize: 12.5, color: 'var(--color-muted)', lineHeight: 1.5, margin: '10px 0 0' }}>
                   {pkg.description}
                 </p>
               </div>
@@ -124,8 +123,8 @@ export default function PricingPage() {
 
           {/* Comparison table */}
           <div className="cmp-table-wrap" style={{
-            marginTop: 56, border: '1px solid rgba(255,255,255,0.08)', borderRadius: 16,
-            background: '#0d0d10',
+            marginTop: 56, border: '2px solid var(--color-border-muted)', borderRadius: 24,
+            background: 'var(--color-surface)',
           }}>
             <table className="cmp-table">
               <thead>
@@ -134,7 +133,7 @@ export default function PricingPage() {
                   {packages.map((pkg) => (
                     <th key={pkg.id} className={`plan-col ${pkg.highlighted ? 'cmp-col-popular' : ''}`}>
                       {pkg.badge && (
-                        <span style={{ display: 'block', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: '#6366f1', marginBottom: 4 }}>
+                        <span style={{ display: 'block', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-primary)', marginBottom: 4 }}>
                           {pkg.badge}
                         </span>
                       )}
@@ -153,7 +152,7 @@ export default function PricingPage() {
                       <td colSpan={4}>
                         {cat.title}
                         {cat.subtitle && (
-                          <span style={{ textTransform: 'none', fontWeight: 500, color: 'rgba(255,255,255,0.28)', letterSpacing: 0 }}>
+                          <span style={{ textTransform: 'none', fontWeight: 500, color: 'var(--color-muted-dark)', letterSpacing: 0 }}>
                             {' '}({cat.subtitle})
                           </span>
                         )}
@@ -164,7 +163,7 @@ export default function PricingPage() {
                         <td>
                           {row.label}
                           {row.note && (
-                            <span style={{ color: 'rgba(255,255,255,0.28)' }}> ({row.note})</span>
+                            <span style={{ color: 'var(--color-muted-dark)' }}> ({row.note})</span>
                           )}
                         </td>
                         {row.values.map((v, i) => (
@@ -180,46 +179,41 @@ export default function PricingPage() {
             </table>
           </div>
 
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)', textAlign: 'center', margin: '16px 0 0', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 12, color: 'var(--color-muted-dark)', textAlign: 'center', margin: '16px 0 0', lineHeight: 1.6 }}>
             Every plan includes everything listed for the tiers below it. Growth Platform includes all of Launch MVP, and SaaS Platform includes all of Growth Platform.
           </p>
-          <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.28)', textAlign: 'center', margin: '6px 0 0', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 12, color: 'var(--color-muted-dark)', textAlign: 'center', margin: '6px 0 0', lineHeight: 1.6 }}>
             {POST_LAUNCH_SUPPORT_NOTE}
           </p>
 
           {/* CTA band */}
-          <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', marginTop: 64 }}>
+          <div style={{ borderTop: '2px solid var(--color-border-muted)', marginTop: 64 }}>
             <div style={{
               padding: '80px clamp(20px, 5vw, 48px)', textAlign: 'center',
-              position: 'relative', overflow: 'hidden',
             }}>
-              <div style={{
-                position: 'absolute', inset: 0, pointerEvents: 'none',
-                background: 'radial-gradient(ellipse 60% 80% at 50% 100%, rgba(99,102,241,0.1) 0%, transparent 70%)',
-              }} />
-              <h2 style={{
-                fontSize: 'clamp(1.6rem, 3.5vw, 2.3rem)', fontWeight: 800,
-                letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff',
-                margin: '0 0 14px', position: 'relative',
+              <h2 className="font-serif" style={{
+                fontSize: 'clamp(1.8rem, 3.5vw, 2.6rem)', fontWeight: 500,
+                letterSpacing: '-0.02em', lineHeight: 1.1, color: 'var(--color-text)',
+                margin: '0 0 14px',
               }}>
                 Not sure which plan fits?
               </h2>
               <p style={{
-                fontSize: 15, color: 'rgba(255,255,255,0.45)', maxWidth: 460,
-                margin: '0 auto 32px', lineHeight: 1.65, position: 'relative',
+                fontSize: 15, color: 'var(--color-muted)', maxWidth: 460,
+                margin: '0 auto 32px', lineHeight: 1.65,
               }}>
                 Tell us what you are building and we will recommend the right tier. No pressure.
               </p>
               <Link
                 href={ctaHref}
                 {...ctaProps}
+                className="border-2"
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                   padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
-                  background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
+                  background: 'var(--color-primary)',
+                  borderColor: 'var(--color-text)',
                   color: '#fff', fontSize: 15, fontWeight: 600,
-                  boxShadow: '0 4px 24px rgba(99,102,241,0.4)',
-                  position: 'relative',
                 }}
               >
                 {PRIMARY_CTA_LABEL}

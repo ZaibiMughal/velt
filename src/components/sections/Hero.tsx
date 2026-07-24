@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
+import StickerBadge from '@/components/ui/StickerBadge';
+import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon } from '@/components/ui/ProductIcons';
 
 function scrollTo(id: string) {
   document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -26,10 +28,10 @@ const STATS = [
 /* ─── Flat scattered product cards (right column) ────────────────────────── */
 
 const PRODUCT_CARDS = [
-  { text: 'Mobile App', sub: 'iOS + Android', x: '4%', y: '2%', rotate: -4, fill: 'var(--color-surface)', delay: 0 },
-  { text: 'Web App', sub: 'React / Next.js', x: '48%', y: '14%', rotate: 3, fill: 'var(--color-bg-accent)', delay: 0.5 },
-  { text: 'SaaS Platform', sub: 'Full-stack', x: '2%', y: '52%', rotate: 2, fill: 'var(--color-bg-accent)', delay: 1.0 },
-  { text: 'Admin Dashboard', sub: 'Analytics', x: '46%', y: '62%', rotate: -3, fill: 'var(--color-surface)', delay: 0.7 },
+  { text: 'Mobile App', sub: 'iOS + Android', x: '4%', y: '2%', rotate: -4, fill: 'var(--color-surface)', delay: 0, Icon: PhoneIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: 5 },
+  { text: 'Web App', sub: 'React / Next.js', x: '48%', y: '14%', rotate: 3, fill: 'var(--color-bg-accent)', delay: 0.5, Icon: GlobeIcon, badgeFill: 'var(--color-surface)', badgeRotate: -6 },
+  { text: 'SaaS Platform', sub: 'Full-stack', x: '2%', y: '52%', rotate: 2, fill: 'var(--color-bg-accent)', delay: 1.0, Icon: LayersIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6 },
+  { text: 'Admin Dashboard', sub: 'Analytics', x: '46%', y: '62%', rotate: -3, fill: 'var(--color-surface)', delay: 0.7, Icon: ChartIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: -5 },
 ] as const;
 
 function ProductCards() {
@@ -64,15 +66,20 @@ function ProductCards() {
           }}
         >
           <div
-            className="rounded-2xl px-5 py-4"
+            className="rounded-2xl px-4 py-3.5 flex items-center gap-3"
             style={{
               background: card.fill,
               border: '2px solid var(--color-border-emphasis)',
-              minWidth: 168,
+              minWidth: 184,
             }}
           >
-            <div className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>{card.text}</div>
-            <div className="text-xs mt-1" style={{ color: 'var(--color-muted)' }}>{card.sub}</div>
+            <StickerBadge fill={card.badgeFill} rotate={card.badgeRotate} size={40}>
+              <card.Icon />
+            </StickerBadge>
+            <div>
+              <div className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>{card.text}</div>
+              <div className="text-xs mt-0.5" style={{ color: 'var(--color-muted)' }}>{card.sub}</div>
+            </div>
           </div>
         </motion.div>
       ))}

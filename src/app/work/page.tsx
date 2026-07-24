@@ -81,15 +81,13 @@ export default async function WorkPage({
     <>
       <Navbar />
 
-      {/* Per-card hover via CSS custom properties + color-mix() */}
+      {/* Per-card hover via CSS custom properties */}
       <style>{`
         .work-card {
-          transition: border-color 0.3s ease, box-shadow 0.35s ease;
-          cursor: none;
+          transition: border-color 0.2s ease;
         }
         .work-card:hover {
-          border-color: color-mix(in srgb, var(--t) 38%, transparent) !important;
-          box-shadow: 0 24px 60px color-mix(in srgb, var(--t) 10%, transparent);
+          border-color: var(--t) !important;
         }
         .work-card-img img {
           transition: transform 0.55s cubic-bezier(0.25, 1, 0.5, 1);
@@ -121,42 +119,33 @@ export default async function WorkPage({
         }
       `}</style>
 
-      <main style={{ background: '#09090b', color: '#fff', minHeight: '100vh' }}>
+      <main style={{ background: 'var(--color-bg)', color: 'var(--color-text)', minHeight: '100vh' }}>
 
         {/* ── HERO ─────────────────────────────────────────────────── */}
         <div style={{ position: 'relative', overflow: 'hidden', paddingTop: 128, paddingBottom: 56 }}>
-          <div style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none',
-            background: 'radial-gradient(ellipse 70% 50% at 50% -10%, rgba(99,102,241,0.14) 0%, transparent 65%)',
-          }} />
-          <div style={{
-            position: 'absolute', inset: 0, pointerEvents: 'none', opacity: 0.025,
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")',
-          }} />
-
           <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px)', position: 'relative', textAlign: 'center' }}>
             <p style={{
               fontSize: 10, fontWeight: 700, letterSpacing: '0.18em',
-              textTransform: 'uppercase', color: '#6366f1', marginBottom: 24,
+              textTransform: 'uppercase', color: 'var(--color-primary)', marginBottom: 24,
             }}>
               Selected Work
             </p>
-            <h1 style={{
-              fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 800,
-              letterSpacing: '-0.04em', lineHeight: 0.95, color: '#fff',
+            <h1 className="font-serif" style={{
+              fontSize: 'clamp(3rem, 7vw, 5.5rem)', fontWeight: 500,
+              letterSpacing: '-0.02em', lineHeight: 0.98, color: 'var(--color-text)',
               margin: '0 0 22px',
             }}>
               30+ products shipped
             </h1>
             <p style={{
-              fontSize: 18, color: 'rgba(255,255,255,0.42)',
+              fontSize: 18, color: 'var(--color-muted)',
               maxWidth: 520, margin: '0 auto 16px', lineHeight: 1.65,
             }}>
               Built for founders, scaleups, and multinational enterprises across three continents.
               Mobile apps, web platforms, SaaS ecosystems - fully owned by you on day one.
             </p>
             <p style={{
-              fontSize: 13, color: 'rgba(255,255,255,0.22)',
+              fontSize: 13, color: 'var(--color-muted-dark)',
               margin: '0 auto 52px', letterSpacing: '0.02em',
             }}>
               Showing most recent featured work
@@ -165,19 +154,19 @@ export default async function WorkPage({
             {/* Stats strip */}
             <div className="work-stats" style={{
               display: 'inline-flex', gap: 0,
-              background: 'rgba(255,255,255,0.02)',
-              border: '1px solid rgba(255,255,255,0.06)',
+              background: 'var(--color-surface)',
+              border: '2px solid var(--color-border-muted)',
               borderRadius: 16, overflow: 'hidden',
             }}>
               {STATS.map(({ value, label }, i) => (
                 <div key={label} style={{
                   padding: '16px 32px', textAlign: 'center',
-                  borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                  borderLeft: i > 0 ? '1px solid var(--color-border-muted)' : 'none',
                 }}>
-                  <p style={{ fontSize: 22, fontWeight: 700, color: '#fff', margin: 0, letterSpacing: '-0.02em' }}>
+                  <p className="font-serif" style={{ fontSize: 24, fontWeight: 500, color: 'var(--color-text)', margin: 0, letterSpacing: '-0.01em' }}>
                     {value}
                   </p>
-                  <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.32)', margin: '4px 0 0', whiteSpace: 'nowrap' }}>
+                  <p style={{ fontSize: 11, color: 'var(--color-muted-dark)', margin: '4px 0 0', whiteSpace: 'nowrap' }}>
                     {label}
                   </p>
                 </div>
@@ -200,9 +189,9 @@ export default async function WorkPage({
                 style={{
                   padding: '8px 22px', borderRadius: 999,
                   fontSize: 13, fontWeight: 500, textDecoration: 'none',
-                  background: active ? '#6366f1' : 'rgba(255,255,255,0.04)',
-                  color: active ? '#fff' : 'rgba(255,255,255,0.45)',
-                  border: active ? '1px solid transparent' : '1px solid rgba(255,255,255,0.08)',
+                  background: active ? 'var(--color-primary)' : 'var(--color-surface)',
+                  color: active ? '#fff' : 'var(--color-muted)',
+                  border: active ? '2px solid var(--color-text)' : '2px solid var(--color-border-muted)',
                 }}
               >
                 {f.label}
@@ -214,7 +203,7 @@ export default async function WorkPage({
         {/* ── GRID ─────────────────────────────────────────────────── */}
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px) 120px' }}>
           {studies.length === 0 ? (
-            <p style={{ textAlign: 'center', color: 'rgba(255,255,255,0.3)', padding: '80px 0' }}>
+            <p style={{ textAlign: 'center', color: 'var(--color-muted-dark)', padding: '80px 0' }}>
               No projects found.
             </p>
           ) : (
@@ -232,8 +221,8 @@ export default async function WorkPage({
                     style={{
                       '--t': t,
                       position: 'relative', borderRadius: 20, overflow: 'hidden',
-                      background: '#0d0d10',
-                      border: '1px solid rgba(255,255,255,0.06)',
+                      background: 'var(--color-surface)',
+                      border: '2px solid var(--color-border-muted)',
                       display: 'flex', flexDirection: 'column',
                     } as React.CSSProperties}
                   >
@@ -252,14 +241,13 @@ export default async function WorkPage({
                         height: isMobile ? 272 : 210,
                         overflow: 'hidden',
                         flexShrink: 0,
-                        background: isMobile
-                          ? `radial-gradient(ellipse 160% 120% at 50% 100%, ${rgba(t, 0.28)} 0%, #111114 55%, #0d0d10 75%)`
-                          : '#111114',
+                        background: 'var(--color-bg-accent)',
+                        borderBottom: '2px solid var(--color-border-muted)',
                       }}
                     >
                       {coverUrl ? (
                         isMobile ? (
-                          /* Mobile: centered portrait screenshot floating on gradient */
+                          /* Mobile: centered portrait screenshot on a flat accent panel */
                           <div
                             style={{
                               position: 'absolute',
@@ -279,72 +267,44 @@ export default async function WorkPage({
                                 objectFit: 'contain',
                                 objectPosition: 'bottom center',
                                 borderRadius: '14px 14px 0 0',
-                                boxShadow: `0 -4px 40px ${rgba(t, 0.18)}, 0 0 0 1px ${rgba(t, 0.15)}`,
+                                border: `2px solid ${t}`,
+                                borderBottom: 'none',
                               }}
                             />
                           </div>
                         ) : (
-                          /* Web/SaaS: darkened screenshot with theme color tint */
-                          <>
-                            <Image
-                              src={coverUrl}
-                              alt={study.title}
-                              fill
-                              sizes="(max-width: 900px) 50vw, (max-width: 1200px) 33vw, 360px"
-                              style={{
-                                objectFit: 'cover',
-                                objectPosition: 'top center',
-                                filter: 'brightness(0.55) saturate(0.85)',
-                              }}
-                            />
-                            {/* Theme color wash — ties screenshot into card accent */}
-                            <div style={{
-                              position: 'absolute', inset: 0,
-                              background: rgba(t, 0.18),
-                              mixBlendMode: 'normal',
-                              pointerEvents: 'none',
-                            }} />
-                            {/* Top fade */}
-                            <div style={{
-                              position: 'absolute', top: 0, left: 0, right: 0, height: 56,
-                              background: 'linear-gradient(to bottom, rgba(0,0,0,0.5), transparent)',
-                              pointerEvents: 'none',
-                            }} />
-                          </>
+                          /* Web/SaaS: full-brightness screenshot, no dark blend */
+                          <Image
+                            src={coverUrl}
+                            alt={study.title}
+                            fill
+                            sizes="(max-width: 900px) 50vw, (max-width: 1200px) 33vw, 360px"
+                            style={{
+                              objectFit: 'cover',
+                              objectPosition: 'top center',
+                            }}
+                          />
                         )
                       ) : (
-                        /* No-image: branded gradient placeholder */
+                        /* No-image: flat branded placeholder */
                         <div style={{
                           width: '100%', height: '100%', position: 'relative', overflow: 'hidden',
-                          background: `radial-gradient(ellipse at 25% 45%, ${rgba(t, 0.28)} 0%, transparent 60%), #0d0d10`,
+                          background: 'var(--color-bg-accent)',
                         }}>
                           <div style={{
                             position: 'absolute', top: 32, left: 32,
                             width: 72, height: 72, borderRadius: 18,
-                            background: rgba(t, 0.1), border: `1px solid ${rgba(t, 0.22)}`,
-                          }} />
-                          <div style={{
-                            position: 'absolute', top: 52, left: 52,
-                            width: 72, height: 72, borderRadius: 18,
-                            background: rgba(t, 0.06), border: `1px solid ${rgba(t, 0.14)}`,
+                            background: 'var(--color-surface)', border: `2px solid ${t}`,
                           }} />
                           <div style={{
                             position: 'absolute', bottom: 20, right: 20,
                             fontSize: 11, fontWeight: 700, letterSpacing: '0.12em',
-                            textTransform: 'uppercase', color: rgba(t, 0.3),
+                            textTransform: 'uppercase', color: t,
                           }}>
                             {study.category}
                           </div>
                         </div>
                       )}
-
-                      {/* Bottom gradient fade into card body */}
-                      <div style={{
-                        position: 'absolute', bottom: 0, left: 0, right: 0,
-                        height: isMobile ? 32 : 80,
-                        background: 'linear-gradient(to bottom, transparent, #0d0d10)',
-                        pointerEvents: 'none',
-                      }} />
                     </div>
 
                     {/* ── Content ── */}
@@ -357,14 +317,14 @@ export default async function WorkPage({
                         display: 'inline-block', alignSelf: 'flex-start',
                         padding: '3px 10px', borderRadius: 999,
                         fontSize: 10, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase',
-                        background: rgba(t, 0.1), border: `1px solid ${rgba(t, 0.28)}`, color: t,
+                        background: rgba(t, 0.1), border: `2px solid ${t}`, color: t,
                       }}>
                         {study.category}
                       </span>
 
                       {/* Title */}
                       <h2 style={{
-                        fontSize: 18, fontWeight: 700, color: '#fff',
+                        fontSize: 18, fontWeight: 700, color: 'var(--color-text)',
                         margin: 0, letterSpacing: '-0.02em', lineHeight: 1.2,
                       }}>
                         {study.title}
@@ -372,7 +332,7 @@ export default async function WorkPage({
 
                       {/* Tagline */}
                       <p style={{
-                        fontSize: 13, color: 'rgba(255,255,255,0.42)',
+                        fontSize: 13, color: 'var(--color-muted)',
                         margin: 0, lineHeight: 1.65, flex: 1,
                         display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
                       } as React.CSSProperties}>
@@ -380,7 +340,7 @@ export default async function WorkPage({
                       </p>
 
                       {/* Divider */}
-                      <div style={{ height: 1, background: 'rgba(255,255,255,0.05)', margin: '2px 0' }} />
+                      <div style={{ height: 1, background: 'var(--color-border-muted)', margin: '2px 0' }} />
 
                       {/* Bottom: outcome metric + arrow */}
                       <div style={{
@@ -393,7 +353,7 @@ export default async function WorkPage({
                         }}>
                           {study.outcome.metric}
                         </span>
-                        <span className="work-card-arrow" style={{ color: 'rgba(255,255,255,0.25)', flexShrink: 0, display: 'flex' }}>
+                        <span className="work-card-arrow" style={{ color: 'var(--color-muted-dark)', flexShrink: 0, display: 'flex' }}>
                           <ArrowRightIcon />
                         </span>
                       </div>
@@ -406,39 +366,35 @@ export default async function WorkPage({
         </div>
 
         {/* ── CTA BAND ─────────────────────────────────────────────── */}
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+        <div style={{ borderTop: '2px solid var(--color-border-muted)' }}>
           <div style={{
             maxWidth: 1100, margin: '0 auto',
             padding: '88px clamp(20px, 5vw, 48px)',
-            textAlign: 'center', position: 'relative', overflow: 'hidden',
+            textAlign: 'center',
           }}>
-            <div style={{
-              position: 'absolute', inset: 0, pointerEvents: 'none',
-              background: 'radial-gradient(ellipse 60% 80% at 50% 100%, rgba(99,102,241,0.1) 0%, transparent 70%)',
-            }} />
-            <h2 style={{
-              fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 800,
-              letterSpacing: '-0.03em', lineHeight: 1.1, color: '#fff',
-              margin: '0 0 16px', position: 'relative',
+            <h2 className="font-serif" style={{
+              fontSize: 'clamp(1.8rem, 4vw, 3rem)', fontWeight: 500,
+              letterSpacing: '-0.02em', lineHeight: 1.1, color: 'var(--color-text)',
+              margin: '0 0 16px',
             }}>
               Your product could be next.
             </h2>
             <p style={{
-              fontSize: 16, color: 'rgba(255,255,255,0.45)', maxWidth: 480,
-              margin: '0 auto 36px', lineHeight: 1.65, position: 'relative',
+              fontSize: 16, color: 'var(--color-muted)', maxWidth: 480,
+              margin: '0 auto 36px', lineHeight: 1.65,
             }}>
               Fixed price, full source code, shipped in weeks. Tell us what you need and get a scoped plan within 24 hours.
             </p>
             <Link
               href={BOOKING_ENABLED ? CAL_URL : '/#contact'}
               {...(BOOKING_ENABLED ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+              className="border-2"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
-                background: 'linear-gradient(135deg, #6366f1, #7c3aed)',
+                background: 'var(--color-primary)',
+                borderColor: 'var(--color-text)',
                 color: '#fff', fontSize: 15, fontWeight: 600,
-                boxShadow: '0 4px 24px rgba(99,102,241,0.4)',
-                position: 'relative',
               }}
             >
               {PRIMARY_CTA_LABEL}

@@ -1,6 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import StickerBadge from '@/components/ui/StickerBadge';
+import { CodeIcon } from '@/components/ui/ProductIcons';
 
 const ROW_1 =
   'Mobile Apps · Web Applications · SaaS Platforms · Admin Dashboards · Flutter · React Native · Next.js · TypeScript · Node.js · Supabase · Stripe · PostgreSQL · ';
@@ -67,9 +69,14 @@ export default function Trust() {
   return (
     <section
       aria-label="Technology stack"
-      className="py-12"
+      className="relative py-12"
       style={{ background: 'var(--color-bg-dark)' }}
     >
+      <div className="hidden sm:block absolute left-6 bottom-6 z-10">
+        <StickerBadge size={40} rotate={-8}>
+          <CodeIcon />
+        </StickerBadge>
+      </div>
       <div className="flex flex-col gap-4">
         <MarqueeRow repeated={ROW_1_REPEATED} direction="left" />
         <MarqueeRow repeated={ROW_2_REPEATED} direction="right" />
