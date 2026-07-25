@@ -155,13 +155,17 @@ export default function Partners({ partners }: PartnersProps) {
           filter: none !important;
           opacity: 1 !important;
         }
+        /* !important required: the tile's base background/border are inline
+           styles, which class rules cannot override otherwise. Without it a
+           white-source logo drops its filter on hover while the tile stays
+           light, making the logo invisible. */
         .partner-logo-link:hover .partner-tile,
         .partner-logo-link:focus-visible .partner-tile {
-          border-color: var(--color-border-emphasis);
+          border-color: var(--color-border-emphasis) !important;
         }
         .partner-logo-link:hover .partner-tile--dark,
         .partner-logo-link:focus-visible .partner-tile--dark {
-          background: var(--color-bg-dark);
+          background: var(--color-bg-dark) !important;
         }
       `}</style>
     </section>

@@ -795,9 +795,13 @@ export default function GuidedBrief() {
               </button>
             </div>
 
-            {/* Content */}
+            {/* Content. Centering happens via auto margins on the child, not
+                justify-content: center: on a scrollable flex container that
+                clips the top of overflowing steps with no way to scroll to
+                it, whereas auto margins collapse to zero once content
+                overflows. */}
             <div style={{
-              flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center',
+              flex: 1, display: 'flex', flexDirection: 'column',
               padding: '0 48px', maxWidth: 800, margin: '0 auto', width: '100%',
               overflowY: 'auto',
             }}>
@@ -806,7 +810,7 @@ export default function GuidedBrief() {
                   <motion.div key="brief-success"
                     initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                     transition={{ duration: 0.4 }}
-                    style={{ textAlign: 'center', padding: '40px 0' }}
+                    style={{ textAlign: 'center', padding: '40px 0', marginTop: 'auto', marginBottom: 'auto' }}
                   >
                     <div style={{
                       width: 64, height: 64, borderRadius: '50%', margin: '0 auto 24px',
@@ -840,7 +844,7 @@ export default function GuidedBrief() {
                     }}
                     initial="enter" animate="center" exit="exit"
                     transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ paddingTop: 8, paddingBottom: 24 }}
+                    style={{ paddingTop: 16, paddingBottom: 24, marginTop: 'auto', marginBottom: 'auto' }}
                   >
                     <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 24 }}>
                       <span className="font-serif" style={{ fontSize: 'clamp(2.8rem, 5vw, 4.5rem)', fontWeight: 500, color: 'rgba(99,102,241,0.3)', lineHeight: 1, letterSpacing: '-0.02em' }}>
