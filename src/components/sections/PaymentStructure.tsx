@@ -1,26 +1,21 @@
+'use client';
+
+import { motion } from 'framer-motion';
 import Badge from '@/components/ui/Badge';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import CheckIcon from '@/components/ui/CheckIcon';
 
-const PAYMENT_STAGES = [
-  {
-    percent: '30%',
-    label: 'Project Start',
-    description: 'Paid upfront to kick off the project. Covers discovery, planning, and initial build.',
-  },
-  {
-    percent: '70%',
-    label: 'Final Handover',
-    description: "Paid when you're fully satisfied with the delivered product. Not a day before.",
-  },
-];
+/**
+ * Visual-first payment terms: one segmented bar instead of paragraph
+ * cards, since the whole story is "30 now, 70 when you're happy".
+ */
 
 const HANDOVER_ITEMS = [
   'Complete source code',
-  'Repository access (all branches)',
-  'Production deployment credentials',
+  'Repository access',
+  'Deployment credentials',
   'Technical documentation',
-  'Admin access to all platforms',
+  'Admin access',
   'Knowledge transfer session',
 ];
 
@@ -29,61 +24,73 @@ export default function PaymentStructure() {
     <section className="py-24 md:py-32" style={{ background: 'var(--color-bg-accent)' }}>
       <div className="max-w-7xl mx-auto px-6">
         {/* Section header */}
-        <AnimatedSection className="flex flex-col items-center text-center gap-4 mb-16">
+        <AnimatedSection className="flex flex-col items-center text-center gap-4 mb-14">
           <Badge>Transparency</Badge>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-medium tracking-tight" style={{ color: 'var(--color-text)' }}>
-            Simple, structured payments
+            Two payments. That&apos;s it.
           </h2>
-          <p style={{ color: 'var(--color-muted)' }} className="max-w-lg">
-            Just two payments. No milestones, no surprises.
-          </p>
         </AnimatedSection>
 
-        {/* Payment stage cards */}
-        <div className="grid md:grid-cols-2 gap-6 mb-16 max-w-2xl mx-auto">
-          {PAYMENT_STAGES.map((stage, index) => (
-            <AnimatedSection
-              key={stage.label}
-              delay={index * 0.1}
-              className="rounded-2xl p-8 flex flex-col gap-3"
-              style={{
-                background: 'var(--color-surface)',
-                border: '2px solid var(--color-border-muted)',
-              }}
+        {/* Segmented payment bar */}
+        <AnimatedSection delay={0.1} className="max-w-2xl mx-auto mb-6">
+          <div
+            className="relative flex h-20 overflow-hidden rounded-2xl"
+            style={{ background: 'var(--color-surface)', border: '2px solid var(--color-border-emphasis)' }}
+          >
+            {/* 30% segment */}
+            <motion.div
+              className="flex items-center justify-center"
+              style={{ width: '30%', background: 'var(--color-primary)', borderRight: '2px solid var(--color-border-emphasis)', transformOrigin: 'left center' }}
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             >
-              <span
-                className="font-serif text-5xl font-medium tracking-tight"
-                style={{ color: 'var(--color-primary)' }}
-              >
-                {stage.percent}
-              </span>
-              <h3 className="text-base font-semibold" style={{ color: 'var(--color-text)' }}>{stage.label}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'var(--color-muted)' }}>{stage.description}</p>
-            </AnimatedSection>
-          ))}
-        </div>
+              <span className="font-serif text-2xl md:text-3xl" style={{ color: '#fff' }}>30%</span>
+            </motion.div>
+            {/* 70% segment */}
+            <div className="flex flex-1 items-center justify-center gap-3">
+              <span className="font-serif text-2xl md:text-3xl" style={{ color: 'var(--color-text)' }}>70%</span>
+            </div>
+          </div>
 
-        {/* Handover checklist */}
-        <AnimatedSection
-          delay={0.3}
-          className="max-w-2xl mx-auto rounded-2xl p-8"
-          style={{ background: 'var(--color-surface)', border: '2px solid var(--color-border-muted)' }}
-        >
-          <h3 className="text-base font-semibold mb-6" style={{ color: 'var(--color-text)' }}>
-            What you receive on handover
-          </h3>
-          <div className="grid sm:grid-cols-2 gap-3">
+          {/* Milestone labels under the bar */}
+          <div className="mt-3 flex text-left">
+            <div style={{ width: '30%' }} className="pr-2">
+              <p className="text-sm font-bold" style={{ color: 'var(--color-text)' }}>Kickoff</p>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--color-muted)' }}>Starts the build</p>
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-bold" style={{ color: 'var(--color-text)' }}>Handover</p>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--color-muted)' }}>Only when you&apos;re happy with the product</p>
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* Handover chips */}
+        <AnimatedSection delay={0.2} className="max-w-2xl mx-auto">
+          <p
+            className="mb-4 mt-10 text-center text-[10px] font-bold uppercase"
+            style={{ letterSpacing: '0.18em', color: 'var(--color-muted)' }}
+          >
+            Handover includes
+          </p>
+          <div className="flex flex-wrap justify-center gap-2.5">
             {HANDOVER_ITEMS.map((item) => (
-              <div key={item} className="flex items-start gap-2.5 text-sm" style={{ color: 'var(--color-text)' }}>
+              <span
+                key={item}
+                className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium"
+                style={{ background: 'var(--color-surface)', border: '2px solid var(--color-border-muted)', color: 'var(--color-text)' }}
+              >
                 <CheckIcon />
                 {item}
-              </div>
+              </span>
             ))}
           </div>
         </AnimatedSection>
 
         {/* Contextual CTA */}
-        <AnimatedSection delay={0.35} className="mt-10 text-center">
+        <AnimatedSection delay={0.3} className="mt-10 text-center">
           <p className="text-sm" style={{ color: 'var(--color-muted)' }}>
             Ready to start?{' '}
             <a

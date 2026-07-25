@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,6 +15,13 @@ import { CAL_URL, BOOKING_ENABLED } from '@/lib/site';
 import { trackConversion } from '@/lib/tracking';
 
 const PLAN_OPTIONS = ['Launch MVP', 'Growth Platform', 'SaaS Platform', 'Not sure yet'] as const;
+
+/* Picking a plan implies a budget range, so preselect it too. */
+const PLAN_BUDGET: Record<string, '$5K–$10K' | '$10K–$25K' | '$25K–$50K'> = {
+  'Launch MVP': '$5K–$10K',
+  'Growth Platform': '$10K–$25K',
+  'SaaS Platform': '$25K–$50K',
+};
 
 const contactSchema = z.object({
   plan: z.string().optional(),
@@ -213,19 +220,30 @@ export default function Contact() {
 
   const selectedPlan = watch('plan');
 
+  /* Selecting a plan (via pill click or the Packages CTA event) also
+     preselects the matching budget range. */
+  const applyPlan = useCallback(
+    (name: string) => {
+      setValue('plan', name);
+      const budget = PLAN_BUDGET[name];
+      if (budget) setValue('budget', budget, { shouldValidate: true });
+    },
+    [setValue],
+  );
+
   /* A plan CTA in the Packages section dispatches this event before
      scrolling here, so the matching pill arrives preselected. */
   useEffect(() => {
     function onSelectPlan(e: Event) {
       const name = (e as CustomEvent<string>).detail;
       if (PLAN_OPTIONS.includes(name as (typeof PLAN_OPTIONS)[number])) {
-        setValue('plan', name);
+        applyPlan(name);
         setPlanFlash((n) => n + 1);
       }
     }
     window.addEventListener('hexspire:select-plan', onSelectPlan);
     return () => window.removeEventListener('hexspire:select-plan', onSelectPlan);
-  }, [setValue]);
+  }, [applyPlan]);
 
   async function onSubmit(data: ContactFormData) {
     setErrorMessage(null);
@@ -329,10 +347,10 @@ export default function Contact() {
                             type="button"
                             role="radio"
                             aria-checked={active}
-                            onClick={() => setValue('plan', opt)}
+                            onClick={() => applyPlan(opt)}
                             animate={active ? { scale: [1, 1.12, 1] } : { scale: 1 }}
                             transition={{ duration: 0.35 }}
-                            className="rounded-full px-4 py-2 text-sm font-semibold"
+                            className="whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold"
                             style={
                               active
                                 ? { background: 'var(--color-primary)', border: '2px solid var(--color-border-emphasis)', color: '#fff' }

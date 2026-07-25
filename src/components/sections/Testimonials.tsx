@@ -455,7 +455,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         }
       `}</style>
 
-      <section style={{ position: 'relative', overflow: 'hidden', padding: '100px 0', background: 'var(--color-bg-dark)' }}>
+      <section id="testimonials" style={{ position: 'relative', overflow: 'hidden', padding: '100px 0', background: 'var(--color-bg-dark)' }}>
         {/* Edge fade masks */}
         <div style={{
           position: 'absolute', top: 0, left: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: 'none',

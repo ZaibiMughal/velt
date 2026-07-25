@@ -1,53 +1,31 @@
 'use client';
 
+import Link from 'next/link';
 import AnimatedSection from '@/components/ui/AnimatedSection';
+import { CAL_URL, BOOKING_ENABLED } from '@/lib/site';
 
 /**
- * Escape hatch for visitors the FAQ didn't convince: deep-link into the
- * major AI chat products with a prefilled prompt about Hexspire, so a
- * third party makes the case. Modeled on the reference site's
- * "Ask ChatGPT / Ask Claude / Ask Perplexity" trust band.
+ * Escape hatch for visitors the FAQ didn't convince: point them at real
+ * proof (client videos, shipped work) or a zero-commitment call.
  */
 
-const PROMPT = encodeURIComponent(
-  'I am a founder evaluating Hexspire (hexspire.io), a fixed-price software studio for mobile apps, web apps, SaaS platforms, and AI automations. Look at their site and tell me: what do they offer, how does their fixed-price model work, and would they be a good choice to build my product?'
-);
+function scrollTo(id: string) {
+  document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
+}
 
-const PROVIDERS = [
-  {
-    name: 'Ask ChatGPT',
-    href: `https://chatgpt.com/?q=${PROMPT}`,
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="8.5" />
-        <path d="M12 3.5 v5 M12 15.5 v5 M3.5 12 h5 M15.5 12 h5" transform="rotate(30 12 12)" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Ask Claude',
-    href: `https://claude.ai/new?q=${PROMPT}`,
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
-        <path d="M12 3 v18 M3 12 h18 M5.6 5.6 l12.8 12.8 M18.4 5.6 L5.6 18.4" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Ask Perplexity',
-    href: `https://www.perplexity.ai/search?q=${PROMPT}`,
-    icon: (
-      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <rect x="7" y="7" width="10" height="10" />
-        <path d="M7 7 L3.5 3.5 M17 7 l3.5 -3.5 M7 17 l-3.5 3.5 M17 17 l3.5 3.5" />
-      </svg>
-    ),
-  },
-] as const;
+const btnStyle: React.CSSProperties = {
+  background: 'var(--color-bg-accent)',
+  border: '2px solid var(--color-border-emphasis)',
+  color: 'var(--color-text)',
+  textDecoration: 'none',
+  transition: 'background 0.2s ease',
+};
+
+const btnClass = 'ask-proof-btn inline-flex items-center gap-2.5 rounded-full px-5 py-3 text-sm font-bold';
 
 export default function AskAI() {
   return (
-    <section aria-label="Ask an AI about Hexspire" className="px-4 pb-24 md:px-6">
+    <section aria-label="Still not sure" className="px-4 pb-24 md:px-6">
       <AnimatedSection>
         <div
           className="relative mx-auto max-w-5xl overflow-hidden rounded-[32px] px-6 py-12 text-center md:py-14"
@@ -60,30 +38,44 @@ export default function AskAI() {
             Still not sure Hexspire is the right fit?
           </h2>
           <p className="mx-auto mb-8 max-w-md text-sm leading-relaxed md:text-base" style={{ color: 'var(--color-muted)' }}>
-            Don&apos;t take our word for it. Click a button and let your favorite AI
-            look us up and give you its honest take.
+            Fair enough. Hear it straight from the founders we&apos;ve shipped for,
+            look at the work itself, or just talk to us. No pitch, no pressure.
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
-            {PROVIDERS.map((p) => (
-              <a
-                key={p.name}
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ask-ai-btn inline-flex items-center gap-2.5 rounded-full px-5 py-3 text-sm font-bold"
-                style={{
-                  background: 'var(--color-bg-accent)',
-                  border: '2px solid var(--color-border-emphasis)',
-                  color: 'var(--color-text)',
-                  textDecoration: 'none',
-                  transition: 'background 0.2s ease',
-                }}
-              >
-                {p.icon}
-                {p.name}
+            <button type="button" onClick={() => scrollTo('#testimonials')} className={btnClass} style={btnStyle}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" />
+                <polygon points="10 8.5 16 12 10 15.5" fill="currentColor" stroke="none" />
+              </svg>
+              Watch client stories
+            </button>
+            <Link href="/work" className={btnClass} style={btnStyle}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="8" height="8" rx="2" />
+                <rect x="13" y="3" width="8" height="8" rx="2" />
+                <rect x="3" y="13" width="8" height="8" rx="2" />
+                <rect x="13" y="13" width="8" height="8" rx="2" />
+              </svg>
+              See 30+ shipped products
+            </Link>
+            {BOOKING_ENABLED ? (
+              <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className={btnClass} style={btnStyle}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <rect x="3" y="5" width="18" height="16" rx="2.5" />
+                  <line x1="3" y1="10" x2="21" y2="10" />
+                  <line x1="8" y1="3" x2="8" y2="7" /><line x1="16" y1="3" x2="16" y2="7" />
+                </svg>
+                Book a free 15-minute call
               </a>
-            ))}
+            ) : (
+              <button type="button" onClick={() => scrollTo('#contact')} className={btnClass} style={btnStyle}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                Ask us anything
+              </button>
+            )}
           </div>
 
           {/* Sticker magnifier peeking from the bottom-right corner */}
@@ -101,7 +93,7 @@ export default function AskAI() {
           </div>
 
           <style>{`
-            .ask-ai-btn:hover { background: var(--color-primary) !important; color: #fff !important; }
+            .ask-proof-btn:hover { background: var(--color-primary) !important; color: #fff !important; }
           `}</style>
         </div>
       </AnimatedSection>
