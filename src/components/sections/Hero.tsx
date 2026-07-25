@@ -144,11 +144,17 @@ export default function Hero() {
       style={{ background: 'var(--color-bg)' }}
     >
       <style>{`
+        /* The scale lives on this inner div, not the Framer wrapper: the
+           entrance animation writes an inline transform that would override
+           any CSS transform on the same element. Width/height shrink with
+           the scale so flex centering uses the visual size, otherwise the
+           460px layout box centers and the scaled content clips off-edge. */
+        .hero-cards-scale { width: 460px; height: 460px; }
         @media (max-width: 640px) {
-          .hero-cards-wrap { transform: scale(0.68); transform-origin: top left; }
+          .hero-cards-scale { transform: scale(0.68); transform-origin: top left; width: 313px; height: 313px; }
         }
         @media (min-width: 641px) and (max-width: 1023px) {
-          .hero-cards-wrap { transform: scale(0.85); transform-origin: top left; }
+          .hero-cards-scale { transform: scale(0.85); transform-origin: top left; width: 391px; height: 391px; }
         }
       `}</style>
 
@@ -230,12 +236,13 @@ export default function Hero() {
       {/* Right: scattered flat product cards */}
       <div className="relative z-10 flex w-full flex-1 items-center justify-center pb-16 pt-6 lg:w-auto lg:pb-0 lg:pt-0 lg:pr-10">
         <motion.div
-          className="hero-cards-wrap"
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.3, ease: EASE }}
         >
-          <ProductCards />
+          <div className="hero-cards-scale">
+            <ProductCards />
+          </div>
         </motion.div>
       </div>
     </section>

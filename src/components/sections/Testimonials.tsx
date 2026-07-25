@@ -458,11 +458,11 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
       <section id="testimonials" style={{ position: 'relative', overflow: 'hidden', padding: '100px 0', background: 'var(--color-bg-dark)' }}>
         {/* Edge fade masks */}
         <div style={{
-          position: 'absolute', top: 0, left: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: 'none',
+          position: 'absolute', top: 0, left: 0, bottom: 0, width: 'clamp(24px, 8vw, 120px)', zIndex: 2, pointerEvents: 'none',
           background: 'linear-gradient(to right, var(--color-bg-dark), transparent)',
         }} />
         <div style={{
-          position: 'absolute', top: 0, right: 0, bottom: 0, width: 120, zIndex: 2, pointerEvents: 'none',
+          position: 'absolute', top: 0, right: 0, bottom: 0, width: 'clamp(24px, 8vw, 120px)', zIndex: 2, pointerEvents: 'none',
           background: 'linear-gradient(to left, var(--color-bg-dark), transparent)',
         }} />
 

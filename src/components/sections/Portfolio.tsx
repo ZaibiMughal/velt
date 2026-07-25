@@ -153,7 +153,7 @@ function ProjectCard({ project, coverUrl = null, height = '260px', variant = 'de
               ...(compact
                 ? { right: '6%', left: 'auto' }
                 : { left: '50%', transform: 'translateX(-50%)' }),
-              height: '100%',
+              height: '94%',
               aspectRatio: '240 / 440',
             }}
           >

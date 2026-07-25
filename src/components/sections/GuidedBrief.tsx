@@ -802,7 +802,7 @@ export default function GuidedBrief() {
                 overflows. */}
             <div style={{
               flex: 1, display: 'flex', flexDirection: 'column',
-              padding: '0 48px', maxWidth: 800, margin: '0 auto', width: '100%',
+              padding: '0 clamp(20px, 6vw, 48px)', maxWidth: 800, margin: '0 auto', width: '100%',
               overflowY: 'auto',
             }}>
               <AnimatePresence mode="wait" custom={dir}>

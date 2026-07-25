@@ -33,18 +33,25 @@ export default function PaymentStructure() {
 
         {/* Segmented payment bar */}
         <AnimatedSection delay={0.1} className="max-w-2xl mx-auto mb-6">
-          <div
+          {/* The in-view trigger lives on this full-width parent: the segment
+              itself starts at scaleX(0), a zero-area rect that
+              IntersectionObserver never reports as visible, so a
+              whileInView on the segment never fires. */}
+          <motion.div
             className="relative flex h-20 overflow-hidden rounded-2xl"
             style={{ background: 'var(--color-surface)', border: '2px solid var(--color-border-emphasis)' }}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.4 }}
           >
             {/* 30% segment */}
             <motion.div
               className="flex items-center justify-center"
               style={{ width: '30%', background: 'var(--color-primary)', borderRight: '2px solid var(--color-border-emphasis)', transformOrigin: 'left center' }}
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              variants={{
+                hidden: { scaleX: 0 },
+                show: { scaleX: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
+              }}
             >
               <span className="font-serif text-2xl md:text-3xl" style={{ color: '#fff' }}>30%</span>
             </motion.div>
@@ -52,7 +59,7 @@ export default function PaymentStructure() {
             <div className="flex flex-1 items-center justify-center gap-3">
               <span className="font-serif text-2xl md:text-3xl" style={{ color: 'var(--color-text)' }}>70%</span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Milestone labels under the bar */}
           <div className="mt-3 flex text-left">

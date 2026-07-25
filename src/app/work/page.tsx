@@ -253,7 +253,7 @@ export default async function WorkPage({
                             bottom: '-7%',
                             left: '50%',
                             transform: 'translateX(-50%)',
-                            height: '102%',
+                            height: '96%',
                             aspectRatio: '240 / 440',
                           }}
                         >
