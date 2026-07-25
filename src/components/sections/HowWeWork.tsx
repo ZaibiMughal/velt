@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Badge from '@/components/ui/Badge';
 import AnimatedSection from '@/components/ui/AnimatedSection';
@@ -75,34 +75,64 @@ function ZigItem({ step, index }: { step: typeof processSteps[0]; index: number 
   );
 }
 
-/** Hand-drawn wavy spine, replacing the old straight gradient line. Draws
- * itself in once the whole timeline scrolls into view. */
+/**
+ * Hand-drawn wavy spine, replacing the old straight gradient line. Draws
+ * itself in once the whole timeline scrolls into view.
+ *
+ * The path is generated in real pixel space from the measured element
+ * height. The previous fixed 100-unit viewBox stretched to fit, which
+ * also stretched the dash pattern: on mobile, where the timeline is much
+ * taller, the dotted line degraded into a few isolated specks.
+ */
 function WavySpine() {
   const ref = useRef<SVGSVGElement>(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const measure = () => setHeight(el.clientHeight);
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+
+  // One gentle S-curve every 72px, alternating sides around the center.
+  const SEG = 72;
+  let d = 'M20,0';
+  for (let y = 0; y < height; y += SEG) {
+    const bulge = (y / SEG) % 2 === 0 ? 30 : 10;
+    d += ` C${bulge},${y + SEG * 0.33} ${40 - bulge},${y + SEG * 0.66} 20,${Math.min(y + SEG, height)}`;
+  }
 
   return (
     <svg
       ref={ref}
       className="absolute top-0 bottom-0 left-0 md:left-1/2 md:-translate-x-1/2"
       style={{ width: '40px', height: '100%' }}
-      viewBox="0 0 40 100"
+      viewBox={`0 0 40 ${Math.max(height, 1)}`}
       preserveAspectRatio="none"
       aria-hidden="true"
     >
-      <motion.path
-        d="M20,0 C30,6 10,12 20,18 C30,24 10,30 20,36 C30,42 10,48 20,54 C30,60 10,66 20,72 C30,78 10,84 20,90 C25,94 20,98 20,100"
-        stroke="var(--color-primary)"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        strokeDasharray="0.5 5"
-        vectorEffect="non-scaling-stroke"
-        fill="none"
-        opacity={0.55}
-        initial={{ pathLength: 0 }}
-        animate={inView ? { pathLength: 1 } : { pathLength: 0 }}
-        transition={{ duration: 1.4, ease: [0.65, 0, 0.35, 1] }}
-      />
+      {/* Plain mount fade, no viewport detection: a pathLength draw-in
+          overwrites stroke-dasharray (killing the dot pattern), and
+          in-view observation proved unreliable for this absolutely
+          positioned SVG. The spine is decoration; being simply present
+          when the section scrolls in is fine. */}
+      {height > 0 && (
+        <motion.path
+          d={d}
+          stroke="var(--color-primary)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeDasharray="2 8"
+          fill="none"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.55 }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+        />
+      )}
     </svg>
   );
 }
