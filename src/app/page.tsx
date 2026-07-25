@@ -11,6 +11,7 @@ import Partners from '@/components/sections/Partners';
 import FAQ from '@/components/sections/FAQ';
 import AskAI from '@/components/sections/AskAI';
 import TechMarquee from '@/components/sections/TechMarquee';
+import SecretToast from '@/components/ui/SecretToast';
 import PaymentStructure from '@/components/sections/PaymentStructure';
 import Contact from '@/components/sections/Contact';
 import Testimonials from '@/components/sections/Testimonials';
@@ -66,6 +67,7 @@ export default async function Home() {
         <AskAI />
         <Contact />
         <TechMarquee />
+        <SecretToast />
       </main>
       <Footer />
     </>
