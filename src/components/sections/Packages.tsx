@@ -14,7 +14,10 @@ const EXPAND = 'cubic-bezier(0.16,1,0.3,1)';
 export default function Packages() {
   const [active, setActive] = useState(1);
 
-  function scrollToContact() {
+  /* Tell the contact form which plan was chosen (it listens for this
+     event and preselects the matching plan pill), then scroll to it. */
+  function claimPlan(planName: string) {
+    window.dispatchEvent(new CustomEvent('hexspire:select-plan', { detail: planName }));
     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
   }
 
@@ -233,7 +236,7 @@ export default function Packages() {
                             variant="primary"
                             size="md"
                             className="w-full justify-center"
-                            onClick={scrollToContact}
+                            onClick={() => claimPlan(pkg.name)}
                           >
                             Claim Your Build Slot
                           </Button>
@@ -269,15 +272,57 @@ export default function Packages() {
             30% advance · 70% on handover · Source code always yours
           </p>
 
-          <div className="flex justify-center mt-5">
+          {/* Full-comparison banner: styled as an obvious clickable card,
+              not a bare text link */}
+          <div className="mt-8 flex justify-center px-2">
             <Link
               href="/pricing"
-              className="text-sm font-medium"
-              style={{ color: 'var(--color-muted)', textDecoration: 'none' }}
+              className="compare-banner flex w-full max-w-xl items-center gap-4 rounded-2xl px-6 py-5"
+              style={{
+                background: 'var(--color-surface)',
+                border: '2px solid var(--color-border-emphasis)',
+                textDecoration: 'none',
+                transition: 'background 0.2s ease',
+              }}
             >
-              See the full plan comparison <span style={{ color: 'var(--color-primary)' }}>&rarr;</span>
+              <span
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+                style={{ background: 'var(--color-bg-accent)', border: '2px solid var(--color-border-emphasis)' }}
+                aria-hidden="true"
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-text)" strokeWidth="1.8" strokeLinecap="round">
+                  <line x1="4" y1="7" x2="20" y2="7" />
+                  <line x1="4" y1="12" x2="20" y2="12" />
+                  <line x1="4" y1="17" x2="20" y2="17" />
+                  <circle cx="9" cy="7" r="1.6" fill="var(--color-primary)" stroke="none" />
+                  <circle cx="14" cy="12" r="1.6" fill="var(--color-primary)" stroke="none" />
+                  <circle cx="11" cy="17" r="1.6" fill="var(--color-primary)" stroke="none" />
+                </svg>
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-sm font-bold" style={{ color: 'var(--color-text)' }}>
+                  Compare all three plans, feature by feature
+                </span>
+                <span className="block text-xs mt-0.5" style={{ color: 'var(--color-muted)' }}>
+                  The complete side-by-side breakdown, nothing hidden until a call.
+                </span>
+              </span>
+              <span
+                className="compare-banner-arrow flex h-9 w-9 shrink-0 items-center justify-center rounded-full"
+                style={{ background: 'var(--color-primary)', border: '2px solid var(--color-border-emphasis)', color: '#fff' }}
+                aria-hidden="true"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+                </svg>
+              </span>
             </Link>
           </div>
+          <style>{`
+            .compare-banner:hover { background: var(--color-bg-accent) !important; }
+            .compare-banner-arrow { transition: transform 0.2s ease; }
+            .compare-banner:hover .compare-banner-arrow { transform: translateX(3px); }
+          `}</style>
         </AnimatedSection>
       </div>
     </section>

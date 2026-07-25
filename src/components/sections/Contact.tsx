@@ -14,7 +14,10 @@ import { cn } from '@/lib/utils';
 import { CAL_URL, BOOKING_ENABLED } from '@/lib/site';
 import { trackConversion } from '@/lib/tracking';
 
+const PLAN_OPTIONS = ['Launch MVP', 'Growth Platform', 'SaaS Platform', 'Not sure yet'] as const;
+
 const contactSchema = z.object({
+  plan: z.string().optional(),
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
   company: z.string().optional(),
@@ -194,15 +197,35 @@ function SuccessState() {
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [planFlash, setPlanFlash] = useState(0);
 
   const {
     register,
     control,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
+    defaultValues: { plan: 'Not sure yet' },
   });
+
+  const selectedPlan = watch('plan');
+
+  /* A plan CTA in the Packages section dispatches this event before
+     scrolling here, so the matching pill arrives preselected. */
+  useEffect(() => {
+    function onSelectPlan(e: Event) {
+      const name = (e as CustomEvent<string>).detail;
+      if (PLAN_OPTIONS.includes(name as (typeof PLAN_OPTIONS)[number])) {
+        setValue('plan', name);
+        setPlanFlash((n) => n + 1);
+      }
+    }
+    window.addEventListener('hexspire:select-plan', onSelectPlan);
+    return () => window.removeEventListener('hexspire:select-plan', onSelectPlan);
+  }, [setValue]);
 
   async function onSubmit(data: ContactFormData) {
     setErrorMessage(null);
@@ -291,6 +314,38 @@ export default function Contact() {
                   noValidate
                   className="flex flex-col gap-5"
                 >
+                  {/* Plan selector: preselected when a Packages CTA sent the
+                      visitor here, editable either way */}
+                  <div>
+                    <span className={labelClass} style={{ color: 'var(--color-muted)' }}>Plan you&apos;re interested in</span>
+                    <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Plan you're interested in">
+                      {PLAN_OPTIONS.map((opt) => {
+                        const active = selectedPlan === opt;
+                        return (
+                          <motion.button
+                            /* planFlash in the key replays the pop when a
+                               Packages CTA preselects this pill */
+                            key={active ? `${opt}-${planFlash}` : opt}
+                            type="button"
+                            role="radio"
+                            aria-checked={active}
+                            onClick={() => setValue('plan', opt)}
+                            animate={active ? { scale: [1, 1.12, 1] } : { scale: 1 }}
+                            transition={{ duration: 0.35 }}
+                            className="rounded-full px-4 py-2 text-sm font-semibold"
+                            style={
+                              active
+                                ? { background: 'var(--color-primary)', border: '2px solid var(--color-border-emphasis)', color: '#fff' }
+                                : { background: 'var(--color-bg)', border: '2px solid var(--color-border-muted)', color: 'var(--color-muted)' }
+                            }
+                          >
+                            {opt}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </div>
+
                   {/* Name */}
                   <div>
                     <label htmlFor="contact-name" className={labelClass} style={{ color: 'var(--color-muted)' }}>Name</label>

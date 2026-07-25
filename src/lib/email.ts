@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 
 export interface ContactFormData {
+  plan?: string;
   name: string;
   email: string;
   company?: string;
@@ -28,6 +29,18 @@ export async function sendContactEmail(data: ContactFormData): Promise<void> {
 }
 
 function buildEmailHtml(data: ContactFormData): string {
+  const planRow = data.plan
+    ? `
+      <tr>
+        <td style="padding: 16px 24px; border-bottom: 1px solid #27272a;">
+          <p style="margin: 0 0 4px 0; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #71717a;">Selected Plan</p>
+          <p style="margin: 0;">
+            <span style="display: inline-block; padding: 3px 10px; background-color: #1e1b4b; border: 1px solid #3730a3; border-radius: 6px; font-size: 13px; font-weight: 600; color: #a5b4fc;">${escapeHtml(data.plan)}</span>
+          </p>
+        </td>
+      </tr>`
+    : '';
+
   const companyRow = data.company
     ? `
       <tr>
@@ -84,6 +97,8 @@ function buildEmailHtml(data: ContactFormData): string {
                 </tr>
 
                 ${companyRow}
+
+                ${planRow}
 
                 <!-- Budget -->
                 <tr>

@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { NextRequest, NextResponse } from 'next/server';
 
 const schema = z.object({
+  plan: z.string().max(40).optional(),
   name: z.string().min(2),
   email: z.string().email(),
   company: z.string().optional(),
@@ -53,7 +54,12 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
       company: result.data.company ?? null,
       budget: result.data.budget,
       project_type: result.data.projectType,
-      description: result.data.description,
+      // No dedicated column for the selected plan; prefix it into the
+      // description so the DB record keeps it without a migration.
+      description:
+        result.data.plan && result.data.plan !== 'Not sure yet'
+          ? `[Plan: ${result.data.plan}]\n\n${result.data.description}`
+          : result.data.description,
     });
     if (error) {
       console.error('[contact] Supabase insert failed:', error.message);
