@@ -54,8 +54,8 @@ export default async function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Trust />
         <Portfolio caseStudies={caseStudies} coverUrls={coverUrls} />
+        <Trust />
         <Partners partners={partners} />
         <Testimonials testimonials={testimonials} />
         <HowWeWork />

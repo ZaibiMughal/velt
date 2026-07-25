@@ -8,49 +8,68 @@ interface PartnersProps {
 }
 
 /*
- * The partner logo assets are a mix of white marks (drawn for the old dark
- * site) and dark marks, so no single treatment shows every logo's native
- * colors on the light page. At rest all logos render as uniform darkened
- * grayscale. On hover the filter drops to reveal true brand colors, and
- * the white-source marks listed below additionally get a flat ink chip
- * behind them, since their true colors are invisible on porcelain.
+ * Every logo sits in an identical outlined tile so the row reads as a
+ * consistent rhythm regardless of each asset's intrinsic padding. The
+ * per-logo tuning map corrects optical weight (filled icon marks read
+ * far heavier than thin wordmarks at the same box size) and flags the
+ * white-source assets whose true colors need an ink tile behind them
+ * on hover. At rest all logos render as uniform darkened grayscale;
+ * hover drops the filter to reveal native brand colors.
  */
-const LIGHT_SOURCE_LOGOS = new Set(['RideSpotr', 'PIPA', 'IbisPrep', 'TruckTuck']);
+const LOGO_TUNING: Record<string, { scale?: number; darkChip?: boolean }> = {
+  PIPA: { scale: 1.15, darkChip: true },
+  RideSpotr: { darkChip: true },
+  IbisPrep: { scale: 0.72, darkChip: true },
+  TruckTuck: { darkChip: true },
+  NutritionUP: { scale: 0.9 },
+  Wagerr: { scale: 0.78 },
+  KeyOS: { scale: 0.85 },
+  Scholarly: { scale: 0.72 },
+  'Step Saga': { scale: 0.72 },
+};
 
-/*
- * A fixed box (not just a fixed height) with object-fit: contain, so a
- * square/vertical icon mark scales up to fill the box's height while a wide
- * wordmark gets capped by the box's width instead of visually dominating.
- * Without the width cap, icons and wordmarks at the same height alone read
- * as wildly different sizes even after trimming each source file's padding.
- */
-const LOGO_BOX_WIDTH = 130;
-const LOGO_BOX_HEIGHT = 46;
+const TILE_W = 150;
+const TILE_H = 60;
+const LOGO_W = 116;
+const LOGO_H = 36;
 
 function PartnerItem({ partner }: { partner: Partner }) {
-  const needsDarkChip = LIGHT_SOURCE_LOGOS.has(partner.name);
+  const tuning = LOGO_TUNING[partner.name] ?? {};
+  const scale = tuning.scale ?? 1;
 
   const content = partner.logo_url ? (
     <div
-      className={needsDarkChip ? 'partner-chip partner-chip--dark' : 'partner-chip'}
-      style={{ position: 'relative', width: LOGO_BOX_WIDTH, height: LOGO_BOX_HEIGHT }}
+      className={tuning.darkChip ? 'partner-tile partner-tile--dark' : 'partner-tile'}
+      style={{
+        width: TILE_W,
+        height: TILE_H,
+        borderRadius: 14,
+        border: '2px solid var(--color-border-muted)',
+        background: 'var(--color-surface)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transition: 'background 0.25s ease, border-color 0.25s ease',
+      }}
     >
-      <Image
-        src={partner.logo_url}
-        alt={partner.name}
-        fill
-        sizes="130px"
-        className="partner-logo-img"
-        style={{
-          objectFit: 'contain',
-          /* grayscale + darken keeps white-source marks visible on cream
-             while preserving internal detail in filled app-icon logos,
-             which a flat brightness(0) silhouette erases. */
-          filter: 'grayscale(1) brightness(0.45)',
-          opacity: 0.6,
-          transition: 'opacity 0.3s ease, filter 0.3s ease',
-        }}
-      />
+      <div style={{ position: 'relative', width: Math.round(LOGO_W * scale), height: Math.round(LOGO_H * scale) }}>
+        <Image
+          src={partner.logo_url}
+          alt={partner.name}
+          fill
+          sizes="130px"
+          className="partner-logo-img"
+          style={{
+            objectFit: 'contain',
+            /* grayscale + darken keeps white-source marks visible on the
+               light tile while preserving internal detail in filled
+               app-icon logos. */
+            filter: 'grayscale(1) brightness(0.45)',
+            opacity: 0.55,
+            transition: 'opacity 0.25s ease, filter 0.25s ease',
+          }}
+        />
+      </div>
     </div>
   ) : (
     <span className="text-sm font-semibold tracking-wide whitespace-nowrap" style={{ color: 'var(--color-muted)' }}>
@@ -64,7 +83,7 @@ function PartnerItem({ partner }: { partner: Partner }) {
         href={partner.website_url}
         target="_blank"
         rel="noopener noreferrer"
-        className="partner-logo-link flex items-center justify-center px-8"
+        className="partner-logo-link flex items-center justify-center px-3"
         aria-label={`Visit ${partner.name}`}
       >
         {content}
@@ -73,7 +92,7 @@ function PartnerItem({ partner }: { partner: Partner }) {
   }
 
   return (
-    <div className="partner-logo-link flex items-center justify-center px-8">
+    <div className="partner-logo-link flex items-center justify-center px-3">
       {content}
     </div>
   );
@@ -131,20 +150,17 @@ export default function Partners({ partners }: PartnersProps) {
           from { transform: translateX(0); }
           to   { transform: translateX(-${Math.round(100 / 3)}%); }
         }
-        .partner-chip {
-          border-radius: 12px;
-          transition: background 0.25s ease;
-          box-sizing: content-box;
-          padding: 6px 10px;
-          margin: -6px -10px;
-        }
         .partner-logo-link:hover .partner-logo-img,
         .partner-logo-link:focus-visible .partner-logo-img {
           filter: none !important;
           opacity: 1 !important;
         }
-        .partner-logo-link:hover .partner-chip--dark,
-        .partner-logo-link:focus-visible .partner-chip--dark {
+        .partner-logo-link:hover .partner-tile,
+        .partner-logo-link:focus-visible .partner-tile {
+          border-color: var(--color-border-emphasis);
+        }
+        .partner-logo-link:hover .partner-tile--dark,
+        .partner-logo-link:focus-visible .partner-tile--dark {
           background: var(--color-bg-dark);
         }
       `}</style>

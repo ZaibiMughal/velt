@@ -10,8 +10,8 @@ import { motion } from 'framer-motion';
 
 const TECH = [
   'Flutter', 'React Native', 'Next.js', 'TypeScript', 'React', 'Node.js',
-  'Supabase', 'PostgreSQL', 'Stripe', 'Firebase', 'OpenAI', 'AWS',
-  'Vercel', 'Expo', 'GraphQL', 'REST APIs', 'TailwindCSS', 'Framer Motion', 'Figma',
+  'Supabase', 'PostgreSQL', 'Stripe', 'Firebase', 'OpenAI', 'n8n', 'Airtable',
+  'AWS', 'Vercel', 'Expo', 'GraphQL', 'REST APIs', 'TailwindCSS', 'Framer Motion', 'Figma',
 ] as const;
 
 function Row({ hidden }: { hidden?: boolean }) {

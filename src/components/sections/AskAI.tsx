@@ -57,7 +57,7 @@ export default function AskAI() {
                 <rect x="3" y="13" width="8" height="8" rx="2" />
                 <rect x="13" y="13" width="8" height="8" rx="2" />
               </svg>
-              See 30+ shipped products
+              See our latest shipped products
             </Link>
             {BOOKING_ENABLED ? (
               <a href={CAL_URL} target="_blank" rel="noopener noreferrer" className={btnClass} style={btnStyle}>

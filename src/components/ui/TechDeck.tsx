@@ -18,6 +18,8 @@ const STACK = [
   { name: 'Node.js', dot: '#83CD29' },
   { name: 'Supabase', dot: '#3ECF8E' },
   { name: 'Stripe', dot: '#635BFF' },
+  { name: 'n8n', dot: '#EA4B71' },
+  { name: 'Airtable', dot: '#FCB400' },
 ] as const;
 
 const VISIBLE = 4;
