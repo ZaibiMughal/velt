@@ -60,7 +60,7 @@ const serviceSchema = {
       {
         '@type': 'Offer',
         name: 'Launch MVP',
-        description: 'Focused MVP: core feature set, shipped in 2–3 weeks.',
+        description: 'Focused MVP: core feature set, shipped in 2 weeks.',
         price: '10000',
         priceCurrency: 'USD',
       },
