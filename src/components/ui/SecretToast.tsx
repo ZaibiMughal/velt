@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from 'framer-motion';
  * One-time easter egg: after real engagement (reaching the page bottom
  * or three minutes of dwell), a sticker speech bubble pops in from the
  * corner offering a secret; clicking it reveals that this site itself
- * was built in under 30 hours, which doubles as proof of the studio's
+ * was built in under 15 hours, which doubles as proof of the studio's
  * whole "live in weeks" pitch. Shown once per visitor, dismissible,
  * never blocks content.
  */
@@ -126,7 +126,7 @@ export default function SecretToast() {
                 >
                   <span className="block text-sm font-bold" style={{ color: 'var(--color-text)' }}>
                     This whole website was built in under{' '}
-                    <span style={{ color: 'var(--color-primary)' }}>30 hours</span>. 🤫
+                    <span style={{ color: 'var(--color-primary)' }}>15 hours</span>. 🤫
                   </span>
                   <span className="mt-1.5 block text-xs leading-relaxed" style={{ color: 'var(--color-muted)' }}>
                     Now imagine what we&apos;d ship for you in a few weeks.
