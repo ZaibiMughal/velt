@@ -21,6 +21,13 @@ export default function SecretToast() {
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    // ?secret forces the bubble regardless of the seen flag, for demos
+    // and testing (the flag otherwise makes it strictly once per browser)
+    const forced = new URLSearchParams(window.location.search).has('secret');
+    if (forced) {
+      const t = setTimeout(() => setVisible(true), 1200);
+      return () => clearTimeout(t);
+    }
     try {
       if (localStorage.getItem(STORAGE_KEY)) return;
     } catch {
