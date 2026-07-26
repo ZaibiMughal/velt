@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { FaRegEye, FaUserSecret } from 'react-icons/fa6';
 
 /**
  * One-time easter egg: after real engagement (reaching the page bottom
@@ -117,8 +118,9 @@ export default function SecretToast() {
                   className="block w-full text-left"
                   style={{ background: 'none', border: 'none', padding: 0, fontFamily: 'inherit' }}
                 >
-                  <span className="block text-sm font-bold" style={{ color: 'var(--color-text)' }}>
-                    Wanna know a secret? 👀
+                  <span className="flex items-center gap-2 text-sm font-bold" style={{ color: 'var(--color-text)' }}>
+                    Wanna know a secret?
+                    <FaRegEye size={14} style={{ color: 'var(--color-primary)' }} aria-hidden="true" />
                   </span>
                   <span className="mt-1 block text-xs" style={{ color: 'var(--color-muted)' }}>
                     Click me.
@@ -133,7 +135,8 @@ export default function SecretToast() {
                 >
                   <span className="block text-sm font-bold" style={{ color: 'var(--color-text)' }}>
                     This whole website was built in under{' '}
-                    <span style={{ color: 'var(--color-primary)' }}>15 hours</span>. 🤫
+                    <span style={{ color: 'var(--color-primary)' }}>15 hours</span>.{' '}
+                    <FaUserSecret size={13} style={{ color: 'var(--color-primary)', display: 'inline', verticalAlign: '-1px' }} aria-hidden="true" />
                   </span>
                   <span className="mt-1.5 block text-xs leading-relaxed" style={{ color: 'var(--color-muted)' }}>
                     Now imagine what we&apos;d ship for you in a few weeks.

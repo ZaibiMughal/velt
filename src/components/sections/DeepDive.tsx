@@ -1,31 +1,38 @@
 'use client';
 
 import { useState } from 'react';
+import type { IconType } from 'react-icons';
+import {
+  FaMobileScreen, FaGlobe, FaGaugeHigh, FaWrench, FaBuilding, FaServer,
+  FaLink, FaFileContract, FaBullhorn, FaUsers, FaKey, FaBolt, FaComments,
+  FaMapLocationDot, FaCartShopping, FaRobot, FaGears, FaCube,
+} from 'react-icons/fa6';
 import type { DeepDive } from '@/data/work/deep-dives';
 
-const TYPE_ICONS: Record<string, string> = {
-  'iOS + Android': '📱',
-  'Web App': '🌐',
-  'Admin Dashboard': '⚙️',
-  'Admin Panel': '⚙️',
-  'Internal Tool': '🔧',
-  'Corporate Dashboard': '🏢',
-  'API Server': '🖥️',
-  'API Backend': '🖥️',
-  'Blockchain': '⛓️',
-  'Smart Contract': '⛓️',
-  'Marketing Site': '📣',
-  'HR Portal': '🏢',
-  'Self-Serve Web App': '🌐',
-  'Client Portal': '🔑',
-  'Core Feature': '⚡',
-  'Social Layer': '💬',
-  'Map Feature': '🗺️',
-  'Marketplace': '🛒',
-  'Community Features': '👥',
-  'Data Processing': '🤖',
-  'Workflow Automation': '⚡',
-  'Internal Web App': '🔧',
+/* Font Awesome icons per platform type (site rule: FA icons, never emoji) */
+const TYPE_ICONS: Record<string, IconType> = {
+  'iOS + Android': FaMobileScreen,
+  'Web App': FaGlobe,
+  'Admin Dashboard': FaGaugeHigh,
+  'Admin Panel': FaGaugeHigh,
+  'Internal Tool': FaWrench,
+  'Corporate Dashboard': FaBuilding,
+  'API Server': FaServer,
+  'API Backend': FaServer,
+  'Blockchain': FaLink,
+  'Smart Contract': FaFileContract,
+  'Marketing Site': FaBullhorn,
+  'HR Portal': FaBuilding,
+  'Self-Serve Web App': FaGlobe,
+  'Client Portal': FaKey,
+  'Core Feature': FaBolt,
+  'Social Layer': FaComments,
+  'Map Feature': FaMapLocationDot,
+  'Marketplace': FaCartShopping,
+  'Community Features': FaUsers,
+  'Data Processing': FaRobot,
+  'Workflow Automation': FaGears,
+  'Internal Web App': FaWrench,
 };
 
 function rgba(hex: string, alpha: number) {
@@ -146,9 +153,11 @@ export default function DeepDive({
                     background: rgba(t, 0.08),
                     border: `2px solid ${t}`,
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 20,
                   }}>
-                    {TYPE_ICONS[platform.type] ?? '📦'}
+                    {(() => {
+                      const Icon = TYPE_ICONS[platform.type] ?? FaCube;
+                      return <Icon size={18} color={t} aria-hidden="true" />;
+                    })()}
                   </div>
                   <div style={{ flex: 1 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>

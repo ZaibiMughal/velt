@@ -508,6 +508,11 @@ export default async function CaseStudyPage({
   const isEcosystem = slug === 'nutritionup' && extraUrls.length >= 3;
   // RideSpotr has a dark app — cascade / fan works well
   const isCascade = slug === 'ridespotr';
+  // IbisPrep: phone row for the app plus admin panel screenshots below.
+  // Its last two images are the admin portal captures.
+  const isIbisEco = slug === 'ibisprep' && extraUrls.length >= 7;
+  const ibisMobileUrls = isIbisEco ? [coverUrl as string, ...extraUrls.slice(0, 5)] : [];
+  const ibisAdminUrls = isIbisEco ? extraUrls.slice(5) : [];
 
   return (
     <>
@@ -651,10 +656,31 @@ export default async function CaseStudyPage({
                 fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
                 textTransform: 'uppercase', color: t, marginBottom: 48,
               }}>
-                {isEcosystem ? 'The Ecosystem' : isMobile ? 'In the App' : 'The Platform'}
+                {isEcosystem || isIbisEco ? 'The Ecosystem' : isMobile ? 'In the App' : 'The Platform'}
               </p>
 
-              {isEcosystem ? (
+              {isIbisEco ? (
+                <>
+                  <ShowcaseRow
+                    urls={ibisMobileUrls}
+                    t={t}
+                    title={study.title}
+                  />
+                  <p style={{
+                    fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
+                    color: rgba(t, 0.7), margin: '56px 0 20px',
+                  }}>
+                    Operations Panel
+                  </p>
+                  <ShowcaseBrowser
+                    coverUrl={ibisAdminUrls[0]}
+                    extraUrls={ibisAdminUrls.slice(1)}
+                    t={t}
+                    title={`${study.title} admin panel`}
+                    liveUrl={study.live_url}
+                  />
+                </>
+              ) : isEcosystem ? (
                 <ShowcaseEcosystem
                   mobileUrls={[coverUrl, extraUrls[0]].filter(Boolean) as string[]}
                   webUrls={extraUrls.slice(2)}

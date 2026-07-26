@@ -6,6 +6,7 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import StickerBadge from '@/components/ui/StickerBadge';
+import { FaCircleCheck } from 'react-icons/fa6';
 import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon, SparkIcon } from '@/components/ui/ProductIcons';
 
 function scrollTo(id: string) {
@@ -207,7 +208,7 @@ export default function Hero() {
               border: '2px solid var(--color-border-emphasis)',
             }}
           >
-            <span style={{ color: 'var(--color-primary)', fontSize: 13 }}>✦</span>
+            <FaCircleCheck size={14} style={{ color: 'var(--color-primary)', flexShrink: 0 }} aria-hidden="true" />
             <span className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
               Fixed pricing, no hidden costs
             </span>
