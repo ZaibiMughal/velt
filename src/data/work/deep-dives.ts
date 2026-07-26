@@ -447,4 +447,51 @@ export const DEEP_DIVES: Record<string, DeepDive> = {
       },
     ],
   },
+  ibisprep: {
+    intro: 'IbisPrep is a tutoring marketplace built as three independent systems sharing one backbone: a Flutter mobile app serving both students and tutors, a Node.js REST and Socket.IO backend on MongoDB Atlas, and a Next.js admin panel for the operations team. Scheduling, payments, video sessions, and messaging all flow through the same API.',
+    platforms: [
+      {
+        name: 'Student & Tutor App',
+        type: 'iOS + Android',
+        description: 'One Flutter codebase with two complete role-based experiences. Students discover tutors, book live sessions, buy courses, and track progress; tutors manage their calendar, approve or reject requests, build courses, and get paid. BLoC/Cubit state management keeps every flow predictable.',
+        highlights: [
+          'Separate student and tutor UI trees behind one login, routed by role after authentication',
+          'Session booking with tutor approval flow, reschedule, cancellation, and automatic expiry of unanswered requests',
+          'Course marketplace with sections, modules, quizzes, cart checkout, and enrollment progress tracking',
+          'Real-time one-to-one chat over Socket.IO with image sharing',
+          'Google and Apple social login via Firebase, with Stripe Express onboarding created on the spot for new tutors',
+          'Push notifications via Firebase Cloud Messaging with tap-through navigation by notification type',
+        ],
+        tech: ['Flutter', 'BLoC/Cubit', 'Dio', 'Socket.IO', 'Firebase', 'Stripe'],
+      },
+      {
+        name: 'Marketplace API',
+        type: 'API Backend',
+        description: 'A Node.js and Express backend that owns the business logic: bookings, three distinct payment flows, notifications, and scheduled automation. MongoDB Atlas stores the data; Swagger documents every endpoint.',
+        highlights: [
+          'Three payment flows: card sessions charged on tutor approval, hour-quota packages with usage logs, and course purchases with instant tutor transfer',
+          'Automatic tutor payouts through Stripe Express with a revenue-share split, retried safely on failure',
+          'Google Meet links created for every approved session through the Calendar API with attendee invites',
+          'Cron automation: 15-minute session reminders, payout transfers, auto-rejection of expired requests, and scheduled account purging',
+          'Every booking event notifies both parties three ways: push notification, email, and in-app message',
+          'Timezone-safe scheduling handled consistently in Eastern Time to keep session times exact for every user',
+          'Media uploads streamed directly to AWS S3 with type and size enforcement, never touching disk',
+        ],
+        tech: ['Node.js', 'Express', 'MongoDB', 'Socket.IO', 'Stripe', 'SendGrid', 'AWS S3', 'Google Calendar API'],
+      },
+      {
+        name: 'Operations Panel',
+        type: 'Admin Dashboard',
+        description: 'A Next.js admin panel where the IbisPrep team runs the marketplace: sessions, tutors, students, courses, quizzes, packages, transactions, and sales reporting in one place.',
+        highlights: [
+          'Full oversight of sessions, tutors, students, and enrollments with blocking and moderation controls',
+          'Course, quiz, and content management for the learning catalog',
+          'Transaction and sales views tracking marketplace revenue and tutor payouts',
+          'Platform settings such as the tutor revenue share managed without code changes',
+          'Separate admin authentication with its own token system, isolated from user accounts',
+        ],
+        tech: ['Next.js', 'MUI', 'React'],
+      },
+    ],
+  },
 };
