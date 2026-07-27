@@ -11,7 +11,7 @@ const FALLBACK_TESTIMONIALS: Testimonial[] = [
   {
     id: 'f1', case_study_slug: 'ridespotr', display_order: 1,
     client_name: 'Alex Thompson', client_role: 'Co-Founder', client_company: 'RideSpotr',
-    quote: 'Hexspire turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
+    quote: 'Hexspire turned our car-spotting concept into a platform with thousands of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
     avatar_url: null, video_url: null, video_thumbnail_url: null,
   },
   {

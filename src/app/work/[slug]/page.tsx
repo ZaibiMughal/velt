@@ -428,7 +428,7 @@ function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial
 const MOCK_TESTIMONIALS: Record<string, { client_name: string; client_role: string; client_company: string; quote: string }> = {
   ridespotr: {
     client_name: 'Alex Thompson', client_role: 'Co-Founder', client_company: 'RideSpotr',
-    quote: 'Hexspire turned our car-spotting concept into a platform with millions of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
+    quote: 'Hexspire turned our car-spotting concept into a platform with thousands of spots in a fraction of the time we expected. The AI plate recognition alone would have taken us months elsewhere, they shipped it in weeks and it just works.',
   },
   wagerr: {
     client_name: 'Marcus Reid', client_role: 'Founder', client_company: 'Wagerr',

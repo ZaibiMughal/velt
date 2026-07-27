@@ -11,7 +11,7 @@ import { motion } from 'framer-motion';
  */
 
 const WINS = [
-  { project: 'RideSpotr', win: 'Millions of cars spotted' },
+  { project: 'RideSpotr', win: 'Thousands of cars spotted' },
   { project: 'TruckTuck', win: '1M+ monthly visitors' },
   { project: 'NutritionUP', win: '4-platform ecosystem' },
   { project: 'KeyOS', win: '4 portals, one codebase' },
