@@ -17,6 +17,7 @@ const SERVICES = [
   'SaaS Platforms',
   'Admin Dashboards',
   'AI Automations',
+  'Product Rescues',
 ] as const;
 
 export default function Trust() {

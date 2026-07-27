@@ -618,6 +618,14 @@ export default function GuidedBrief() {
   // Porting straight to <body> escapes that trap entirely.
   useEffect(() => { setMounted(true); }, []);
 
+  /* Sections elsewhere on the page (e.g. Product Rescue) can open the
+     brief directly via this event. */
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener('hexspire:open-brief', onOpen);
+    return () => window.removeEventListener('hexspire:open-brief', onOpen);
+  }, []);
+
   const ready = canAdvance(step, data) && !submitting;
   const pct   = Math.round((step / TOTAL) * 100);
 

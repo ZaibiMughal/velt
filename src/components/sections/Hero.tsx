@@ -220,7 +220,7 @@ export default function Hero() {
 
         <motion.div
           {...fadeUp(0.4)}
-          style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: '2rem' }}
+          style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: '0.9rem' }}
         >
           <Button size="lg" variant="primary" onClick={() => scrollTo('#contact')}>
             Claim Your Build Slot
@@ -229,6 +229,18 @@ export default function Hero() {
             View Plans →
           </Button>
         </motion.div>
+
+        {/* Second path: the semi-technical visitor with a half-built product */}
+        <motion.button
+          {...fadeUp(0.5)}
+          type="button"
+          onClick={() => scrollTo('#rescue')}
+          className="mb-8 self-start text-sm font-medium"
+          style={{ background: 'none', border: 'none', padding: 0, fontFamily: 'inherit', color: 'var(--color-muted)', textAlign: 'left' }}
+        >
+          Already have a half-built product?{' '}
+          <span style={{ color: 'var(--color-primary)', fontWeight: 600 }}>We fix and finish those too →</span>
+        </motion.button>
 
         {/* Stat sticker chips */}
         <StatChips />

@@ -3,6 +3,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
 import Trust from '@/components/sections/Trust';
+import Rescue from '@/components/sections/Rescue';
 import Packages from '@/components/sections/Packages';
 import HowWeWork from '@/components/sections/HowWeWork';
 import WhyHexspire from '@/components/sections/WhyHexspire';
@@ -25,6 +26,7 @@ export const metadata: Metadata = {
     'custom mobile app development', 'MVP development agency', 'SaaS platform development',
     'fixed price app development', 'software development for startups',
     'outsource software development', 'product development studio',
+    'finish my app', 'fix my app', 'take over app development', 'rescue software project',
   ],
   alternates: { canonical: 'https://hexspire.io' },
   openGraph: {
@@ -56,6 +58,7 @@ export default async function Home() {
         <Hero />
         <Portfolio caseStudies={caseStudies} coverUrls={coverUrls} />
         <Trust />
+        <Rescue />
         <Partners partners={partners} />
         <Testimonials testimonials={testimonials} />
         <HowWeWork />
