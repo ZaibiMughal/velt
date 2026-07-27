@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Badge from '@/components/ui/Badge';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import Button from '@/components/ui/Button';
-import TechDeck from '@/components/ui/TechDeck';
+import SuccessDeck from '@/components/ui/SuccessDeck';
 import GuidedBrief from '@/components/sections/GuidedBrief';
 import { cn } from '@/lib/utils';
 import { CAL_URL, BOOKING_ENABLED } from '@/lib/site';
@@ -277,9 +277,9 @@ export default function Contact() {
           className="text-[10px] font-bold uppercase"
           style={{ letterSpacing: '0.18em', color: 'var(--color-muted-dark)' }}
         >
-          We build with
+          Recently shipped
         </p>
-        <TechDeck />
+        <SuccessDeck />
       </div>
 
       <div className="max-w-7xl mx-auto px-6">

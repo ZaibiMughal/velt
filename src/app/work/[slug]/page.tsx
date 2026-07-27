@@ -634,14 +634,16 @@ export default async function CaseStudyPage({
               {study.tagline}
             </p>
 
+            {/* Outcome pills, not tech: clients read results here. The
+                stack details live in the deep dive for technical readers. */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {study.tech.map((tech) => (
-                <span key={tech} style={{
-                  padding: '5px 14px', borderRadius: 999, fontSize: 12,
-                  border: `2px solid var(--color-border-muted)`, color: 'var(--color-muted)',
+              {study.outcomes.map((o) => (
+                <span key={o.label} style={{
+                  padding: '5px 14px', borderRadius: 999, fontSize: 12, fontWeight: 600,
+                  border: `2px solid ${rgba(t, 0.5)}`, color: 'var(--color-text)',
                   background: 'var(--color-surface)',
                 }}>
-                  {tech}
+                  <span style={{ color: t }}>{o.value}</span> {o.label}
                 </span>
               ))}
             </div>

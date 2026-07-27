@@ -6,7 +6,7 @@ import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import StickerBadge from '@/components/ui/StickerBadge';
-import { FaCircleCheck } from 'react-icons/fa6';
+import { FaCircleCheck, FaBriefcase } from 'react-icons/fa6';
 import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon, SparkIcon } from '@/components/ui/ProductIcons';
 
 function scrollTo(id: string) {
@@ -232,6 +232,17 @@ export default function Hero() {
 
         {/* Stat sticker chips */}
         <StatChips />
+
+        {/* Pedigree line: honestly framed employment experience, not a
+            client claim, so it stays out of the trusted-by strip */}
+        <motion.p
+          {...fadeUp(0.9)}
+          className="mt-5 flex items-center gap-2 text-xs"
+          style={{ color: 'var(--color-muted)' }}
+        >
+          <FaBriefcase size={12} style={{ color: 'var(--color-primary)', flexShrink: 0 }} aria-hidden="true" />
+          Engineering experience from inside Bayt.com, the Middle East&apos;s largest job platform.
+        </motion.p>
       </div>
 
       {/* Right: scattered flat product cards */}
