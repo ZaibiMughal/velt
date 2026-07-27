@@ -5,7 +5,7 @@ import { motion, animate, useMotionValue } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import StickerBadge from '@/components/ui/StickerBadge';
-import { FaCircleCheck, FaBriefcase } from 'react-icons/fa6';
+import { FaCircleCheck, FaBriefcase, FaScrewdriverWrench } from 'react-icons/fa6';
 import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon, SparkIcon } from '@/components/ui/ProductIcons';
 
 function scrollTo(id: string) {
@@ -192,7 +192,6 @@ export default function Hero() {
           }}
         >
           Trusted by founders and businesses across the US, Australia, Europe, and the Middle East.
-          Fixed price, full source code, shipped in weeks.
         </motion.p>
 
         <motion.div {...fadeUp(0.3)} style={{ marginBottom: '1.75rem' }}>
@@ -225,17 +224,30 @@ export default function Hero() {
           </Button>
         </motion.div>
 
-        {/* Second path: the semi-technical visitor with a half-built product */}
+        {/* Second path: the semi-technical visitor with a half-built product.
+            Styled as an outlined chip so it reads as clickable, not as copy. */}
         <motion.button
           {...fadeUp(0.5)}
           type="button"
           onClick={() => scrollTo('#rescue')}
-          className="mb-8 self-start text-sm font-medium"
-          style={{ background: 'none', border: 'none', padding: 0, fontFamily: 'inherit', color: 'var(--color-muted)', textAlign: 'left' }}
+          className="hero-rescue-chip mb-8 inline-flex items-center gap-2.5 self-start rounded-full px-4 py-2.5 text-sm text-left"
+          style={{
+            background: 'var(--color-surface)',
+            border: '2px solid var(--color-border-emphasis)',
+            fontFamily: 'inherit',
+            color: 'var(--color-text)',
+            transition: 'background 0.2s ease',
+          }}
         >
-          Already have a half-built product?{' '}
-          <span style={{ color: 'var(--color-primary)', fontWeight: 600 }}>We fix and finish those too →</span>
+          <FaScrewdriverWrench size={13} style={{ color: 'var(--color-primary)', flexShrink: 0 }} aria-hidden="true" />
+          <span>
+            Have a half-built product?{' '}
+            <span style={{ color: 'var(--color-primary)', fontWeight: 700 }}>We fix and finish those too →</span>
+          </span>
         </motion.button>
+        <style>{`
+          .hero-rescue-chip:hover { background: var(--color-bg-accent) !important; }
+        `}</style>
 
         {/* Stat sticker chips */}
         <StatChips />
