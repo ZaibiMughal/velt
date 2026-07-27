@@ -16,7 +16,8 @@ This file is the single source of truth for working on this codebase. Read it be
 |---|---|
 | Framework | Next.js (App Router, server components) |
 | Language | TypeScript |
-| Font | Geist (via `next/font/google`) |
+| Fonts | Geist for body/UI + **Fraunces** (serif, normal + italic) for display headings, both via `next/font/google`. Headings use `className="font-serif"`, weight 500, often with one italic word for emphasis |
+| Icons | **Font Awesome via `react-icons/fa6` — never emoji glyphs as icons.** This is a hard rule from the owner |
 | Styling | Tailwind utility classes mixed with inline styles (inline styles for computed/dynamic values like `theme_color`, `<style>` tags for pseudo-classes and keyframes) |
 | Animation | Framer Motion |
 | Database | Supabase (PostgreSQL) |
@@ -60,7 +61,7 @@ See `src/components/ui/AdTracking.tsx` (loads the tags) and `src/lib/tracking.ts
 ```
 src/
   app/
-    layout.tsx              Global layout — Geist font, metadata, CustomCursor, PageTransition, GlobalBackground, JsonLd, MobileStickyCTA, Vercel Analytics
+    layout.tsx              Global layout — Geist + Fraunces fonts, metadata, PageTransition, JsonLd, MobileStickyCTA, Vercel Analytics
     page.tsx                Homepage (imports all section components)
     pricing/
       page.tsx               /pricing — full plan comparison table (see Pricing section below)
@@ -76,27 +77,34 @@ src/
     layout/
       Navbar.tsx             See "Z-index layering" below for the mobile menu's stacking rules
       Footer.tsx
-    sections/               One file per homepage section
-      Hero.tsx
-      Trust.tsx              NOT currently imported/rendered anywhere — orphaned. Kept content-correct anyway; wire it back in or delete it, don't just leave it drifting.
-      Packages.tsx            Desktop: 3D fan of cards + horizontal pill tab bar. Mobile (<768px): single centered card + vertical stacked plan list (not the pill tabs — those don't fit and centering pushed the first tab off-screen with no way to reach it)
-      HowWeWork.tsx
+    sections/               One file per homepage section, rendered in this order on page.tsx:
+      Hero.tsx               Serif headline + squiggle underline, scattered sticker product cards, count-up stat chips, Bayt.com pedigree line, rescue-pointer chip
+      Portfolio.tsx          3 featured case studies from DB, real screenshots inside illustrated device frames
+      Trust.tsx              "What we build" rounded dark band — serif heading, service chips, corner sticker badge
+      Rescue.tsx             "Product Rescue" path for clients with half-built products; CTA opens the guided brief via the `hexspire:open-brief` window event
+      Partners.tsx           Client logo marquee in uniform outlined tiles; per-logo optical scale + dark-chip-on-hover tuning in LOGO_TUNING (white-source logos are invisible on the light bg otherwise)
+      Testimonials.tsx       Dark panel + LaptopScene illustration. See "Testimonials" section below for the read-more modal and video modal
+      HowWeWork.tsx          Wavy dotted spine timeline; alternating sides on desktop, single-sided on mobile. Spine path is generated at the element's measured pixel height (a stretched fixed viewBox stretches the dash pattern into invisibility on tall/mobile layouts)
       WhyHexspire.tsx
-      Portfolio.tsx         Shows 3 featured case studies from DB
-      Testimonials.tsx        See "Testimonials" section below for the read-more modal and video modal
+      Packages.tsx           Flat 3-up grid (desktop) + pill tab bar; stacked list on mobile. Featured tier = black 2px border vs muted. CTAs dispatch `hexspire:select-plan` so the contact form preselects plan + budget
+      PaymentStructure.tsx   Segmented 30/70 payment bar + handover chips on the accent panel
       FAQ.tsx
-      PaymentStructure.tsx
-      Contact.tsx
-      Partners.tsx
-      GuidedBrief.tsx         See "Guided brief" section below — modal is portaled to <body>, don't move it back inline
-      DeepDive.tsx          'use client' — expand/collapse per-platform breakdown on case study pages
+      AskAI.tsx              "Still not sure" proof banner: watch testimonials / see work / book-call CTAs
+      Contact.tsx            Plan pill selector (listens for `hexspire:select-plan`), SuccessDeck in the xl left margin
+      GuidedBrief.tsx        See "Guided brief" section below — modal is portaled to <body>, don't move it back inline. Also listens for `hexspire:open-brief`
+      DeepDive.tsx           'use client' — expand/collapse per-platform breakdown on case study pages; platform-type icons from react-icons/fa6
     ui/
-      CustomCursor.tsx
       PageTransition.tsx
-      GlobalBackground.tsx  Starfield canvas — pauses when tab hidden, respects prefers-reduced-motion
       MobileStickyCTA.tsx   Mobile-only bottom CTA bar, appears after 600px scroll, hides near contact form. z-index 90.
       LogoMark.tsx            THE brand mark (dim outer hexagon ring + solid gradient inner hexagon). This is the source of truth for "the logo" — see "Logo" section below, do not confuse with icon.svg
       Wordmark.tsx            "Hex" + gradient "Spire" text lockup, used next to LogoMark in Navbar/Footer/GuidedBrief
+      IllustratedDevices.tsx  AnimatedPhone + AnimatedBrowser: flat 2D device frames with a real screenshot clipped into the drawn screen (abstract animated UI as the no-screenshot fallback). Used by Portfolio and /work cards
+      LaptopScene.tsx         Die-cut sticker laptop illustration for the Testimonials dark panel
+      StickerBadge.tsx        Sticker icon tile (rotated halo card behind an outlined tile) — the recurring illustration motif
+      ProductIcons.tsx        Small single-stroke line icons used inside StickerBadge tiles
+      SuccessDeck.tsx         Cycling client-outcome card deck beside the contact form (xl+ only)
+      SecretToast.tsx         One-per-visitor easter egg bubble ("built in under 15 hours"); triggers on page-bottom or 3-min dwell; ?secret query param force-shows it
+      HandDrawnUnderline.tsx  Self-drawing squiggle underline for emphasized heading words
       Badge.tsx, Button.tsx, CheckIcon.tsx, Accordion.tsx, AnimatedSection.tsx   Shared primitives
       AdTracking.tsx         Loads GA/Google Ads/Meta Pixel tags when env vars are set
     JsonLd.tsx              Structured data (Organization, Service, WebSite, FAQPage schemas)
@@ -249,6 +257,7 @@ Collected here because getting this wrong is easy and the failure mode (an eleme
 | Navbar header (`Navbar.tsx`) | 65 | Must stay above the mobile menu overlay so the hamburger→X toggle stays visible and clickable while the menu is open |
 | Mobile menu overlay (`Navbar.tsx`) | 60 (`z-[60]`) | |
 | `MobileStickyCTA.tsx` | 90 | |
+| `SecretToast.tsx` | 95 | Sits above the mobile sticky CTA |
 | `GuidedBrief.tsx` modal | 300 | Portaled to `document.body` — see "Guided brief" section above for why this matters more than the number itself |
 
 **The number alone doesn't decide what renders on top if a lower-numbered element's ancestor establishes its own stacking context** (via `transform`, `filter`, `opacity < 1`, `will-change`, etc. — Framer Motion elements do this by default). When adding a new fixed/absolute-positioned overlay, check what it's nested inside, not just what z-index to give it. When in doubt, portal to `document.body`.
@@ -266,19 +275,19 @@ Collected here because getting this wrong is easy and the failure mode (an eleme
 
 ## /work page card layout
 
-Cards use `const isMobile = study.category === 'Mobile App'` to switch between two display modes:
+Cards use `const isMobile = study.category === 'Mobile App'` to switch between two display modes, both rendering the real cover screenshot inside an illustrated device frame from `IllustratedDevices.tsx` on a flat `rgba(theme_color, 0.08)` panel:
 
-- **Mobile** — 272px image area, portrait screenshot anchored to bottom with `objectFit: contain`, floating on a radial gradient in the project `theme_color`
-- **Web/SaaS** — 210px image area, screenshot with `brightness(0.55) saturate(0.85)` filter + a `rgba(theme_color, 0.18)` wash overlay to tie it into the dark card
+- **Mobile** — `AnimatedPhone` anchored toward the card bottom
+- **Web/SaaS** — `AnimatedBrowser` centered in the panel
 
-Each card uses a CSS custom property `--t` set to the project's `theme_color`. Hover effects use `color-mix(in srgb, var(--t) 38%, transparent)`.
+Each card uses a CSS custom property `--t` set to the project's `theme_color`; hover swaps the card border to `var(--t)`. No shadows, no gradients, no dark-blend filters — flat 2D system throughout.
 
 ---
 
 ## Case study page
 
 `src/app/work/[slug]/page.tsx` — server component. Renders:
-1. Hero with title, category, tech pills, links
+1. Hero with title, category, **outcome pills** (clients read results; the tech stack lives only in the deep dive), links
 2. Challenge + key points
 3. Solution
 4. Outcomes grid
@@ -317,20 +326,41 @@ The previous pattern was AI-generated text that used em dashes heavily (e.g. "Th
 
 **Wherever React Native is mentioned in general marketing/capability copy, pair it with Flutter.** Both are real service offerings; SEO metadata, JSON-LD, the features list, FAQ answers, and any tech-stack marquee should mention them together. This does **not** apply to case-study-specific factual descriptions of what was actually built for a given client (see the Deep dives note above) — don't insert a technology into a project's history that wasn't actually used there.
 
+**Font Awesome icons, never emoji.** Wherever an icon is needed, use Font Awesome via `react-icons/fa6` (or the site's own single-stroke `ProductIcons`). Emoji glyphs must not be used as icons anywhere. Owner's standing rule.
+
+**Outcomes over tools in client-facing surfaces.** Tool/stack names (PostgreSQL, Supabase, Expo, ...) live only in the case study deep dives and the invisible SEO/JSON-LD layer. Marketing surfaces (hero, cards, decks, pills) show client outcomes instead. Bayt.com appears only as an honestly framed employment pedigree line in the hero, never as a client claim in the trusted-by strip or portfolio.
+
 ---
 
-## Design system
+## Design system — flat 2D ("Porcelain & Sky")
 
-Background: `#09090b`  
-Surface (cards): `#0d0d10` / `#111114`  
-Border: `rgba(255,255,255,0.06)` to `rgba(255,255,255,0.1)`  
-Primary accent: `#6366f1` (indigo)  
-Muted text: `rgba(255,255,255,0.42)`  
-Dim text: `rgba(255,255,255,0.28)`
+The site uses a flat, illustrated 2D visual language (inspired by wisprflow.ai; research + rationale in `docs/design/`). The non-negotiable mechanics:
 
-Each project has its own `theme_color` (hex) that drives all accent colors on its card and case study page (borders, pills, gradients, glow effects).
+- **Zero `box-shadow`, zero `backdrop-filter`, zero glow effects.** Depth comes from flat color blocking and hard outlines only.
+- **Hard 2px solid outlines** on cards, buttons, chips: `var(--color-border-muted)` for default, `var(--color-border-emphasis)` (ink) for featured/selected. A border-color swap, never scale or glow, signals hierarchy (e.g. the featured pricing tier).
+- **Flat solid fills, no gradients** in UI. The one exception is the LogoMark/Wordmark brand gradients, which are the canonical logo, not a skin.
+- **Sticker motif**: illustrations get a rotated halo card behind an outlined tile (`StickerBadge`), or a light die-cut stroke around silhouettes on dark panels (`LaptopScene`).
+- **Alternating panels**: porcelain base, rounded near-black bands (Trust, Testimonials), pale ice accent panels (PaymentStructure).
 
-Typography uses Geist with tight negative letter-spacing on headings (`-0.03em` to `-0.04em`).
+Tokens (all in `src/app/globals.css`, consumed via `var(--...)` — reskinning the site is a token swap):
+
+| Token | Value | Role |
+|---|---|---|
+| `--color-bg` | `#f7f8fa` | Porcelain page background |
+| `--color-surface` | `#ffffff` | Card surface |
+| `--color-border-muted` | `#dfe2e9` | Default 2px outline |
+| `--color-border-emphasis` | `#0b0c10` | Ink outline (featured/selected) |
+| `--color-bg-dark` | `#0b0c10` | Dark panel bands |
+| `--color-bg-accent` | `#e3edff` | Ice accent panel/tint |
+| `--color-primary` | `#6366f1` | Indigo (unchanged brand primary) |
+| `--color-secondary` | `#60a5fa` | Sky accent (squiggles, sparkles) |
+| `--color-text` / `--color-text-inverse` | `#0b0c10` / `#f7f8fa` | Ink / paper text |
+
+A few components keep hardcoded INK/PAPER constants matching these tokens (`IllustratedDevices`, `LaptopScene`) — update them together if the palette ever changes.
+
+Each project has its own `theme_color` (hex) that drives its card and case study accents as flat outlines/tints (no gradients or glows).
+
+Typography: Fraunces (weight 500, tight tracking, one italic word for emphasis, often with a `HandDrawnUnderline`) for display; Geist for everything else.
 
 ---
 
@@ -356,5 +386,8 @@ Typography uses Geist with tight negative letter-spacing on headings (`-0.03em` 
 - **Server-only Supabase** — the service role key is never exposed to the browser; all DB reads happen in server components or API routes
 - **Images via signed URLs, long-lived and server-cached** — see the "Images" section above for the token-lifetime-vs-revalidate-window gotcha before changing either number
 - **Deep dives in TypeScript** — keeping them in a `.ts` file rather than the DB keeps the case study page query simple and avoids an extra round-trip; edit via code deploy
-- **No placeholder images** — if `cover_image` is null, a branded gradient placeholder renders using the project's `theme_color`
+- **No placeholder images** — if `cover_image` is null, the illustrated devices render their abstract animated UI instead (this fallback also covers NDA/no-screenshot engagements)
 - **Overlays get portaled when nested inside animated ancestors** — see "Z-index layering" above; a stacking context trap doesn't announce itself, it just silently breaks click targets
+- **Cross-section wiring uses window CustomEvents** — `hexspire:select-plan` (Packages CTA → contact form preselects plan + budget) and `hexspire:open-brief` (Rescue CTA → opens the guided brief). Same-page client components, no shared state needed
+- **Contact form carries a `plan` field** — optional in the API schema, gets its own row in the enquiry email, and is prefixed into the stored description (`contact_submissions` has no plan column; prefix avoids a migration)
+- **In-view animations on zero-size elements silently never fire** — IntersectionObserver reports nothing for a `scaleX(0)` element, and Framer's `pathLength` animation takes over `stroke-dasharray` (killing dashed lines). Put viewport triggers on a full-size parent and drive children via variants; don't combine pathLength with custom dash patterns
