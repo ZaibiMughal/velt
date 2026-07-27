@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import { motion, animate, useMotionValue } from 'framer-motion';
 import Button from '@/components/ui/Button';
-import Badge from '@/components/ui/Badge';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import StickerBadge from '@/components/ui/StickerBadge';
 import { FaCircleCheck, FaBriefcase } from 'react-icons/fa6';
@@ -162,11 +161,7 @@ export default function Hero() {
       {/* Left text column */}
       {/* lg top padding must clear the fixed nav (top 16px + 64px tall) with
           real air beneath it, not land flush against its bottom edge */}
-      <div className="relative z-10 flex w-full flex-col justify-center px-6 pt-32 sm:px-12 lg:w-1/2 lg:pt-36 lg:pb-20 lg:pl-20 lg:pr-12">
-        <motion.div {...fadeUp(0)} style={{ marginBottom: 28 }}>
-          <Badge dot>Product Development Studio</Badge>
-        </motion.div>
-
+      <div className="relative z-10 flex w-full flex-col justify-center px-6 pt-24 sm:px-12 lg:w-1/2 lg:pt-28 lg:pb-16 lg:pl-20 lg:pr-12">
         <motion.h1
           {...fadeUp(0.1)}
           className="font-serif"
