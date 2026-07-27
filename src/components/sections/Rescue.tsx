@@ -80,7 +80,7 @@ export default function Rescue() {
           </Button>
           <p className="text-xs max-w-sm" style={{ color: 'var(--color-muted-dark)' }}>
             Tell us what you have and where it stands. You get an honest
-            assessment within 48 hours, whether or not we work together.
+            assessment within 24 hours, whether or not we work together.
           </p>
         </AnimatedSection>
       </div>
