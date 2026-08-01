@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { motion, animate, useMotionValue } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import StickerBadge from '@/components/ui/StickerBadge';
-import { FaCircleCheck, FaBriefcase, FaScrewdriverWrench } from 'react-icons/fa6';
+import { FaBriefcase } from 'react-icons/fa6';
 import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon, SparkIcon } from '@/components/ui/ProductIcons';
 
 function scrollTo(id: string) {
@@ -19,13 +20,21 @@ const fadeUp = (delay: number) => ({
   transition: { duration: 0.6, ease: EASE, delay },
 });
 
-/* ─── Stat sticker chips ─────────────────────────────────────────────────── */
+/* ─── Proof: client quote + quiet stat line ──────────────────────────────── */
+
+/* Hero shows a deliberately short, distinct cut of Charlie's testimonial;
+   the full quote lives in the Testimonials marquee, so the two never read
+   as a repeat. Avatar is the stable public URL from testimonial-assets. */
+const HERO_QUOTE = {
+  text: 'I honestly wouldn’t even consider Zohaib a third-party agency, he really embodied someone as part of our core team.',
+  name: 'Charlie Crozier',
+  role: 'Project Lead, Wagerr',
+  avatar: 'https://epiqtwwszkrmmzyzhxzm.supabase.co/storage/v1/object/public/testimonial-assets/charlier-wagerr.png',
+} as const;
 
 const STATS = [
-  { value: 30, suffix: '+', label: 'Projects Shipped', rotate: -2 },
-  { value: 8, suffix: '+', label: 'Years Experience', rotate: 1.5 },
-  { value: 10, suffix: '+', label: 'Countries', rotate: -1.5 },
-  { value: 1, suffix: 'M+', label: 'Monthly Users', rotate: 2 },
+  { value: 30, suffix: '+', label: 'products shipped' },
+  { value: 1, suffix: 'M+', label: 'monthly users' },
 ] as const;
 
 function StatNumber({ value, delay }: { value: number; delay: number }) {
@@ -47,28 +56,64 @@ function StatNumber({ value, delay }: { value: number; delay: number }) {
   return <span ref={ref}>0</span>;
 }
 
-function StatChips() {
+/* One quiet line of numbers, no boxes: the quote card above carries the
+   emotional proof, this line carries the scale. */
+function InlineStats() {
   return (
-    <div className="flex flex-wrap gap-3">
+    <motion.p
+      {...fadeUp(0.55)}
+      className="mt-5 flex flex-wrap items-baseline"
+      style={{ margin: '1.25rem 0 0', columnGap: 12, rowGap: 4 }}
+    >
       {STATS.map((s, i) => (
-        <motion.div
-          key={s.label}
-          initial={{ opacity: 0, y: 16, rotate: 0 }}
-          animate={{ opacity: 1, y: 0, rotate: s.rotate }}
-          transition={{ delay: 0.5 + i * 0.1, duration: 0.45, ease: [0.34, 1.56, 0.64, 1] }}
-          className="rounded-2xl px-5 py-3"
-          style={{ background: 'var(--color-surface)', border: '2px solid var(--color-border-emphasis)' }}
-        >
-          <p className="font-serif" style={{ fontSize: 25, fontWeight: 500, color: 'var(--color-text)', margin: 0, lineHeight: 1.15, letterSpacing: '-0.01em' }}>
-            <StatNumber value={s.value} delay={0.6 + i * 0.1} />
+        <span key={s.label} className="flex items-baseline gap-2">
+          {i > 0 && (
+            <span aria-hidden="true" style={{ color: 'var(--color-border-muted)', fontWeight: 700, marginRight: 12 }}>
+              ·
+            </span>
+          )}
+          <span className="font-serif" style={{ fontSize: 23, fontWeight: 500, color: 'var(--color-text)', lineHeight: 1, letterSpacing: '-0.01em' }}>
+            <StatNumber value={s.value} delay={0.7 + i * 0.15} />
             <span style={{ color: 'var(--color-primary)' }}>{s.suffix}</span>
-          </p>
-          <p style={{ fontSize: 11, color: 'var(--color-muted)', margin: '1px 0 0', whiteSpace: 'nowrap' }}>
-            {s.label}
-          </p>
-        </motion.div>
+          </span>
+          <span style={{ fontSize: 13, color: 'var(--color-muted)' }}>{s.label}</span>
+        </span>
       ))}
-    </div>
+    </motion.p>
+  );
+}
+
+function QuoteCard() {
+  return (
+    <motion.figure
+      {...fadeUp(0.45)}
+      className="rounded-2xl px-5 py-4"
+      style={{
+        margin: '1.75rem 0 0',
+        maxWidth: 440,
+        background: 'var(--color-surface)',
+        border: '2px solid var(--color-border-emphasis)',
+        rotate: -0.8,
+      }}
+    >
+      <blockquote style={{ margin: 0, fontSize: 14, lineHeight: 1.65, color: 'var(--color-text)' }}>
+        &ldquo;{HERO_QUOTE.text}&rdquo;
+      </blockquote>
+      <figcaption className="mt-3 flex items-center gap-2.5" style={{ fontSize: 12, color: 'var(--color-muted)' }}>
+        <Image
+          src={HERO_QUOTE.avatar}
+          alt={HERO_QUOTE.name}
+          width={26}
+          height={26}
+          style={{ width: 26, height: 26, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--color-border-emphasis)', flexShrink: 0 }}
+        />
+        <span>
+          <span style={{ color: 'var(--color-text)', fontWeight: 600 }}>{HERO_QUOTE.name}</span>
+          {' · '}
+          {HERO_QUOTE.role}
+        </span>
+      </figcaption>
+    </motion.figure>
   );
 }
 
@@ -194,68 +239,55 @@ export default function Hero() {
           Trusted by founders and businesses across the US, Australia, Europe, and the Middle East.
         </motion.p>
 
-        <motion.div {...fadeUp(0.3)} style={{ marginBottom: '1.75rem' }}>
-          <div
-            className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full"
-            style={{
-              background: 'var(--color-bg-accent)',
-              border: '2px solid var(--color-border-emphasis)',
-            }}
-          >
-            <FaCircleCheck size={14} style={{ color: 'var(--color-primary)', flexShrink: 0 }} aria-hidden="true" />
-            <span className="text-sm font-semibold" style={{ color: 'var(--color-text)' }}>
-              Fixed pricing, no hidden costs
-            </span>
-          </div>
-          <p className="text-[11px] mt-1.5 pl-1" style={{ color: 'var(--color-muted-dark)' }}>
-            30% advance · 70% on handover · Source code always yours
-          </p>
-        </motion.div>
-
         <motion.div
-          {...fadeUp(0.4)}
-          style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginBottom: '0.9rem' }}
+          {...fadeUp(0.3)}
+          style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}
         >
           <Button size="lg" variant="primary" onClick={() => scrollTo('#contact')}>
-            Claim Your Build Slot
+            Start Your Project
           </Button>
           <Button size="lg" variant="secondary" onClick={() => scrollTo('#packages')}>
             View Plans →
           </Button>
         </motion.div>
 
-        {/* Second path: the semi-technical visitor with a half-built product.
-            Styled as an outlined chip so it reads as clickable, not as copy. */}
+        {/* The honest terms as one quiet caption: specifics beat a badge
+            shouting the same thing */}
+        <motion.p
+          {...fadeUp(0.35)}
+          className="text-xs mt-3 pl-1"
+          style={{ color: 'var(--color-muted-dark)', margin: '0.75rem 0 0' }}
+        >
+          Fixed pricing · 30% advance, 70% on handover · Source code always yours
+        </motion.p>
+
+        {/* V8 "Human Proof": a named client vouching, instead of stat chips */}
+        <QuoteCard />
+        <InlineStats />
+
+        {/* Second path: the semi-technical visitor with a half-built product */}
         <motion.button
-          {...fadeUp(0.5)}
+          {...fadeUp(0.65)}
           type="button"
           onClick={() => scrollTo('#rescue')}
-          className="hero-rescue-chip mb-8 inline-flex items-center gap-2.5 self-start rounded-full px-4 py-2.5 text-sm text-left"
-          style={{
-            background: 'var(--color-surface)',
-            border: '2px solid var(--color-border-emphasis)',
-            fontFamily: 'inherit',
-            color: 'var(--color-text)',
-            transition: 'background 0.2s ease',
-          }}
+          className="hero-rescue-link mt-6 self-start text-sm text-left"
+          style={{ background: 'none', border: 'none', padding: 0, fontFamily: 'inherit', color: 'var(--color-muted)', cursor: 'pointer' }}
         >
-          <FaScrewdriverWrench size={13} style={{ color: 'var(--color-primary)', flexShrink: 0 }} aria-hidden="true" />
-          <span>
-            Have a half-built product?{' '}
-            <span style={{ color: 'var(--color-primary)', fontWeight: 700 }}>We fix and finish those too →</span>
+          Have a half-built product?{' '}
+          <span
+            style={{ color: 'var(--color-text)', fontWeight: 600, textDecoration: 'underline', textUnderlineOffset: 3 }}
+          >
+            We fix and finish those too →
           </span>
         </motion.button>
         <style>{`
-          .hero-rescue-chip:hover { background: var(--color-bg-accent) !important; }
+          .hero-rescue-link:hover span { color: var(--color-primary) !important; }
         `}</style>
-
-        {/* Stat sticker chips */}
-        <StatChips />
 
         {/* Pedigree line: honestly framed employment experience, not a
             client claim, so it stays out of the trusted-by strip */}
         <motion.p
-          {...fadeUp(0.9)}
+          {...fadeUp(0.75)}
           className="mt-5 flex items-center gap-2 text-xs"
           style={{ color: 'var(--color-muted)' }}
         >
