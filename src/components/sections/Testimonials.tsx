@@ -389,36 +389,131 @@ function TestimonialCard({
 /* ── Marquee Row ─────────────────────────────────────────────────── */
 
 function MarqueeRow({
-  items, direction, duration, onPlay, onReadMore,
+  items, onPlay, onReadMore,
 }: {
   items: Testimonial[];
-  direction: 'left' | 'right';
-  duration: number;
   onPlay: (url: string) => void;
   onReadMore: (t: Testimonial) => void;
 }) {
-  const trackRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  // Authoritative float position for the auto-scroll: browsers round
+  // scrollLeft on read, so accumulating fractional per-frame speed
+  // directly on scrollLeft can stall
+  const posRef = useRef(0);
+  const hoverRef = useRef(false);
+  const userPauseRef = useRef(false);
+  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const dragRef = useRef({ active: false, captured: false, startX: 0, startScroll: 0, moved: false });
+  const [dragging, setDragging] = useState(false);
+
   // Duplicate 4× for seamless looping
   const repeated = [...items, ...items, ...items, ...items];
+  const GAP = 20;
 
-  const animation =
-    direction === 'left'
-      ? `marquee-left ${duration}s linear infinite`
-      : `marquee-right ${duration}s linear infinite`;
+  // Any direct input (touch, wheel, drag) pauses the auto-scroll; it
+  // resumes shortly after the interaction stops
+  function pauseForInteraction() {
+    userPauseRef.current = true;
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => { userPauseRef.current = false; }, 2500);
+  }
+
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+    // Content repeats every one copy of the set (trailing gap excluded
+    // from scrollWidth, hence the +GAP)
+    const period = (el.scrollWidth + GAP) / 4;
+    posRef.current = period;
+    el.scrollLeft = period;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const SPEED = period / 70; // px/s, one full set every 70s, same pace as the old keyframes
+    let raf = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min(now - last, 100) / 1000;
+      last = now;
+      if (hoverRef.current || userPauseRef.current || reduced) {
+        posRef.current = el.scrollLeft;
+      } else {
+        posRef.current += SPEED * dt;
+        el.scrollLeft = posRef.current;
+      }
+      // Wrap by exactly one copy width, visually seamless since content repeats
+      if (posRef.current >= period * 2.5) {
+        posRef.current -= period;
+        el.scrollLeft = posRef.current;
+      } else if (posRef.current < period * 0.5) {
+        posRef.current += period;
+        el.scrollLeft = posRef.current;
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => {
+      cancelAnimationFrame(raf);
+      if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    };
+  }, [items.length]);
 
   return (
-    <div style={{ overflow: 'hidden', width: '100%' }}>
-      <div
-        ref={trackRef}
-        style={{
-          display: 'flex', gap: 20,
-          width: 'max-content',
-          animation,
-          willChange: 'transform',
-        }}
-        onMouseEnter={() => { if (trackRef.current) trackRef.current.style.animationPlayState = 'paused'; }}
-        onMouseLeave={() => { if (trackRef.current) trackRef.current.style.animationPlayState = 'running'; }}
-      >
+    <div
+      ref={scrollerRef}
+      className="testimonial-scroller"
+      style={{
+        overflowX: 'auto', width: '100%',
+        cursor: dragging ? 'grabbing' : 'grab',
+        userSelect: dragging ? 'none' : undefined,
+      }}
+      onMouseEnter={() => { hoverRef.current = true; }}
+      onMouseLeave={() => { hoverRef.current = false; }}
+      onWheel={pauseForInteraction}
+      onTouchStart={pauseForInteraction}
+      onTouchMove={pauseForInteraction}
+      onScroll={() => {
+        // Extend the pause while user-driven scrolling (incl. touch momentum)
+        // is still in flight; auto-scroll never fires this while paused
+        if (userPauseRef.current) pauseForInteraction();
+      }}
+      onDragStart={(e) => e.preventDefault()}
+      onPointerDown={(e) => {
+        if (e.pointerType !== 'mouse') return; // touch uses native scrolling
+        const el = scrollerRef.current;
+        if (!el) return;
+        dragRef.current = { active: true, captured: false, startX: e.clientX, startScroll: el.scrollLeft, moved: false };
+        setDragging(true);
+      }}
+      onPointerMove={(e) => {
+        const d = dragRef.current;
+        const el = scrollerRef.current;
+        if (!d.active || !el) return;
+        const dx = e.clientX - d.startX;
+        if (!d.moved && Math.abs(dx) > 5) {
+          d.moved = true;
+          // Capture only once it's a real drag so plain clicks on the
+          // cards' buttons keep their normal event targets
+          if (!d.captured) {
+            e.currentTarget.setPointerCapture(e.pointerId);
+            d.captured = true;
+          }
+        }
+        if (d.moved) {
+          pauseForInteraction();
+          el.scrollLeft = d.startScroll - dx;
+        }
+      }}
+      onPointerUp={() => { dragRef.current.active = false; setDragging(false); }}
+      onPointerCancel={() => { dragRef.current.active = false; setDragging(false); }}
+      onClickCapture={(e) => {
+        // A completed drag must not fire the card buttons underneath
+        if (dragRef.current.moved) {
+          e.preventDefault();
+          e.stopPropagation();
+          dragRef.current.moved = false;
+        }
+      }}
+    >
+      <div style={{ display: 'flex', gap: GAP, width: 'max-content' }}>
         {repeated.map((t, i) => (
           <TestimonialCard key={`${t.id}-${i}`} t={t} onPlay={onPlay} onReadMore={onReadMore} />
         ))}
@@ -443,15 +538,14 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
 
   return (
     <>
-      {/* Marquee animation keyframes */}
+      {/* The scroller is a real scroll container (for touch/trackpad control) but must not show a scrollbar */}
       <style>{`
-        @keyframes marquee-left {
-          0%   { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+        .testimonial-scroller {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
         }
-        @keyframes marquee-right {
-          0%   { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
+        .testimonial-scroller::-webkit-scrollbar {
+          display: none;
         }
       `}</style>
 
@@ -506,8 +600,6 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         <div style={{ position: 'relative', zIndex: 1 }}>
           <MarqueeRow
             items={items}
-            direction="left"
-            duration={140}
             onPlay={(url) => {
               const t = items.find((t) => t.video_url === url);
               handlePlay(url, t?.client_name ?? '');
