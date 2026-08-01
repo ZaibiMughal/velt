@@ -238,7 +238,7 @@ export default function Packages() {
                             className="w-full justify-center"
                             onClick={() => claimPlan(pkg.name)}
                           >
-                            Claim Your Build Slot
+                            Start Your Project
                           </Button>
                         </div>
                       </div>

@@ -105,7 +105,7 @@ export default function PaymentStructure() {
               className="font-semibold transition-colors"
               style={{ color: 'var(--color-primary)' }}
             >
-              Claim your build slot →
+              Start your project →
             </a>
           </p>
         </AnimatedSection>
