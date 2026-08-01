@@ -6,6 +6,10 @@ const nextConfig: NextConfig = {
     root: path.resolve(__dirname),
   },
   images: {
+    // Portfolio screenshots only change via deliberate content updates, so
+    // keep optimized variants cached at the edge for 30 days instead of
+    // re-fetching whenever the upstream max-age (1h) lapses
+    minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
       {
         // Supabase Storage — partner logos + portfolio assets

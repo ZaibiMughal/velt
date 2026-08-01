@@ -84,27 +84,31 @@ function rowToTestimonial(row: TestimonialRow): Testimonial {
  * signed URL itself (server-side, keyed by path) keeps the URL stable so
  * repeat requests get cache hits.
  *
- * The token's real expiry (7 days) is deliberately far longer than the
- * revalidate window (1 hour). unstable_cache's revalidate is a minimum
+ * The token's real expiry (30 days) is deliberately far longer than the
+ * revalidate window (24 hours). unstable_cache's revalidate is a minimum
  * staleness age, not a hard refresh guarantee: the actual re-fetch only
  * happens on the next request after the window passes, so under uneven
  * traffic a cached entry can sit stale for much longer than `revalidate`
- * seconds. With a 1-hour token and 50-minute revalidate, any gap in
- * traffic past that margin served an already-expired token and the image
- * just failed to load until something forced a fresh cache miss. A 7-day
- * token makes that impossible regardless of how long revalidation lags.
+ * seconds. The original 1-hour token with a 50-minute revalidate meant any
+ * gap in traffic past that margin served an already-expired token and the
+ * image just failed to load until something forced a fresh cache miss.
+ * Keep the token lifetime at least an order of magnitude longer than the
+ * revalidate window. The long revalidate also matters for cache hit rates:
+ * every token rotation changes the URL, which busts the browser cache and
+ * the image optimizer's cache key, so rotating daily instead of hourly
+ * makes repeat visits actually hit those caches.
  */
 const getCachedSignedUrl = unstable_cache(
   async (path: string): Promise<string | null> => {
     if (!supabase) return null;
     const { data, error } = await supabase.storage
       .from('portfolio-assets')
-      .createSignedUrl(path, 60 * 60 * 24 * 7);
+      .createSignedUrl(path, 60 * 60 * 24 * 30);
     if (error || !data) return null;
     return data.signedUrl;
   },
   ['portfolio-signed-url'],
-  { revalidate: 60 * 60 },
+  { revalidate: 60 * 60 * 24 },
 );
 
 /**

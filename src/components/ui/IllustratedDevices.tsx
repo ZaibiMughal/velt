@@ -1,6 +1,6 @@
 'use client';
 
-import { useId } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { motion } from 'framer-motion';
 
 /**
@@ -22,6 +22,44 @@ function rgba(hex: string, alpha: number): string {
 
 const INK = '#0b0c10';
 const PAPER = '#f7f8fa';
+
+/**
+ * Screenshots go through Next's image optimizer instead of loading the
+ * raw storage file: source PNGs run up to several MB, and an SVG <image>
+ * gets none of next/image's resizing. Hand-building the /_next/image URL
+ * is the only way to reach the optimizer from inside an SVG (w must be
+ * one of Next's configured device sizes).
+ */
+function optimizedSrc(src: string, w: number): string {
+  return `/_next/image?url=${encodeURIComponent(src)}&w=${w}&q=75`;
+}
+
+/**
+ * SVG <image> that fades in once its bitmap has actually loaded, instead
+ * of popping in mid-scroll. Falls back to the unoptimized source if the
+ * optimizer rejects the URL, and reveals unconditionally after a timeout
+ * so a missed load event can never leave the screen blank.
+ */
+function ScreenShot({ href, w, ...rest }: { href: string; w: number } & React.SVGProps<SVGImageElement>) {
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setLoaded(true), 2500);
+    return () => clearTimeout(t);
+  }, []);
+
+  return (
+    <image
+      {...rest}
+      href={failed ? href : optimizedSrc(href, w)}
+      opacity={loaded ? 1 : 0}
+      style={{ transition: 'opacity 0.5s ease' }}
+      onLoad={() => setLoaded(true)}
+      onError={() => setFailed(true)}
+    />
+  );
+}
 
 /* Shared variants: parent svg staggers children in when scrolled into view */
 const stage = {
@@ -94,8 +132,9 @@ export function AnimatedPhone({ t, screenshot, className }: { t: string; screens
             <clipPath id={clipId}>
               <rect x="26" y="14" width="188" height="408" rx="24" />
             </clipPath>
-            <image
+            <ScreenShot
               href={screenshot}
+              w={640}
               x="26"
               y="14"
               width="188"
@@ -253,8 +292,9 @@ export function AnimatedBrowser({ t, screenshot, className }: { t: string; scree
             <clipPath id={clipId}>
               <path d="M14 46 H466 V274 Q466 290 450 290 H30 Q14 290 14 274 Z" />
             </clipPath>
-            <image
+            <ScreenShot
               href={screenshot}
+              w={1080}
               x="14"
               y="46"
               width="452"
