@@ -17,7 +17,7 @@ export const packages: Package[] = [
   {
     id: 'mvp',
     name: 'Launch MVP',
-    price: '$10,000',
+    price: '$5,000',
     delivery: 'In 2 Weeks',
     description: 'For founders validating an idea fast.',
     highlighted: false,
@@ -41,7 +41,7 @@ export const packages: Package[] = [
   {
     id: 'growth',
     name: 'Growth Platform',
-    price: '$15,000',
+    price: '$8,000',
     delivery: 'In 3 Weeks',
     description: 'Everything in Launch MVP, plus full admin control.',
     highlighted: true,
@@ -65,7 +65,7 @@ export const packages: Package[] = [
   {
     id: 'saas',
     name: 'SaaS Platform',
-    price: '$20,000',
+    price: '$10,000',
     priceNote: 'Starting from',
     delivery: 'From 6 Weeks',
     description: 'Full-stack SaaS with web, mobile, and subscriptions.',
