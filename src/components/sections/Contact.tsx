@@ -19,8 +19,8 @@ const PLAN_OPTIONS = ['Launch MVP', 'Growth Platform', 'SaaS Platform', 'Not sur
 /* Picking a plan implies a budget range, so preselect it too. */
 const PLAN_BUDGET: Record<string, '$5K–$10K' | '$10K–$25K' | '$25K–$50K'> = {
   'Launch MVP': '$5K–$10K',
-  'Growth Platform': '$10K–$25K',
-  'SaaS Platform': '$25K–$50K',
+  'Growth Platform': '$5K–$10K',
+  'SaaS Platform': '$10K–$25K',
 };
 
 const contactSchema = z.object({
