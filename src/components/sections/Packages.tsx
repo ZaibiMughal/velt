@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Badge from '@/components/ui/Badge';
@@ -13,6 +13,15 @@ const EXPAND = 'cubic-bezier(0.16,1,0.3,1)';
 
 export default function Packages() {
   const [active, setActive] = useState(1);
+
+  /* Desktop defaults to the highlighted "Most Popular" plan (index 1).
+     Mobile defaults to the cheapest plan instead, since it's the one
+     budget-sensitive visitors land on first. */
+  useEffect(() => {
+    if (window.matchMedia('(max-width: 767px)').matches) {
+      setActive(0);
+    }
+  }, []);
 
   /* Tell the contact form which plan was chosen (it listens for this
      event and preselects the matching plan pill), then scroll to it. */
