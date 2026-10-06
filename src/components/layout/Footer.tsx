@@ -78,7 +78,7 @@ export default function Footer({ className }: FooterProps) {
               href={BOOKING_ENABLED ? CAL_URL : '/#contact'}
               {...(BOOKING_ENABLED ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
               className="inline-flex w-fit items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white border-2"
-              style={{ background: 'var(--color-primary)', borderColor: 'var(--color-text-inverse)' }}
+              style={{ background: 'var(--color-primary-strong)', borderColor: 'var(--color-text-inverse)' }}
             >
               {PRIMARY_CTA_LABEL}
             </Link>
@@ -89,6 +89,9 @@ export default function Footer({ className }: FooterProps) {
             >
               info@hexspire.io
             </a>
+            <p className="text-xs" style={{ color: 'var(--color-muted-inverse-dark)' }}>
+              Hexspire is run by Zohaib Umar Yousaf, Pakistan.
+            </p>
           </div>
         </div>
 

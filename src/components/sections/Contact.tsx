@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,10 +10,14 @@ import Badge from '@/components/ui/Badge';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import Button from '@/components/ui/Button';
 import SuccessDeck from '@/components/ui/SuccessDeck';
-import GuidedBrief from '@/components/sections/GuidedBrief';
 import { cn } from '@/lib/utils';
 import { CAL_URL, BOOKING_ENABLED } from '@/lib/site';
 import { trackConversion } from '@/lib/tracking';
+
+/* The guided brief is a hidden modal with no visible content until the
+   visitor opens it, so there's nothing for SSR to render ahead of time —
+   code-splitting it out of the main bundle (ssr: false) is pure upside. */
+const GuidedBrief = dynamic(() => import('@/components/sections/GuidedBrief'), { ssr: false });
 
 const PLAN_OPTIONS = ['Launch MVP', 'Growth Platform', 'SaaS Platform', 'Not sure yet'] as const;
 
@@ -141,7 +146,7 @@ function CustomSelect({ id, options, placeholder, value, onChange, hasError, ari
                   onClick={() => { onChange(opt); setOpen(false); }}
                   className="px-4 py-2.5 text-sm cursor-pointer transition-colors duration-150 flex items-center gap-2"
                   style={{
-                    color: selected ? 'var(--color-primary)' : 'var(--color-text)',
+                    color: selected ? 'var(--color-primary-strong)' : 'var(--color-text)',
                     background: selected ? 'var(--color-bg-accent)' : 'transparent',
                   }}
                   onMouseEnter={e => { if (!selected) (e.currentTarget as HTMLElement).style.background = 'var(--color-surface-hover)'; }}
@@ -301,7 +306,7 @@ export default function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-2 inline-flex items-center gap-2.5 rounded-full px-6 py-3 text-sm font-semibold text-white border-2"
-                style={{ background: 'var(--color-primary)', borderColor: 'var(--color-border-emphasis)' }}
+                style={{ background: 'var(--color-primary-strong)', borderColor: 'var(--color-border-emphasis)' }}
               >
                 <span className="relative flex h-2 w-2">
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
@@ -353,7 +358,7 @@ export default function Contact() {
                             className="whitespace-nowrap rounded-full px-3.5 py-1.5 text-xs font-semibold"
                             style={
                               active
-                                ? { background: 'var(--color-primary)', border: '2px solid var(--color-border-emphasis)', color: '#fff' }
+                                ? { background: 'var(--color-primary-strong)', border: '2px solid var(--color-border-emphasis)', color: '#fff' }
                                 : { background: 'var(--color-bg)', border: '2px solid var(--color-border-muted)', color: 'var(--color-muted)' }
                             }
                           >

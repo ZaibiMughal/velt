@@ -359,7 +359,7 @@ function TestimonialCard({
             onClick={() => onReadMore?.(t)}
             style={{
               alignSelf: 'flex-start', background: 'none', border: 'none', cursor: 'pointer',
-              padding: 0, marginTop: -12, fontSize: 12.5, fontWeight: 600, color: 'var(--color-primary)',
+              padding: 0, marginTop: -12, fontSize: 12.5, fontWeight: 600, color: 'var(--color-primary-strong)',
             }}
           >
             Read full testimonial
@@ -578,7 +578,7 @@ export default function Testimonials({ testimonials }: { testimonials: Testimoni
         }}>
           <p style={{
             fontSize: 10, fontWeight: 700, letterSpacing: '0.18em',
-            textTransform: 'uppercase', color: 'var(--color-primary)', marginBottom: 16,
+            textTransform: 'uppercase', color: 'var(--color-primary-on-dark)', marginBottom: 16,
           }}>
             Client Stories
           </p>

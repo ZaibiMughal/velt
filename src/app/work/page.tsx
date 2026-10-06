@@ -6,6 +6,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { AnimatedPhone, AnimatedBrowser } from '@/components/ui/IllustratedDevices';
 import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
+import { accessibleOnWhite } from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: { absolute: 'Portfolio | 30+ Projects, Hexspire' },
@@ -126,7 +127,7 @@ export default async function WorkPage({
           <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 clamp(20px, 5vw, 48px)', position: 'relative', textAlign: 'center' }}>
             <p style={{
               fontSize: 10, fontWeight: 700, letterSpacing: '0.18em',
-              textTransform: 'uppercase', color: 'var(--color-primary)', marginBottom: 24,
+              textTransform: 'uppercase', color: 'var(--color-primary-strong)', marginBottom: 24,
             }}>
               Selected Work
             </p>
@@ -189,7 +190,7 @@ export default async function WorkPage({
                 style={{
                   padding: '8px 22px', borderRadius: 999,
                   fontSize: 13, fontWeight: 500, textDecoration: 'none',
-                  background: active ? 'var(--color-primary)' : 'var(--color-surface)',
+                  background: active ? 'var(--color-primary-strong)' : 'var(--color-surface)',
                   color: active ? '#fff' : 'var(--color-muted)',
                   border: active ? '2px solid var(--color-text)' : '2px solid var(--color-border-muted)',
                 }}
@@ -210,7 +211,10 @@ export default async function WorkPage({
             <div className="work-grid">
               {studies.map((study: CaseStudy, i: number) => {
                 const coverUrl = coverUrls[i];
-                const t = study.theme_color;
+                const t = study.theme_color || '#6366f1';
+                // Some theme colors are too light to read as literal text
+                // on a white card — darkened just enough to pass 4.5:1.
+                const tText = accessibleOnWhite(t);
 
                 const isMobile = study.category === 'Mobile App';
 
@@ -280,7 +284,7 @@ export default async function WorkPage({
                         display: 'inline-block', alignSelf: 'flex-start',
                         padding: '3px 10px', borderRadius: 999,
                         fontSize: 10, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase',
-                        background: rgba(t, 0.1), border: `2px solid ${t}`, color: t,
+                        background: rgba(t, 0.1), border: `2px solid ${t}`, color: tText,
                       }}>
                         {study.category}
                       </span>
@@ -312,7 +316,7 @@ export default async function WorkPage({
                       }}>
                         <span style={{
                           fontSize: 13, fontWeight: 600,
-                          color: t, lineHeight: 1.3,
+                          color: tText, lineHeight: 1.3,
                         }}>
                           {study.outcome.metric}
                         </span>
@@ -355,7 +359,7 @@ export default async function WorkPage({
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
-                background: 'var(--color-primary)',
+                background: 'var(--color-primary-strong)',
                 borderColor: 'var(--color-text)',
                 color: '#fff', fontSize: 15, fontWeight: 600,
               }}

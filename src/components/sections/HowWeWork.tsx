@@ -9,7 +9,7 @@ import { processSteps } from '@/data/process';
 function StepText({ step, alignRight }: { step: typeof processSteps[0]; alignRight?: boolean }) {
   return (
     <div className={alignRight ? 'text-right max-w-xs' : 'max-w-xs'}>
-      <span className="font-mono text-[10px] font-bold tracking-widest" style={{ color: 'var(--color-primary)' }}>
+      <span className="font-mono text-[10px] font-bold tracking-widest" style={{ color: 'var(--color-primary-strong)' }}>
         {step.step}
       </span>
       <h3 className="text-base font-bold mt-1" style={{ color: 'var(--color-text)' }}>{step.title}</h3>

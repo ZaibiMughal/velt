@@ -27,7 +27,7 @@ export default function FAQ() {
             <a
               href="#contact"
               className="font-medium transition-colors"
-              style={{ color: 'var(--color-primary)' }}
+              style={{ color: 'var(--color-primary-strong)' }}
             >
               Ask us directly →
             </a>

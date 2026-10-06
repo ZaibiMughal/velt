@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Hero from '@/components/sections/Hero';
@@ -8,14 +9,19 @@ import Packages from '@/components/sections/Packages';
 import HowWeWork from '@/components/sections/HowWeWork';
 import WhyHexspire from '@/components/sections/WhyHexspire';
 import Portfolio from '@/components/sections/Portfolio';
-import Partners from '@/components/sections/Partners';
 import FAQ from '@/components/sections/FAQ';
 import AskAI from '@/components/sections/AskAI';
 import SecretToast from '@/components/ui/SecretToast';
 import PaymentStructure from '@/components/sections/PaymentStructure';
 import Contact from '@/components/sections/Contact';
-import Testimonials from '@/components/sections/Testimonials';
 import { getAllCaseStudies, getAllPartners, getAllTestimonials, getSignedImageUrl } from '@/lib/data';
+
+/* Both are real below-the-fold content (kept server-rendered for SEO and
+   to avoid layout shift), but each pulls in its own animation/marquee
+   logic the critical above-the-fold bundle doesn't need, so they're
+   code-split into separate chunks instead of the main one. */
+const Partners = dynamic(() => import('@/components/sections/Partners'));
+const Testimonials = dynamic(() => import('@/components/sections/Testimonials'));
 
 export const metadata: Metadata = {
   title: { absolute: 'Hexspire | Ship Your Product Without Building a Full Team' },

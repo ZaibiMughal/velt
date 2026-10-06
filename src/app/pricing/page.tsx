@@ -56,7 +56,7 @@ export default function PricingPage() {
         .cmp-table thead th.plan-col { text-align: center; min-width: 170px; }
         .cmp-category td {
           padding: 22px 20px 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
-          text-transform: uppercase; color: var(--color-primary); border-bottom: none;
+          text-transform: uppercase; color: var(--color-primary-strong); border-bottom: none;
         }
         .cmp-category:first-of-type td { padding-top: 18px; }
         .cmp-table tbody tr:not(.cmp-category) { border-bottom: 1px solid var(--color-border-muted); }
@@ -101,7 +101,7 @@ export default function PricingPage() {
                     position: 'absolute', top: -11, left: 20, fontSize: 10, fontWeight: 700,
                     letterSpacing: '0.06em', textTransform: 'uppercase', padding: '4px 10px',
                     borderRadius: 999, color: '#fff',
-                    background: 'var(--color-primary)',
+                    background: 'var(--color-primary-strong)',
                   }}>
                     {pkg.badge}
                   </span>
@@ -133,7 +133,7 @@ export default function PricingPage() {
                   {packages.map((pkg) => (
                     <th key={pkg.id} className={`plan-col ${pkg.highlighted ? 'cmp-col-popular' : ''}`}>
                       {pkg.badge && (
-                        <span style={{ display: 'block', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-primary)', marginBottom: 4 }}>
+                        <span style={{ display: 'block', fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase', color: 'var(--color-primary-strong)', marginBottom: 4 }}>
                           {pkg.badge}
                         </span>
                       )}
@@ -211,7 +211,7 @@ export default function PricingPage() {
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                   padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
-                  background: 'var(--color-primary)',
+                  background: 'var(--color-primary-strong)',
                   borderColor: 'var(--color-text)',
                   color: '#fff', fontSize: 15, fontWeight: 600,
                 }}

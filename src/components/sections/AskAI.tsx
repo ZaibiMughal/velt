@@ -93,7 +93,7 @@ export default function AskAI() {
           </div>
 
           <style>{`
-            .ask-proof-btn:hover { background: var(--color-primary) !important; color: #fff !important; }
+            .ask-proof-btn:hover { background: var(--color-primary-strong) !important; color: #fff !important; }
           `}</style>
         </div>
       </AnimatedSection>

@@ -135,7 +135,7 @@ export default function SecretToast() {
                 >
                   <span className="block text-sm font-bold" style={{ color: 'var(--color-text)' }}>
                     This whole website was built in under{' '}
-                    <span style={{ color: 'var(--color-primary)' }}>15 hours</span>.{' '}
+                    <span style={{ color: 'var(--color-primary-strong)' }}>15 hours</span>.{' '}
                     <FaUserSecret size={13} style={{ color: 'var(--color-primary)', display: 'inline', verticalAlign: '-1px' }} aria-hidden="true" />
                   </span>
                   <span className="mt-1.5 block text-xs leading-relaxed" style={{ color: 'var(--color-muted)' }}>
@@ -145,7 +145,7 @@ export default function SecretToast() {
                     href="#contact"
                     onClick={dismiss}
                     className="mt-2.5 inline-block text-xs font-bold"
-                    style={{ color: 'var(--color-primary)' }}
+                    style={{ color: 'var(--color-primary-strong)' }}
                   >
                     Let&apos;s find out →
                   </a>

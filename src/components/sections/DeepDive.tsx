@@ -8,6 +8,7 @@ import {
   FaMapLocationDot, FaCartShopping, FaRobot, FaGears, FaCube,
 } from 'react-icons/fa6';
 import type { DeepDive } from '@/data/work/deep-dives';
+import { accessibleOnWhite } from '@/lib/utils';
 
 /* Font Awesome icons per platform type (site rule: FA icons, never emoji) */
 const TYPE_ICONS: Record<string, IconType> = {
@@ -52,6 +53,10 @@ export default function DeepDive({
 }) {
   const [open, setOpen] = useState(false);
   const t = themeColor;
+  // Some theme colors are too light to read as literal text, or as a
+  // solid fill under white text — darkened just enough to pass 4.5:1.
+  // Borders and background tints keep the raw color.
+  const tText = accessibleOnWhite(t);
 
   return (
     <div style={{ marginTop: 80 }}>
@@ -71,7 +76,7 @@ export default function DeepDive({
           <div>
             <p style={{
               fontSize: 11, fontWeight: 700, letterSpacing: '0.14em',
-              textTransform: 'uppercase', color: t, marginBottom: 8,
+              textTransform: 'uppercase', color: tText, marginBottom: 8,
             }}>
               Full Breakdown
             </p>
@@ -91,7 +96,7 @@ export default function DeepDive({
               padding: '12px 28px',
               borderRadius: 999,
               border: `2px solid var(--color-text)`,
-              background: t,
+              background: tText,
               color: '#fff',
               fontSize: 14,
               fontWeight: 600,
@@ -110,7 +115,7 @@ export default function DeepDive({
           <div style={{ marginBottom: 48 }}>
             <p style={{
               fontSize: 11, fontWeight: 700, letterSpacing: '0.14em',
-              textTransform: 'uppercase', color: t, marginBottom: 12,
+              textTransform: 'uppercase', color: tText, marginBottom: 12,
             }}>
               Full Breakdown
             </p>
@@ -172,7 +177,7 @@ export default function DeepDive({
                         fontSize: 10, fontWeight: 700, letterSpacing: '0.07em',
                         textTransform: 'uppercase',
                         background: rgba(t, 0.1), border: `2px solid ${t}`,
-                        color: t,
+                        color: tText,
                       }}>
                         {platform.type}
                       </span>

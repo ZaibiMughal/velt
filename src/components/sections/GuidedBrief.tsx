@@ -301,7 +301,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
       padding: '10px 18px', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit',
       border: active ? '2px solid var(--color-primary)' : '2px solid var(--color-border-muted)',
       background: active ? 'var(--color-bg-accent)' : 'var(--color-surface)',
-      color: active ? 'var(--color-primary)' : 'var(--color-text)',
+      color: active ? 'var(--color-primary-strong)' : 'var(--color-text)',
       fontSize: 14, fontWeight: active ? 600 : 400,
       transition: 'all 0.15s ease', textAlign: 'left',
     }}>{label}</button>
@@ -366,7 +366,7 @@ function FileUploadZone({ files, data, setData }: { files: File[]; data: BriefDa
 
         <p style={{ fontSize: 13, color: 'var(--color-muted)', margin: '0 0 10px' }}>
           Drag & drop or{' '}
-          <span style={{ color: 'var(--color-primary)', fontWeight: 600 }}>browse files</span>
+          <span style={{ color: 'var(--color-primary-strong)', fontWeight: 600 }}>browse files</span>
         </p>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '4px 20px' }}>
@@ -497,7 +497,7 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
             onClick={() => setData({ ...data, features: allSelected ? [] : [...list] })}
             style={{
               background: 'none', borderRadius: 7,
-              color: allSelected ? 'var(--color-primary)' : 'var(--color-muted)', cursor: 'pointer',
+              color: allSelected ? 'var(--color-primary-strong)' : 'var(--color-muted)', cursor: 'pointer',
               padding: '5px 12px', fontSize: 12, fontFamily: 'inherit', transition: 'all 0.15s ease',
               border: allSelected ? '2px solid var(--color-primary)' : '2px solid var(--color-border-muted)',
             }}>
@@ -533,7 +533,7 @@ function StepContent({ step, data, setData }: { step: number; data: BriefData; s
                     padding: '10px 20px', borderRadius: 10, cursor: 'pointer', fontFamily: 'inherit',
                     border: active ? '2px solid var(--color-primary)' : '2px solid var(--color-border-muted)',
                     background: active ? 'var(--color-bg-accent)' : 'var(--color-surface)',
-                    color: active ? 'var(--color-primary)' : 'var(--color-text)',
+                    color: active ? 'var(--color-primary-strong)' : 'var(--color-text)',
                     fontSize: 14, fontWeight: active ? 600 : 400, transition: 'all 0.15s ease',
                   }}>{o}</button>
               );
@@ -746,7 +746,7 @@ export default function GuidedBrief() {
         onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.color = 'var(--color-muted)'; }}
       >
         Ready to give us the full picture?{' '}
-        <span style={{ color: 'var(--color-primary)', fontWeight: 600 }}>Start the guided brief</span>
+        <span style={{ color: 'var(--color-primary-strong)', fontWeight: 600 }}>Start the guided brief</span>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--color-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
         </svg>
@@ -910,7 +910,7 @@ export default function GuidedBrief() {
                   )}
                   <button type="button" onClick={next} disabled={!ready} style={{
                     padding: '11px 30px', borderRadius: 10, cursor: ready ? 'pointer' : 'default',
-                    background: ready ? 'var(--color-primary)' : 'var(--color-border-muted)',
+                    background: ready ? 'var(--color-primary-strong)' : 'var(--color-border-muted)',
                     color: ready ? '#fff' : 'var(--color-muted)',
                     border: ready ? '2px solid var(--color-border-emphasis)' : '2px solid transparent',
                     fontSize: 14, fontWeight: 600, fontFamily: 'inherit',

@@ -74,7 +74,7 @@ export default function MobileStickyCTA() {
           padding: '15px 24px',
           borderRadius: 999,
           border: '2px solid var(--color-text)',
-          background: 'var(--color-primary)',
+          background: 'var(--color-primary-strong)',
           color: '#fff',
           fontSize: 15,
           fontWeight: 600,

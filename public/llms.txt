@@ -1,0 +1,24 @@
+# Hexspire
+
+> Hexspire is a software development studio that builds mobile apps, web platforms, SaaS products, and admin dashboards for founders, at a fixed price. Projects ship in weeks, with full source code handed over at the end.
+
+## Pages
+
+- [Home](https://hexspire.io/): Overview of Hexspire's services, pricing, and process.
+- [Work](https://hexspire.io/work): Portfolio of shipped mobile, web, and SaaS products.
+- [Pricing](https://hexspire.io/pricing): Fixed-price packages and full feature comparison.
+
+## Case studies
+
+- [RideSpotr](https://hexspire.io/work/ridespotr): A gamified car-spotting community with AI plate recognition, rarity scoring, and a global marketplace.
+- [KeyOS](https://hexspire.io/work/keyos): A multi-portal credential management platform for property managers, tenants, and operations teams.
+- [NutritionUP](https://hexspire.io/work/nutritionup): A full-stack nutrition coaching platform for individuals and corporate wellness programs, with AI meal advice.
+- [PIPA](https://hexspire.io/work/pipa): Digital workforce apps for farming operations, from clock-in to payroll approval, with no paperwork.
+- [Wagerr](https://hexspire.io/work/wagerr): Friendly sports wagers settled on-chain, with automatic payouts and zero disputes.
+- [TruckTuck](https://hexspire.io/work/trucktuck): Find, book, and pay for secure truck parking across the US.
+- [SalesPulse](https://hexspire.io/work/salespulse): An internal sales analytics dashboard and AI automation suite.
+- [IbisPrep](https://hexspire.io/work/ibisprep): A tutoring marketplace where students find tutors, book live sessions, and take self-paced courses.
+
+## Contact
+
+- [Get in touch](https://hexspire.io/#contact): Tell us what you need; a real engineer replies within 24 hours.

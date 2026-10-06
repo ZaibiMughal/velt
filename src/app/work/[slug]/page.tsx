@@ -10,6 +10,7 @@ import Footer from '@/components/layout/Footer';
 import { CAL_URL, BOOKING_ENABLED, PRIMARY_CTA_LABEL } from '@/lib/site';
 import DeepDive from '@/components/sections/DeepDive';
 import { DEEP_DIVES } from '@/data/work/deep-dives';
+import { accessibleOnWhite } from '@/lib/utils';
 
 export async function generateStaticParams(): Promise<{ slug: string }[]> {
   const slugs = await getCaseStudySlugs();
@@ -185,12 +186,13 @@ function ShowcaseEcosystem({
 }: {
   mobileUrls: string[]; webUrls: string[]; t: string; title: string; liveUrl?: string | null;
 }) {
+  const tText = accessibleOnWhite(t);
   return (
     <div className="cs-eco">
 
       {/* ── mobile pair ── */}
       <div>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: t, marginBottom: 20 }}>
+        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: tText, marginBottom: 20 }}>
           Mobile App
         </p>
         <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
@@ -211,7 +213,7 @@ function ShowcaseEcosystem({
 
       {/* ── web portals ── */}
       <div>
-        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: t, marginBottom: 20 }}>
+        <p style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: tText, marginBottom: 20 }}>
           Web Portals
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
@@ -313,9 +315,13 @@ function ShowcaseBrowser({
 /* ── Case Study Testimonial ────────────────────────────────────── */
 
 function AvatarBlock({ name, url }: { name: string; url: string | null }) {
+  // First hex of each pair is a solid fill under white initials text, so it
+  // must clear 4.5:1 against white itself — accessibleOnWhite-equivalent
+  // values precomputed here since this is a small fixed palette, not a
+  // runtime per-project theme_color.
   const palette = [
-    ['#6366f1', '#818cf8'], ['#8b5cf6', '#a78bfa'], ['#ec4899', '#f472b6'],
-    ['#14b8a6', '#2dd4bf'], ['#f59e0b', '#fbbf24'], ['#3b82f6', '#60a5fa'],
+    ['#4f46e5', '#818cf8'], ['#774fd2', '#a78bfa'], ['#b73877', '#f472b6'],
+    ['#0d796e', '#2dd4bf'], ['#976107', '#fbbf24'], ['#2f67c4', '#60a5fa'],
   ];
   const [c1] = palette[name.charCodeAt(0) % palette.length];
   const initials = name.split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase();
@@ -336,13 +342,14 @@ function AvatarBlock({ name, url }: { name: string; url: string | null }) {
 }
 
 function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial; t: string }) {
+  const tText = accessibleOnWhite(t);
   return (
     <div style={{ borderTop: `2px solid var(--color-border-muted)` }}>
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px clamp(20px, 5vw, 48px)' }}>
 
         <p style={{
           fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
-          textTransform: 'uppercase', color: t, marginBottom: 48,
+          textTransform: 'uppercase', color: tText, marginBottom: 48,
         }}>
           Client Voice
         </p>
@@ -352,7 +359,7 @@ function CaseStudyTestimonial({ testimonial: tm, t }: { testimonial: Testimonial
           <div>
             {/* Large decorative quote mark */}
             <div className="font-serif" style={{
-              fontSize: 96, lineHeight: 0.7, color: t,
+              fontSize: 96, lineHeight: 0.7, color: tText,
               marginBottom: 24, userSelect: 'none',
             }}>
               &ldquo;
@@ -495,7 +502,10 @@ export default async function CaseStudyPage({
   const prevStudy = currentIndex > 0 ? allStudies[currentIndex - 1] : null;
   const nextStudy = currentIndex < allStudies.length - 1 ? allStudies[currentIndex + 1] : null;
 
-  const t = study.theme_color;
+  const t = study.theme_color || '#6366f1';
+  // Some theme colors are too light to read as literal text on a white
+  // page — darkened just enough to pass 4.5:1. Borders/tints keep raw t.
+  const tText = accessibleOnWhite(t);
   const hasLiveUrls = study.live_url || study.app_store_url || study.play_store_url;
 
   const allImageUrls = await getSignedImageUrls(study.cover_image, study.images ?? []);
@@ -579,7 +589,7 @@ export default async function CaseStudyPage({
               <span style={{
                 display: 'inline-block', padding: '4px 14px', borderRadius: 999,
                 fontSize: 11, fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase',
-                background: rgba(t, 0.1), border: `2px solid ${t}`, color: t,
+                background: rgba(t, 0.1), border: `2px solid ${t}`, color: tText,
               }}>
                 {study.category}
               </span>
@@ -643,7 +653,7 @@ export default async function CaseStudyPage({
                   border: `2px solid ${rgba(t, 0.5)}`, color: 'var(--color-text)',
                   background: 'var(--color-surface)',
                 }}>
-                  <span style={{ color: t }}>{o.value}</span> {o.label}
+                  <span style={{ color: tText }}>{o.value}</span> {o.label}
                 </span>
               ))}
             </div>
@@ -656,7 +666,7 @@ export default async function CaseStudyPage({
             <div style={{ maxWidth: 1100, margin: '0 auto', padding: '72px clamp(20px, 5vw, 48px)' }}>
               <p style={{
                 fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
-                textTransform: 'uppercase', color: t, marginBottom: 48,
+                textTransform: 'uppercase', color: tText, marginBottom: 48,
               }}>
                 {isEcosystem || isIbisEco ? 'The Ecosystem' : isMobile ? 'In the App' : 'The Platform'}
               </p>
@@ -670,7 +680,7 @@ export default async function CaseStudyPage({
                   />
                   <p style={{
                     fontSize: 9, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase',
-                    color: rgba(t, 0.7), margin: '56px 0 20px',
+                    color: tText, margin: '56px 0 20px',
                   }}>
                     Operations Panel
                   </p>
@@ -723,7 +733,7 @@ export default async function CaseStudyPage({
             <div>
               <p style={{
                 fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
-                textTransform: 'uppercase', color: t, marginBottom: 24,
+                textTransform: 'uppercase', color: tText, marginBottom: 24,
               }}>
                 The Brief
               </p>
@@ -737,7 +747,7 @@ export default async function CaseStudyPage({
             <div>
               <p style={{
                 fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
-                textTransform: 'uppercase', color: t, marginBottom: 24,
+                textTransform: 'uppercase', color: tText, marginBottom: 24,
               }}>
                 What We Shipped
               </p>
@@ -746,7 +756,7 @@ export default async function CaseStudyPage({
                   <div key={i}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
                       <div style={{ width: 16, height: 2, background: t, flexShrink: 0 }} />
-                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: t }}>
+                      <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.1em', color: tText }}>
                         {String(i + 1).padStart(2, '0')}
                       </span>
                       <div style={{ flex: 1, height: 1, background: 'var(--color-border-muted)' }} />
@@ -766,7 +776,7 @@ export default async function CaseStudyPage({
           <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px clamp(20px, 5vw, 48px)' }}>
             <p style={{
               fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
-              textTransform: 'uppercase', color: t, marginBottom: 40,
+              textTransform: 'uppercase', color: tText, marginBottom: 40,
             }}>
               Delivered
             </p>
@@ -777,7 +787,7 @@ export default async function CaseStudyPage({
                   padding: '28px 24px', borderRadius: 16,
                   background: 'var(--color-surface)', border: `2px solid var(--color-border-muted)`,
                 }}>
-                  <p style={{ fontSize: 22, fontWeight: 700, color: t, margin: '0 0 6px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+                  <p style={{ fontSize: 22, fontWeight: 700, color: tText, margin: '0 0 6px', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
                     {o.value}
                   </p>
                   <p style={{ fontSize: 12, color: 'var(--color-muted)', margin: 0, lineHeight: 1.4 }}>
@@ -793,7 +803,7 @@ export default async function CaseStudyPage({
             }}>
               <p style={{
                 fontSize: 'clamp(1.4rem, 2.5vw, 2rem)', fontWeight: 700,
-                color: t, margin: '0 0 16px', letterSpacing: '-0.02em', lineHeight: 1.2,
+                color: tText, margin: '0 0 16px', letterSpacing: '-0.02em', lineHeight: 1.2,
               }}>
                 {study.outcome.metric}
               </p>
@@ -823,7 +833,7 @@ export default async function CaseStudyPage({
           }}>
             <p style={{
               fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
-              textTransform: 'uppercase', color: t, marginBottom: 20,
+              textTransform: 'uppercase', color: tText, marginBottom: 20,
             }}>
               Your Turn
             </p>
@@ -848,7 +858,7 @@ export default async function CaseStudyPage({
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                   padding: '14px 32px', borderRadius: 999, textDecoration: 'none',
-                  background: 'var(--color-primary)',
+                  background: 'var(--color-primary-strong)',
                   borderColor: 'var(--color-text)',
                   color: '#fff', fontSize: 15, fontWeight: 600,
                 }}

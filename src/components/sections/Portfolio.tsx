@@ -7,6 +7,7 @@ import Badge from '@/components/ui/Badge';
 import AnimatedSection from '@/components/ui/AnimatedSection';
 import { AnimatedPhone, AnimatedBrowser } from '@/components/ui/IllustratedDevices';
 import type { CaseStudy } from '@/data/work/index';
+import { accessibleOnWhite } from '@/lib/utils';
 
 function ArrowIcon() {
   return (
@@ -62,6 +63,10 @@ function ProjectCard({ project, coverUrl = null, height = '260px', variant = 'de
   const [hovered, setHovered] = useState(false);
   const isMobileApp = project.category === 'Mobile App';
   const t = project.theme_color || '#6366f1';
+  // Some theme colors (bright greens, light blues) are too light to read
+  // as literal text on a white card — darkened just enough to pass 4.5:1.
+  // Borders and background tints keep the raw color; those are decorative.
+  const tText = accessibleOnWhite(t);
   const compact = variant === 'compact';
 
   /* Featured mobile app: split layout — content panel + phone anchored in its own image panel. */
@@ -83,7 +88,7 @@ function ProjectCard({ project, coverUrl = null, height = '260px', variant = 'de
           <div>
             <span
               className="mb-5 inline-block rounded-full px-2.5 py-1 text-[9px] font-semibold uppercase tracking-widest"
-              style={{ background: rgba(t, 0.1), border: `2px solid ${t}`, color: t }}
+              style={{ background: rgba(t, 0.1), border: `2px solid ${t}`, color: tText }}
             >
               {project.category}
             </span>
@@ -94,7 +99,7 @@ function ProjectCard({ project, coverUrl = null, height = '260px', variant = 'de
             )}
           </div>
           <div>
-            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest" style={{ color: t }}>
+            <p className="mb-1.5 text-[10px] font-semibold uppercase tracking-widest" style={{ color: tText }}>
               {project.outcome.metric}
             </p>
             <div className="flex items-center gap-3">
@@ -175,7 +180,7 @@ function ProjectCard({ project, coverUrl = null, height = '260px', variant = 'de
             style={{
               background: 'var(--color-surface)',
               border: `2px solid ${t}`,
-              color: t,
+              color: tText,
             }}
           >
             {project.category}
@@ -191,7 +196,7 @@ function ProjectCard({ project, coverUrl = null, height = '260px', variant = 'de
         <div className="min-w-0">
           <p
             className="text-[10px] font-semibold uppercase tracking-widest mb-1 truncate"
-            style={{ color: t }}
+            style={{ color: tText }}
           >
             {project.outcome.metric}
           </p>

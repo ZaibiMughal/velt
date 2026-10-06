@@ -1,8 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { motion, animate, useMotionValue } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import HandDrawnUnderline from '@/components/ui/HandDrawnUnderline';
 import StickerBadge from '@/components/ui/StickerBadge';
@@ -12,13 +10,6 @@ import { PhoneIcon, GlobeIcon, LayersIcon, ChartIcon, SparkIcon } from '@/compon
 function scrollTo(id: string) {
   document.querySelector(id)?.scrollIntoView({ behavior: 'smooth' });
 }
-
-const EASE = [0.22, 1, 0.36, 1] as const;
-const fadeUp = (delay: number) => ({
-  initial: { opacity: 0, y: 24 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.6, ease: EASE, delay },
-});
 
 /* ─── Proof: client quote + quiet stat line ──────────────────────────────── */
 
@@ -37,31 +28,13 @@ const STATS = [
   { value: 1, suffix: 'M+', label: 'monthly users' },
 ] as const;
 
-function StatNumber({ value, delay }: { value: number; delay: number }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const mv = useMotionValue(0);
-
-  useEffect(() => {
-    const controls = animate(mv, value, {
-      duration: 1.1,
-      delay,
-      ease: EASE,
-      onUpdate: (v) => {
-        if (ref.current) ref.current.textContent = String(Math.round(v));
-      },
-    });
-    return () => controls.stop();
-  }, [mv, value, delay]);
-
-  return <span ref={ref}>0</span>;
-}
-
-/* One quiet line of numbers, no boxes: the quote card above carries the
-   emotional proof, this line carries the scale. */
+/* The real final numbers render directly in the server HTML, with no
+   count-up-from-zero: a browser-only animation would otherwise leave a
+   literal "0" in the markup search engines, link previews, and AI
+   assistants actually read. */
 function InlineStats() {
   return (
-    <motion.p
-      {...fadeUp(0.55)}
+    <p
       className="mt-5 flex flex-wrap items-baseline"
       style={{ margin: '1.25rem 0 0', columnGap: 12, rowGap: 4 }}
     >
@@ -73,27 +46,26 @@ function InlineStats() {
             </span>
           )}
           <span className="font-serif" style={{ fontSize: 23, fontWeight: 500, color: 'var(--color-text)', lineHeight: 1, letterSpacing: '-0.01em' }}>
-            <StatNumber value={s.value} delay={0.7 + i * 0.15} />
-            <span style={{ color: 'var(--color-primary)' }}>{s.suffix}</span>
+            {s.value}
+            <span style={{ color: 'var(--color-primary-strong)' }}>{s.suffix}</span>
           </span>
           <span style={{ fontSize: 13, color: 'var(--color-muted)' }}>{s.label}</span>
         </span>
       ))}
-    </motion.p>
+    </p>
   );
 }
 
 function QuoteCard() {
   return (
-    <motion.figure
-      {...fadeUp(0.45)}
+    <figure
       className="rounded-2xl px-5 py-4"
       style={{
         margin: '1.75rem 0 0',
         maxWidth: 440,
         background: 'var(--color-surface)',
         border: '2px solid var(--color-border-emphasis)',
-        rotate: -0.8,
+        transform: 'rotate(-0.8deg)',
       }}
     >
       <blockquote style={{ margin: 0, fontSize: 14, lineHeight: 1.65, color: 'var(--color-text)' }}>
@@ -113,7 +85,7 @@ function QuoteCard() {
           {HERO_QUOTE.role}
         </span>
       </figcaption>
-    </motion.figure>
+    </figure>
   );
 }
 
@@ -123,40 +95,36 @@ const PRODUCT_CARDS = [
   { text: 'Mobile App', sub: 'iOS + Android', x: '4%', y: '0%', rotate: -4, fill: 'var(--color-surface)', delay: 0, Icon: PhoneIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: 5, highlight: false },
   { text: 'Web App', sub: 'React / Next.js', x: '50%', y: '10%', rotate: 3, fill: 'var(--color-bg-accent)', delay: 0.5, Icon: GlobeIcon, badgeFill: 'var(--color-surface)', badgeRotate: -6, highlight: false },
   { text: 'AI Automations', sub: 'Agents + workflows', x: '16%', y: '30%', rotate: -2, fill: 'var(--color-bg-accent)', delay: 1.3, Icon: SparkIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6, highlight: false },
-  { text: 'SaaS Platform', sub: 'Full-stack', x: '2%', y: '58%', rotate: 2, fill: 'var(--color-primary)', delay: 1.0, Icon: LayersIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6, highlight: true },
+  { text: 'SaaS Platform', sub: 'Full-stack', x: '2%', y: '58%', rotate: 2, fill: 'var(--color-primary-strong)', delay: 1.0, Icon: LayersIcon, badgeFill: 'var(--color-surface)', badgeRotate: 6, highlight: true },
   { text: 'Admin Dashboard', sub: 'Analytics', x: '46%', y: '64%', rotate: -3, fill: 'var(--color-surface)', delay: 0.7, Icon: ChartIcon, badgeFill: 'var(--color-bg-accent)', badgeRotate: -5, highlight: false },
 ] as const;
 
+/* All cards render at full opacity in their final position immediately —
+   this whole block is the hero's visual, so it must paint on the first
+   frame like the text column does. The only animation left is a purely
+   decorative idle float on margin-top (a property the static per-card
+   `rotate()` transform doesn't use, so the two never fight over the same
+   CSS property), switched off under prefers-reduced-motion. */
 function ProductCards() {
   return (
     <div className="relative" style={{ width: 460, height: 460, flexShrink: 0 }}>
-      {/* Hand-drawn connecting squiggle behind the scattered cards */}
       <svg viewBox="0 0 460 460" className="absolute inset-0" aria-hidden="true">
-        <motion.path
+        <path
           d="M120 90 C180 160, 140 220, 230 250 C300 275, 260 330, 340 360"
           stroke="var(--color-primary)"
           strokeWidth="3"
           strokeLinecap="round"
           strokeDasharray="1 14"
           fill="none"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.6 }}
-          transition={{ duration: 1.4, delay: 0.6, ease: EASE }}
+          opacity={0.6}
         />
       </svg>
 
       {PRODUCT_CARDS.map((card) => (
-        <motion.div
+        <div
           key={card.text}
-          className="absolute"
-          style={{ left: card.x, top: card.y }}
-          initial={{ opacity: 0, y: 16, rotate: 0 }}
-          animate={{ opacity: 1, y: [0, -8, 0], rotate: card.rotate }}
-          transition={{
-            opacity: { duration: 0.5, delay: card.delay },
-            rotate: { duration: 0.5, delay: card.delay },
-            y: { duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: card.delay },
-          }}
+          className="absolute hero-card-float"
+          style={{ left: card.x, top: card.y, transform: `rotate(${card.rotate}deg)`, animationDelay: `${card.delay}s` }}
         >
           <div
             className="rounded-2xl px-4 py-3.5 flex items-center gap-3"
@@ -171,10 +139,10 @@ function ProductCards() {
             </StickerBadge>
             <div>
               <div className="text-sm font-semibold" style={{ color: card.highlight ? '#ffffff' : 'var(--color-text)' }}>{card.text}</div>
-              <div className="text-xs mt-0.5" style={{ color: card.highlight ? 'rgba(255,255,255,0.75)' : 'var(--color-muted)' }}>{card.sub}</div>
+              <div className="text-xs mt-0.5" style={{ color: card.highlight ? '#ffffff' : 'var(--color-muted)' }}>{card.sub}</div>
             </div>
           </div>
-        </motion.div>
+        </div>
       ))}
     </div>
   );
@@ -189,11 +157,10 @@ export default function Hero() {
       style={{ background: 'var(--color-bg)' }}
     >
       <style>{`
-        /* The scale lives on this inner div, not the Framer wrapper: the
-           entrance animation writes an inline transform that would override
-           any CSS transform on the same element. Width/height shrink with
-           the scale so flex centering uses the visual size, otherwise the
-           460px layout box centers and the scaled content clips off-edge. */
+        /* The scale lives on this inner div, not a wrapper: width/height
+           shrink with the scale so flex centering uses the visual size,
+           otherwise the 460px layout box centers and the scaled content
+           clips off-edge. */
         .hero-cards-scale { width: 460px; height: 460px; }
         @media (max-width: 640px) {
           .hero-cards-scale { transform: scale(0.68); transform-origin: top left; width: 313px; height: 313px; }
@@ -201,14 +168,24 @@ export default function Hero() {
         @media (min-width: 641px) and (max-width: 1023px) {
           .hero-cards-scale { transform: scale(0.85); transform-origin: top left; width: 391px; height: 391px; }
         }
+
+        @keyframes hero-card-float {
+          0%, 100% { margin-top: 0; }
+          50% { margin-top: -8px; }
+        }
+        .hero-card-float { animation: hero-card-float 4.5s ease-in-out infinite; }
+        @media (prefers-reduced-motion: reduce) {
+          .hero-card-float { animation: none; }
+        }
+
+        .hero-rescue-link:hover span { color: var(--color-primary-strong) !important; }
       `}</style>
 
       {/* Left text column */}
       {/* lg top padding must clear the fixed nav (top 16px + 64px tall) with
           real air beneath it, not land flush against its bottom edge */}
       <div className="relative z-10 flex w-full flex-col justify-center px-6 pt-24 sm:px-12 lg:w-1/2 lg:pt-28 lg:pb-16 lg:pl-20 lg:pr-12">
-        <motion.h1
-          {...fadeUp(0.1)}
+        <h1
           className="font-serif"
           style={{
             fontSize: 'clamp(2.8rem, 4.6vw, 4.6rem)',
@@ -224,10 +201,9 @@ export default function Hero() {
             live in weeks.
             <HandDrawnUnderline className="absolute left-0 -bottom-2 w-full h-4" />
           </span>
-        </motion.h1>
+        </h1>
 
-        <motion.p
-          {...fadeUp(0.2)}
+        <p
           style={{
             fontSize: 17,
             color: 'var(--color-muted)',
@@ -237,37 +213,32 @@ export default function Hero() {
           }}
         >
           Trusted by founders and businesses across the US, Australia, Europe, and the Middle East.
-        </motion.p>
+        </p>
 
-        <motion.div
-          {...fadeUp(0.3)}
-          style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}
-        >
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
           <Button size="lg" variant="primary" onClick={() => scrollTo('#contact')}>
             Start Your Project
           </Button>
           <Button size="lg" variant="secondary" onClick={() => scrollTo('#packages')}>
             View Plans →
           </Button>
-        </motion.div>
+        </div>
 
         {/* The honest terms as one quiet caption: specifics beat a badge
             shouting the same thing */}
-        <motion.p
-          {...fadeUp(0.35)}
+        <p
           className="text-xs mt-3 pl-1"
           style={{ color: 'var(--color-muted-dark)', margin: '0.75rem 0 0' }}
         >
           Fixed pricing · 30% advance, 70% on handover · Source code always yours
-        </motion.p>
+        </p>
 
         {/* V8 "Human Proof": a named client vouching, instead of stat chips */}
         <QuoteCard />
         <InlineStats />
 
         {/* Second path: the semi-technical visitor with a half-built product */}
-        <motion.button
-          {...fadeUp(0.65)}
+        <button
           type="button"
           onClick={() => scrollTo('#rescue')}
           className="hero-rescue-link mt-6 self-start text-sm text-left"
@@ -279,34 +250,25 @@ export default function Hero() {
           >
             We fix and finish those too →
           </span>
-        </motion.button>
-        <style>{`
-          .hero-rescue-link:hover span { color: var(--color-primary) !important; }
-        `}</style>
+        </button>
 
         {/* Pedigree line: honestly framed employment experience, not a
             client claim, so it stays out of the trusted-by strip */}
-        <motion.p
-          {...fadeUp(0.75)}
+        <p
           className="mt-5 flex items-center gap-2 text-xs"
           style={{ color: 'var(--color-muted)' }}
         >
           <FaBriefcase size={12} style={{ color: 'var(--color-primary)', flexShrink: 0 }} aria-hidden="true" />
           Engineering experience from inside Bayt.com, the Middle East&apos;s largest job platform.
-        </motion.p>
+        </p>
       </div>
 
-      {/* Right: scattered flat product cards */}
+      {/* Right: scattered flat product cards — the hero's visual, painted
+          fully visible on the first frame like the rest of the hero */}
       <div className="relative z-10 flex w-full flex-1 items-center justify-center pb-16 pt-6 lg:w-auto lg:pb-0 lg:pt-0 lg:pr-10">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.92 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, delay: 0.3, ease: EASE }}
-        >
-          <div className="hero-cards-scale">
-            <ProductCards />
-          </div>
-        </motion.div>
+        <div className="hero-cards-scale">
+          <ProductCards />
+        </div>
       </div>
     </section>
   );

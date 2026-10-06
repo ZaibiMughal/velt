@@ -47,7 +47,7 @@ export default function PaymentStructure() {
             {/* 30% segment */}
             <motion.div
               className="flex items-center justify-center"
-              style={{ width: '30%', background: 'var(--color-primary)', borderRight: '2px solid var(--color-border-emphasis)', transformOrigin: 'left center' }}
+              style={{ width: '30%', background: 'var(--color-primary-strong)', borderRight: '2px solid var(--color-border-emphasis)', transformOrigin: 'left center' }}
               variants={{
                 hidden: { scaleX: 0 },
                 show: { scaleX: 1, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } },
@@ -103,7 +103,7 @@ export default function PaymentStructure() {
             <a
               href="#contact"
               className="font-semibold transition-colors"
-              style={{ color: 'var(--color-primary)' }}
+              style={{ color: 'var(--color-primary-strong)' }}
             >
               Start your project →
             </a>

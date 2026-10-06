@@ -54,7 +54,7 @@ export default function SuccessDeck({ className }: { className?: string }) {
               border: '2px solid var(--color-border-emphasis)',
             }}
           >
-            <span className="block text-[10px] font-bold uppercase" style={{ letterSpacing: '0.14em', color: 'var(--color-primary)' }}>
+            <span className="block text-[10px] font-bold uppercase" style={{ letterSpacing: '0.14em', color: 'var(--color-primary-strong)' }}>
               {w.project}
             </span>
             <span className="mt-0.5 block text-sm font-bold" style={{ color: 'var(--color-text)' }}>

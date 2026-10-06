@@ -68,7 +68,7 @@ export default function Packages() {
                     {pkg.highlighted && (
                       <span
                         className="text-[9px] font-semibold uppercase tracking-wider rounded-full px-2 py-0.5"
-                        style={{ background: 'var(--color-primary)', color: '#fff' }}
+                        style={{ background: 'var(--color-primary-strong)', color: '#fff' }}
                       >
                         Popular
                       </span>
@@ -76,7 +76,7 @@ export default function Packages() {
                   </span>
                   <span
                     className="text-sm font-semibold tabular-nums shrink-0"
-                    style={{ color: isActive ? 'var(--color-primary)' : 'var(--color-muted-dark)' }}
+                    style={{ color: isActive ? 'var(--color-primary-strong)' : 'var(--color-muted-dark)' }}
                   >
                     {pkg.price}
                   </span>
@@ -114,8 +114,8 @@ export default function Packages() {
                     <span
                       className="text-xs font-semibold rounded-full px-2 py-0.5 tabular-nums"
                       style={{
-                        background: active === i ? 'var(--color-primary)' : 'var(--color-border-muted)',
-                        color: active === i ? '#fff' : 'var(--color-muted-dark)',
+                        background: active === i ? 'var(--color-primary-strong)' : 'var(--color-border-muted)',
+                        color: active === i ? '#fff' : 'var(--color-muted)',
                       }}
                     >
                       {pkg.price}
@@ -152,7 +152,7 @@ export default function Packages() {
                       {pkg.highlighted && (
                         <span
                           className="text-[10px] font-semibold px-2.5 py-1 rounded-full shrink-0"
-                          style={{ background: 'var(--color-primary)', color: '#fff' }}
+                          style={{ background: 'var(--color-primary-strong)', color: '#fff' }}
                         >
                           Most Picked
                         </span>
