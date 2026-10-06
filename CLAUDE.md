@@ -157,34 +157,21 @@ Current slugs with deep dives: `ridespotr`, `wagerr`, `nutritionup`, `pipa`, `ke
 
 ### Images
 
-`getSignedImageUrl(path)` in `src/lib/data.ts` handles two cases:
-- Path starts with `/` → returned as-is (served from `public/`)
-- Any other path → Supabase Storage signed URL from the `portfolio-assets` bucket, server-side cached via `unstable_cache`
+**As of 2026-10-06, case study images are served from `/public/case-studies/`, not Supabase signed URLs.** `getSignedImageUrl(path)` in `src/lib/data.ts` still handles two cases:
+- Path starts with `/` → returned as-is (served from `public/`) — **this is now the live path for every case study**
+- Any other path → Supabase Storage signed URL from the `portfolio-assets` bucket (kept as a fallback; no current DB row uses it)
 
-All current images are in Supabase Storage. Paths in the DB look like `pipa/cover.png`, `ridespotr/screen-1.jpeg` — no leading slash.
+DB paths look like `/case-studies/pipa/cover.png`, `/case-studies/ridespotr/screen-1.jpeg` — leading slash required.
 
-**Signed URL caching — read this before touching the expiry/revalidate values.** The signed URL's real token lifetime is **30 days**, and the `unstable_cache` revalidate window is **24 hours**. This gap is intentional and load-bearing, not sloppy:
+**Why the switch:** a static/ISR page bakes its signed URL into the HTML at build time, and that URL's token expires in 30 days regardless of how long the page itself goes unrebuilt — production was serving dead image links. Making `portfolio-assets` public (matching `testimonial-assets`) would have been the smaller change, but it's a storage security-posture change the deploy tooling here requires explicit case-by-case authorization for, so the fix went through code instead: the images now live in the repo and are served same-origin, permanently stable, no token to expire. The signed-URL code path, the `unstable_cache` 30-day-token/24-hour-revalidate wrapper, and the `portfolio-assets` bucket itself are all still in place and still correct if a future case study's images go back through Supabase Storage instead — nothing about that mechanism was wrong, it just isn't what's live today.
 
-`unstable_cache`'s `revalidate` is a *minimum staleness age*, not a hard refresh guarantee. The actual re-fetch only happens on the *next request* after the window passes — under uneven traffic, a cached entry can sit stale far longer than the `revalidate` value implies, with no upper bound. The original version of this code had a 1-hour token with a 50-minute revalidate window (a 10-minute "safety margin"), which was not actually safe: any traffic gap longer than that margin served an already-expired token, and the portfolio image would just silently fail to load client-side, with no error surfaced anywhere, only fixable by however long it took for some other request to trigger a fresh fetch (a hard refresh sometimes "worked" by luck, not by design). The fix was to make the token's real lifetime vastly outlast any plausible revalidation delay, not to fiddle with the margin. **If you ever touch these numbers, keep the token lifetime at least an order of magnitude longer than the revalidate window** — these are public portfolio screenshots, so a long-lived signed URL has no real security cost.
+**Device-frame screenshots go through the Next image optimizer.** `IllustratedDevices.tsx`'s `ScreenShot` component hand-builds `/_next/image?url=...&w=...` URLs because SVG `<image>` elements can't use `next/image`, and the raw files run up to 5MB. It also fades each screenshot in on its actual `load` event (with a timeout fallback and an unoptimized-URL error fallback) so images never pop in mid-scroll. `next.config.ts` sets `images.minimumCacheTTL` to 30 days so optimized variants stay cached at the edge regardless of the upstream `max-age`. This works identically whether the source is a local `/public` path or a remote Supabase URL.
 
-The revalidate window also drives **cache hit rates**: every token rotation changes the URL, and a changed URL busts the browser cache, the Supabase CDN cache, and the Next image optimizer's cache key all at once, which is why it's 24 hours rather than the original 1. Day-stable URLs are what make repeat visits fast. (Making the bucket public with stable URLs, like `testimonial-assets` already is, would remove the churn entirely — proposed but not yet approved by the owner.)
+**To add images for a new case study:**
+1. Put images in `public/case-studies/{slug}/` named `cover.{ext}`, `screen-1.{ext}`, etc. — commit them, don't delete after
+2. Set the DB `cover_image` and `images` fields for that slug to the matching `/case-studies/{slug}/...` paths (leading slash)
 
-**Device-frame screenshots go through the Next image optimizer.** `IllustratedDevices.tsx`'s `ScreenShot` component hand-builds `/_next/image?url=...&w=...` URLs because SVG `<image>` elements can't use `next/image`, and the raw storage files run up to 5MB. It also fades each screenshot in on its actual `load` event (with a timeout fallback and an unoptimized-URL error fallback) so images never pop in mid-scroll. `next.config.ts` sets `images.minimumCacheTTL` to 30 days so optimized variants stay cached at the edge regardless of the upstream `max-age`.
-
-**To upload new images:**
-1. Put images in `public/case-studies/{slug}/` named `cover.{ext}`, `screen-1.{ext}`, etc.
-2. Run the upload script pattern (see below) or use the Supabase dashboard Storage UI
-3. Update the DB `cover_image` and `images` fields for that slug
-4. Delete local copies from `public/case-studies/`
-
-Upload script pattern (Node.js, run from project root):
-```js
-import { createClient } from '@supabase/supabase-js';
-import { readFileSync } from 'fs';
-const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY);
-await supabase.storage.from('portfolio-assets').upload('slug/cover.png', readFileSync('./public/case-studies/slug/cover.png'), { contentType: 'image/png', upsert: true });
-await supabase.from('case_studies').update({ cover_image: 'slug/cover.png', images: ['slug/screen-1.png'] }).eq('slug', 'slug');
-```
+`.gitignore` has explicit exceptions (`!public/case-studies/**/*.png` etc.) carving this directory out of the repo's general dev-screenshot ignore rule — don't remove those exceptions.
 
 ### Testimonial avatars and videos
 
